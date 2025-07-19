@@ -1,8 +1,7 @@
 import dbConnect from "../../../lib/mongodb";
 import User from "../../../models/user";
-import { NextRequest } from "next/server";
 
-export async function GET(req: NextRequest) {
+export async function GET(req: Request) {
   try {
     await dbConnect();
     const userList = await User.find();
@@ -16,13 +15,15 @@ export async function GET(req: NextRequest) {
   }
 }
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   try {
     await dbConnect();
     const body = await req.json();
     const newUser = new User(body);
-    newUser.save();
-    return Response.json({ user: newUser });
+    await newUser.save();
+
+    console.log("Saved user:", newUser);
+    return Response.json({ user: newUser }, { status: 201 });
   } catch (error) {
     console.error("Failed to create user", error);
     return Response.error();
