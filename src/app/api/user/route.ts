@@ -1,7 +1,8 @@
 import dbConnect from "../../../lib/mongodb";
 import User from "../../../models/user";
+import { NextRequest } from "next/server";
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   try {
     await dbConnect();
     const userList = await User.find();
@@ -15,7 +16,7 @@ export async function GET(req: Request) {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     await dbConnect();
     const body = await req.json();

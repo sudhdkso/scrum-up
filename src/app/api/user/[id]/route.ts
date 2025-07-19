@@ -1,13 +1,11 @@
 import dbConnect from "@/lib/mongodb";
 import User from "@/models/user";
 
-export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function GET(req: Request, context: { params: { id: string } }) {
   try {
     await dbConnect();
-    const user = await User.findById(params.id);
+    const id = context.params.id;
+    const user = await User.findById(id);
     if (!user) {
       return new Response("User not found", { status: 400 });
     }
