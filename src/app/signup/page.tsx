@@ -4,7 +4,7 @@ import User from "../../models/user";
 import { createUser } from "../../lib/user";
 import React, { useState } from "react";
 
-export default function createUserPage() {
+export default function CreateUserPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [kakaoId, setKakaoId] = useState("");

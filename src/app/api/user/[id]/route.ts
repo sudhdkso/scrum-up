@@ -3,7 +3,7 @@ import User from "@/models/user";
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: String } }
+  { params }: { params: { id: string } }
 ) {
   try {
     await dbConnect();
