@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "../../../../lib/mongodb";
 import User from "../../../../models/user";
-import { profile } from "console";
+import { v4 as uuidv4 } from "uuid";
+import { saveSession } from "@/lib/session";
 
 const KAKAO_CLIENT_ID = process.env.KAKAO_CLIENT_ID!;
 const KAKAO_REDIRECT_URI = "http://localhost:3000/api/user/auth";
@@ -47,10 +48,22 @@ export async function GET(req: NextRequest) {
     const userRes = await getProfile(tokenData);
     const userInfo = await userRes.json();
 
-    const user = await createKakaoUser(userInfo);
+    const { user, sessionId } = await createKakaoUser(userInfo);
 
-    console.log("사용자 로그인 성공! id=", user._id);
-    return NextResponse.redirect(new URL("/dashboard", req.url));
+    console.log("사용자 로그인 성공! id=", user.sessionId);
+    await saveSession(sessionId, user._id.toString());
+
+    const response = NextResponse.redirect(new URL("/dashboard", req.url));
+
+    response.cookies.set("sessionId", sessionId, {
+      httpOnly: true,
+      path: "/",
+      maxAge: 60 * 60 * 24,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+    });
+    console.log("session", response.cookies);
+    return response;
   } catch (error) {
     console.error("Kakao Auth Error:", error);
     return NextResponse.json({ error: "Kakao 인증 실패" }, { status: 500 });
@@ -108,10 +121,12 @@ async function createKakaoUser(userInfo: KakaoUserResponse) {
         name,
       });
     }
-    return user;
+
+    const sessionId = uuidv4();
+    return { user, sessionId };
   } catch (error) {
     console.error("Failed to create user", error);
-    return NextResponse.json({ error: "로그인 실패" }, { status: 500 });
+    throw new Error("사용자 생성 실패");
   }
 }
 
