@@ -17,15 +17,7 @@ export async function middleware(req: NextRequest) {
 
   const sessionIdCookie = req.cookies.get("sessionId");
   const sessionId = sessionIdCookie ? sessionIdCookie.value : undefined;
-  console.log(
-    "미들웨어",
-    req.method,
-    req.nextUrl.pathname,
-    "sessionId:",
-    sessionId
-  );
   if (!sessionId) {
-    console.log("설마 여기 타니?", req.method, req.nextUrl.pathname, sessionId);
     url.pathname = "/";
     return NextResponse.redirect(url);
   }

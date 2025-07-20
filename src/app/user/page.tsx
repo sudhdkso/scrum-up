@@ -11,7 +11,6 @@ export default function UserPage() {
     async function fetchUsers() {
       try {
         const data = await getUserData();
-        console.log(data);
         setUsers(data.users);
       } catch (err) {
         console.error(err);
