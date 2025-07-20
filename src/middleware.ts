@@ -9,7 +9,11 @@ export async function middleware(req: NextRequest) {
     url.pathname.startsWith("/api/user/auth") ||
     url.pathname.startsWith("/public") ||
     url.pathname.startsWith("/style") ||
-    url.pathname.startsWith("/_next") || // Next.js 정적 리소스
+    url.pathname.startsWith("/_next") ||
+    url.pathname.endsWith(".png") ||
+    url.pathname.endsWith(".jpg") ||
+    url.pathname.endsWith(".ico") ||
+    url.pathname.endsWith(".svg") ||
     url.pathname === "/" // 로그인 페이지가 / 이면 여기에 포함
   ) {
     return NextResponse.next();
