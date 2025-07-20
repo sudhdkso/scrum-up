@@ -8,6 +8,21 @@ const KAKAO_REDIRECT_URI = "http://localhost:3000/api/user/auth";
 const PROFILE_REQUEST_URI = "https://kapi.kakao.com/v2/user/me";
 const TOKEN_REQUEST_URI = "https://kauth.kakao.com/oauth/token";
 
+interface KakaoTokenResponse {
+  access_token: string;
+  token_type: string;
+}
+
+interface KakaoUserResponse {
+  id: number;
+  kakao_account: {
+    email: string;
+    profile: {
+      nickname: string;
+    };
+  };
+}
+
 export async function GET(req: NextRequest) {
   try {
     const url = new URL(req.url);
@@ -57,7 +72,7 @@ async function getToken(code: string) {
   });
 }
 
-async function getProfile(tokenData: any) {
+async function getProfile(tokenData: KakaoTokenResponse) {
   return await fetch(PROFILE_REQUEST_URI, {
     method: "GET",
     headers: {
@@ -66,7 +81,7 @@ async function getProfile(tokenData: any) {
   });
 }
 
-async function createKakaoUser(userInfo: any) {
+async function createKakaoUser(userInfo: KakaoUserResponse) {
   try {
     await dbConnect(); // DB 연결 보장
     const kakaoId = userInfo.id.toString();
@@ -78,7 +93,7 @@ async function createKakaoUser(userInfo: any) {
       email = `temp_${kakaoId}@scrumup.local`;
     }
 
-    let name = userInfo.properties?.nickname;
+    let name = userInfo.kakao_account?.profile?.nickname;
     // 닉네임이 없으면 기본값 넣기
     if (!name || name.trim() === "") {
       name = generateRandomNickname();
