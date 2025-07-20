@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { saveSession } from "@/lib/session";
 
 const KAKAO_CLIENT_ID = process.env.KAKAO_CLIENT_ID!;
-const KAKAO_REDIRECT_URI = "http://localhost:3000/api/user/auth";
+const KAKAO_REDIRECT_URI = process.env.REDIRECT_URI;
 const PROFILE_REQUEST_URI = "https://kapi.kakao.com/v2/user/me";
 const TOKEN_REQUEST_URI = "https://kauth.kakao.com/oauth/token";
 
