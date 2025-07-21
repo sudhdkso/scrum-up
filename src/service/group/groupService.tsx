@@ -6,7 +6,7 @@ import Group from "@/models/group";
 import { createQuestion } from "../question/questionService";
 import { GroupSummaryDTO } from "./dto/groupSummary";
 import GroupMember, { IGroupMember } from "@/models/group_member";
-import Scrum from "@/models/scrum";
+import Scrum, { IScrum } from "@/models/scrum";
 import { GroupDetailResponseDTO } from "./dto/groupDetailResponse.dto";
 import { GroupMemberResponseDTO } from "../groupMember/dto/groupMemberResponse.dto";
 import { DailyScrumDTO, UserAnswerDTO } from "../scrum/dto/DailyScrun";
@@ -117,14 +117,14 @@ export async function getGroupDetailById(
 
   const allScrumsInGroup = await Scrum.find({
     groupId: toObjectId(groupId),
-  }).lean();
+  }).lean<IScrum[]>();
 
   let isScrumToday = false;
 
   if (userId) {
     const today = new Date().toISOString().slice(0, 10);
     isScrumToday = allScrumsInGroup.some(
-      (scrum: any) =>
+      (scrum: IScrum) =>
         scrum.userId?.toString() === userId &&
         scrum.date?.toISOString().slice(0, 10) === today
     );
