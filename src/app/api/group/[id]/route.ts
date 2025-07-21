@@ -2,12 +2,15 @@ import { getUserIdBySession } from "@/service/user/userService";
 import { NextRequest, NextResponse } from "next/server";
 import { getGroupDetailById } from "@/service/group/groupService";
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+type RouteContext = {
+  params: {
+    id: string;
+  };
+};
+
+export async function GET(req: NextRequest, context: RouteContext) {
   try {
-    const groupId = params.id;
+    const groupId = context.params.id;
 
     const sessionId = req.cookies.get("sessionId")?.value;
     if (!sessionId) {
