@@ -8,16 +8,19 @@ type RouteContext = {
   };
 };
 
-export async function GET(req: NextRequest, context: RouteContext) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
-    const groupId = context.params.id;
+    const { id } = await params;
 
     const sessionId = req.cookies.get("sessionId")?.value;
     if (!sessionId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    if (!groupId) {
+    if (!id) {
       return NextResponse.json({ error: "No group id" }, { status: 400 });
     }
 
@@ -26,7 +29,7 @@ export async function GET(req: NextRequest, context: RouteContext) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const group = await getGroupDetailById(groupId, userId);
+    const group = await getGroupDetailById(id, userId);
     if (!group) {
       return NextResponse.json({ error: "Group not found" }, { status: 404 });
     }
