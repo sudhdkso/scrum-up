@@ -1,8 +1,6 @@
 export async function getUserData() {
   const response = await fetch(`/api/user`);
 
-  console.log("fetch URL:", `/api/user`);
-
   if (!response.ok) {
     throw new Error("Failed to fetch data");
   }

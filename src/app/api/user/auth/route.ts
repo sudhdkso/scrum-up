@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import dbConnect from "../../../../lib/mongodb";
-import User from "../../../../models/user";
+import dbConnect from "@/lib/mongodb";
+import User from "@/models/user";
 import { v4 as uuidv4 } from "uuid";
 import { saveSession } from "@/lib/session";
 
@@ -38,7 +38,6 @@ export async function GET(req: NextRequest) {
     const tokenRes = await getToken(code);
 
     const tokenData = await tokenRes.json();
-    console.log(tokenData);
 
     if (tokenData.error) {
       return NextResponse.json(
