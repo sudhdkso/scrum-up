@@ -1,19 +1,15 @@
 import { getUserIdBySession } from "@/service/user/userService";
 import { NextRequest, NextResponse } from "next/server";
 import { getGroupDetailById } from "@/service/group/groupService";
-
-type RouteContext = {
-  params: {
-    id: string;
-  };
-};
+import dbConnect from "@/lib/mongodb";
 
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  await dbConnect();
   try {
-    const { id } = await params;
+    const id = (await params).id;
 
     const sessionId = req.cookies.get("sessionId")?.value;
     if (!sessionId) {
