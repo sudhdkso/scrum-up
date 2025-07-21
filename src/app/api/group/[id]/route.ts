@@ -4,17 +4,16 @@ import { getGroupDetailById } from "@/service/group/groupService";
 
 export async function GET(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
-    const params = await context.params;
+    const groupId = params.id;
 
     const sessionId = req.cookies.get("sessionId")?.value;
     if (!sessionId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const groupId = params.id;
     if (!groupId) {
       return NextResponse.json({ error: "No group id" }, { status: 400 });
     }
