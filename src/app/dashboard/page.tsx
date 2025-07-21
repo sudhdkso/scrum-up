@@ -1,48 +1,37 @@
 "use client";
-
+import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import Button from "../components/Button";
 import { AuthProvider, useUser } from "../components/AuthProvider";
 import { useRouter } from "next/navigation";
-
-interface User {
-  name: string;
-}
-
-interface Group {
-  id: string;
-  name: string;
-  isOwner: boolean;
-  isScrumToday: boolean;
-}
-
-const user: User = {
-  name: "홍길동",
-};
-
-const groups: Group[] = [
-  {
-    id: "1",
-    name: "알고리즘 스터디",
-    isOwner: true,
-    isScrumToday: true,
-  },
-  {
-    id: "2",
-    name: "프로젝트 팀",
-    isOwner: false,
-    isScrumToday: false,
-  },
-  // 실제 데이터 연동 전 임시 데이터
-];
-
-const todayScrumWritten = groups.filter((g) => g.isScrumToday).length;
-const todayScrumNotWritten = groups.length - todayScrumWritten;
-const showGroups = groups.length > 0;
+import { GroupSummaryDTO } from "@/service/group/dto/groupSummary";
+import { getUserGroups } from "@/lib/group";
 
 export default function Dashboard() {
   const router = useRouter();
-  const user = useUser();
+  const [groups, setGroups] = useState<GroupSummaryDTO[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await getUserGroups();
+        setGroups(data.groups);
+      } catch (e) {
+        setError(e as Error);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+  console.log(groups);
+  const todayScrumWritten = groups.filter((g) => g.isScrumToday).length;
+  const todayScrumNotWritten = groups.length - todayScrumWritten;
+  const showGroups = groups.length > 0;
+
+  if (loading) return <div>로딩 중...</div>;
+  if (error) return <div>에러 발생: {error.message}</div>;
   return (
     <AuthProvider>
       <NavBar />
@@ -151,6 +140,7 @@ export default function Dashboard() {
                 {groups.map((group) => (
                   <li
                     key={group.id}
+                    onClick={() => router.push(`/group/${group.id}`)}
                     style={{
                       display: "flex",
                       alignItems: "center",
@@ -160,11 +150,13 @@ export default function Dashboard() {
                       borderRadius: 10,
                       padding: "18px 16px",
                       marginBottom: 12,
+                      cursor: "pointer", // 🎯 커서포인터로 바뀌게!
+                      transition: "background 0.12s",
                     }}
                   >
                     <span style={{ fontWeight: 500, fontSize: "1.08rem" }}>
                       {group.name}
-                      {group.isOwner && (
+                      {group.isManager && (
                         <span
                           title="그룹장"
                           style={{ marginLeft: 6, color: "#f4c542" }}
@@ -179,10 +171,24 @@ export default function Dashboard() {
                       <span title="오늘 스크럼 참여">
                         {group.isScrumToday ? "✔️" : "⚠️"}
                       </span>
-                      {group.isOwner ? (
-                        <Button variant="primary">관리</Button>
+                      {group.isManager ? (
+                        <Button
+                          variant="primary"
+                          onClick={(e) => {
+                            e.stopPropagation(); /* 관리페이지 이동 등 */
+                          }}
+                        >
+                          관리
+                        </Button>
                       ) : (
-                        <Button variant="secondary">작성</Button>
+                        <Button
+                          variant="secondary"
+                          onClick={(e) => {
+                            e.stopPropagation(); /* 작성페이지 이동 등 */
+                          }}
+                        >
+                          작성
+                        </Button>
                       )}
                     </span>
                   </li>

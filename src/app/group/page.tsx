@@ -1,5 +1,5 @@
 "use client";
-
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import styles from "../style/groupForm.module.css";
 import Button from "../components/Button";
@@ -16,14 +16,29 @@ const DEFAULT_QUESTIONS = [
 ];
 const MAX_QUESTIONS = 10;
 
+function to24HourFormat(hourStr: string, ampm: string) {
+  let hourNum = parseInt(hourStr, 10);
+  if (ampm === "PM" && hourNum < 12) {
+    hourNum += 12;
+  }
+  if (ampm === "AM" && hourNum === 12) {
+    hourNum = 0;
+  }
+  // 두 자리 문자열로 반환하려면:
+  return hourNum.toString().padStart(2, "0");
+}
+
 export default function GroupCreate() {
-  const [name, setName] = useState("");
+  const router = useRouter();
+
+  const [groupName, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [questions, setQuestions] = useState([...DEFAULT_QUESTIONS]);
   const [ampm, setAmpm] = useState("AM");
   const [hour, setHour] = useState("09");
   const [minute, setMinute] = useState("00");
   const [cycle, setCycle] = useState("매일");
+  const [loading, setLoading] = useState(false);
 
   const hourList = Array.from({ length: 12 }, (_, i) =>
     String(i + 1).padStart(2, "0")
@@ -32,14 +47,35 @@ export default function GroupCreate() {
     String(i * 5).padStart(2, "0")
   );
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    alert(
-      `그룹명: ${name}\n설명: ${desc}\n시간: ${ampm} ${hour}:${minute}\n주기: ${cycle}\n질문: ${questions.join(
-        ", "
-      )}`
-    );
-  };
+  const hour24 = to24HourFormat(hour, ampm);
+
+  const sendTime = `${hour24}:${minute}`;
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault(); // 새로고침 방지
+    setLoading(true);
+
+    const res = await fetch("/api/group", {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: groupName,
+        description: desc,
+        questions: questions,
+        scrumTime: sendTime,
+        cycle: cycle,
+      }),
+    });
+    const data = await res.json();
+    setLoading(false);
+    if (res.ok) {
+      alert("그룹이 생성되었습니다!");
+      router.push("/dashboard");
+    } else {
+      alert(data.message || "생성 실패");
+    }
+  }
 
   return (
     <AuthProvider>
@@ -52,7 +88,7 @@ export default function GroupCreate() {
             <TextInput
               label="그룹 이름"
               required
-              value={name}
+              value={groupName}
               onChange={(e) => setName(e.target.value)}
               placeholder="그룹 이름을 입력하세요"
               className={styles.inputBase}
@@ -137,6 +173,7 @@ export default function GroupCreate() {
             <Button
               type="submit"
               variant="primary"
+              disabled={loading}
               style={{ width: "100%", marginTop: 10, fontSize: "1.09rem" }}
             >
               그룹 생성하기
