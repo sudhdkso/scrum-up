@@ -30,10 +30,9 @@ export async function GET(
     }
 
     return NextResponse.json({ group }, { status: 200 });
-  } catch (e: any) {
-    console.error(e);
+  } catch (error) {
     return NextResponse.json(
-      { error: "Internal Server Error", detail: e?.message || String(e) },
+      { error: error instanceof Error ? error.message : String(error) },
       { status: 500 }
     );
   }
