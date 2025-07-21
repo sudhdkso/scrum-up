@@ -1,12 +1,14 @@
 import React from "react";
 import { Member, DailyGroupScrum } from "../types";
 import { UserQnASectionByDate } from "./UserQnASectionByDate";
+import { GroupMemberResponseDTO } from "@/service/groupMember/dto/groupMemberResponse.dto";
+import { DailyScrumDTO } from "@/service/scrum/dto/DailyScrun";
 
 type MemberTabAccordionProps = {
-  members: Member[];
+  members: GroupMemberResponseDTO[];
   openMembers: string[];
   setOpenMembers: React.Dispatch<React.SetStateAction<string[]>>;
-  scrums: DailyGroupScrum[];
+  scrums: DailyScrumDTO[];
   questions: string[];
 };
 

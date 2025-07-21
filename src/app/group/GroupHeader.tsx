@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Group } from "./types";
+import { GroupDetailResponseDTO } from "@/service/group/dto/groupDetailResponse.dto";
 
-export function GroupHeader({ group }: { group: Group }) {
+export function GroupHeader({ group }: { group: GroupDetailResponseDTO }) {
   const [copyMsg, setCopyMsg] = useState(false);
 
   const handleCopy = async () => {

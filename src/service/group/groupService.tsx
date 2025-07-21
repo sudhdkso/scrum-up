@@ -5,7 +5,13 @@ import { IUser } from "@/models/user";
 import Group from "@/models/group";
 import { createQuestion } from "../question/questionService";
 import { GroupSummaryDTO } from "./dto/groupSummary";
-import GroupMember from "@/models/group_member";
+import GroupMember, { IGroupMember } from "@/models/group_member";
+import Scrum from "@/models/scrum";
+import { GroupDetailResponseDTO } from "./dto/groupDetailResponse.dto";
+import { GroupMemberResponseDTO } from "../groupMember/dto/groupMemberResponse.dto";
+import { DailyScrumDTO, UserAnswerDTO } from "../scrum/dto/DailyScrun";
+import User from "@/models/user";
+import Question, { IQuestion } from "@/models/question";
 
 export async function createGroup(request: CreateGroupRequestDTO, user: IUser) {
   await dbConnect();
@@ -57,11 +63,10 @@ export async function getUserGroups(
     throw new Error("userId 필요");
   }
   await dbConnect();
-  // 1. 먼저 GroupMember 테이블에서 userId로 자신의 소속 그룹 목록을 구함
   const memberships = await GroupMember.find({ userId });
-  // 2. memberships에서 groupId만 뽑음
+
   const groupIds = memberships.map((m) => m.groupId);
-  // 3. 그룹 id 기준으로 Group 컬렉션 조회
+
   const groups = await Group.find({ _id: { $in: groupIds } });
   return groups.map((group) => {
     // 자신이 관리자인지 판별 (managerId와 자기 userId 비교)
@@ -72,9 +77,92 @@ export async function getUserGroups(
       id: group._id.toString(),
       name: group.name,
       isManager,
-      isScrumToday: false, // 여긴 business logic에 따라 구현
+      isScrumToday: false,
     };
   });
+}
+
+export async function getGroupDetailById(
+  groupId: string,
+  userId: string
+): Promise<GroupDetailResponseDTO> {
+  await dbConnect();
+  const group = await Group.findById(groupId);
+  const question = await Question.findOne({
+    groupId: groupId,
+  }).lean<IQuestion>();
+  const questionTexts = question ? question.questionTexts : [];
+
+  const memberDocs = await GroupMember.find({
+    groupId: toObjectId(groupId),
+  }).lean<IGroupMember[]>();
+
+  const userIds = memberDocs.map((m) => m.userId);
+
+  //그룹에 포함된 그룸멤버 Id가져와서 이름맵으로 변환
+  const users = await User.find({ _id: { $in: userIds } }).lean<IUser[]>();
+  const userIdToName = Object.fromEntries(
+    users.map((u) => [u._id.toString(), u.name || ""])
+  );
+
+  const members: GroupMemberResponseDTO[] = memberDocs.map((m) => ({
+    id: m._id.toString(),
+    name: userIdToName[m.userId.toString()] || "",
+    role: m.role ?? "",
+  }));
+
+  memberDocs.forEach((m) => {
+    userIdToName[m.id] = m.name;
+  });
+
+  const allScrumsInGroup = await Scrum.find({
+    groupId: toObjectId(groupId),
+  }).lean();
+
+  let isScrumToday = false;
+
+  if (userId) {
+    const today = new Date().toISOString().slice(0, 10);
+    isScrumToday = allScrumsInGroup.some(
+      (scrum: any) =>
+        scrum.userId?.toString() === userId &&
+        scrum.date?.toISOString().slice(0, 10) === today
+    );
+  }
+
+  const scrumMap: { [date: string]: UserAnswerDTO[] } = {};
+  console.log(question);
+  for (const scrum of allScrumsInGroup) {
+    const dateStr = scrum.date?.toISOString().slice(0, 10);
+    if (!dateStr) continue;
+    if (!scrumMap[dateStr]) scrumMap[dateStr] = [];
+    scrumMap[dateStr].push({
+      userId: scrum.userId?.toString(),
+      userName: userIdToName[scrum.userId?.toString()] || "",
+      answers: scrum.answer || [],
+    });
+  }
+
+  const formatDate = (d: Date | string) => {
+    return new Date(d).toISOString().slice(0, 10); // "YYYY-MM-DD"
+  };
+
+  const dailyScrum: DailyScrumDTO[] = Object.entries(scrumMap)
+    .sort((a, b) => b[0].localeCompare(a[0]))
+    .map(([date, answersByUser]) => ({
+      date: formatDate(date),
+      answersByUser,
+    }));
+
+  return {
+    id: group._id.toString(),
+    name: group.name,
+    inviteCode: group.inviteCode,
+    members,
+    questions: questionTexts,
+    dailyScrum,
+    isScrumToday,
+  };
 }
 
 function generateInviteCode(length = 8) {

@@ -12,7 +12,7 @@ export function TabBar({
         gap: 14,
         marginBottom: 10,
         marginTop: 2,
-        justifyContent: "center",
+        justifyContent: "left",
       }}
     >
       <button

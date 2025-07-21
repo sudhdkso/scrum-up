@@ -11,7 +11,7 @@ export interface IQuestion extends Document {
 
 const QuestionSchema = new Schema({
   questionTexts: {
-    type: [String], // 문자열 배열
+    type: [String],
     required: true,
   },
   groupId: {
