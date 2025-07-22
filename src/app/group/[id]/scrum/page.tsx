@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { getGroupDetail } from "@/lib/group";
-import { GroupDetailResponseDTO } from "@/service/group/dto/groupDetailResponse.dto";
+import { GroupDetailResponseDTO } from "@/service/group/dto/group.dto";
 import GroupHeaderWithDate from "../../GroupHeaderWithDate";
 import styles from "@/app/style/scrumForm.module.css";
 
@@ -74,6 +74,7 @@ export default function GroupScrumWritePage() {
       }
     })();
   }, [groupId]);
+
   const handleAnswerChange = (idx: number, value: string) => {
     setAnswers((prev) => prev.map((v, i) => (i === idx ? value : v)));
   };

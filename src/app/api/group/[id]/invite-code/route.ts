@@ -16,5 +16,10 @@ export async function GET(
 
     const inviteCode = await createInviteCode(groupId, userId);
     return NextResponse.json({ inviteCode }, { status: 201 });
-  } catch (error) {}
+  } catch (error) {
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : String(error) },
+      { status: 500 }
+    );
+  }
 }
