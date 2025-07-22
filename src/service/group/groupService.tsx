@@ -117,7 +117,7 @@ export async function getGroupDetailById(
   );
 
   const members: GroupMemberResponseDTO[] = memberDocs.map((m) => ({
-    id: m.userId,
+    id: m.userId.toString(),
     name: userIdToName[m.userId.toString()] || "",
     role: m.role ?? "",
   }));

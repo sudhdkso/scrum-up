@@ -3,13 +3,13 @@ import mongoose, { Schema, Document, Types } from "mongoose";
 export interface IQuestion extends Document {
   _id: string;
   questionTexts: string[];
-  groupId: string;
-  creatorId: string;
+  groupId: Types.ObjectId;
+  creatorId: Types.ObjectId;
   role?: string;
   createdAt?: Date;
 }
 
-const QuestionSchema = new Schema({
+const QuestionSchema = new Schema<IQuestion>({
   questionTexts: {
     type: [String],
     required: true,
