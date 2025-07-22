@@ -9,13 +9,11 @@ type MemberTabAccordionProps = {
   openMembers: string[];
   setOpenMembers: React.Dispatch<React.SetStateAction<string[]>>;
   scrums: DailyScrumDTO[];
-  questions: string[];
 };
 
 export function MemberTabAccordion({
   members,
   scrums,
-  questions,
   openMembers,
   setOpenMembers,
 }: MemberTabAccordionProps) {
@@ -80,8 +78,8 @@ export function MemberTabAccordion({
                         <UserQnASectionByDate
                           key={date}
                           date={date}
-                          questions={questions}
-                          answers={userScrum.answers}
+                          questions={userScrum?.questions ?? []}
+                          answers={userScrum?.answers ?? []}
                         />
                       )
                   )
