@@ -1,4 +1,4 @@
-import { getUserIdBySession } from "@/service/user/userService";
+import { getUserIdOr401 } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
 import { getGroupDetailById } from "@/service/group/groupService";
 
@@ -9,19 +9,11 @@ export async function GET(
   try {
     const id = (await params).id;
 
-    const sessionId = req.cookies.get("sessionId")?.value;
-    if (!sessionId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     if (!id) {
       return NextResponse.json({ error: "No group id" }, { status: 400 });
     }
 
-    const userId = await getUserIdBySession(sessionId);
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    const userId = await getUserIdOr401(req);
 
     const group = await getGroupDetailById(id, userId);
     if (!group) {

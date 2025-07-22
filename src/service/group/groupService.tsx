@@ -144,6 +144,7 @@ export async function getGroupDetailById(
     scrumMap[dateStr].push({
       userId: scrum.userId?.toString(),
       userName: userIdToName[scrum.userId?.toString()] || "",
+      questions: scrum.questions || [],
       answers: scrum.answers || [],
     });
   }

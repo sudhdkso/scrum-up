@@ -5,6 +5,7 @@ export interface IScrum extends Document {
   userId: string;
   groupId: string;
   date: Date;
+  questions: string[];
   answers: string[];
 }
 
@@ -22,6 +23,10 @@ const ScrumSchema: Schema = new Schema({
   date: {
     type: Date,
     default: Date.now,
+  },
+  questions: {
+    type: [String],
+    required: true,
   },
   answers: {
     type: [String],
