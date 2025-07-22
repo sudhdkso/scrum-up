@@ -5,7 +5,7 @@ import { IUser } from "@/models/user";
 import Group from "@/models/group";
 import { createQuestion } from "../question/questionService";
 import { GroupSummaryDTO } from "./dto/groupSummary";
-import GroupMember, { IGroupMember } from "@/models/group_member";
+import GroupMember, { IGroupMember } from "@/models/group-member";
 import Scrum, { IScrum } from "@/models/scrum";
 import { GroupDetailResponseDTO } from "./dto/groupDetailResponse.dto";
 import { GroupMemberResponseDTO } from "../groupMember/dto/groupMemberResponse.dto";
