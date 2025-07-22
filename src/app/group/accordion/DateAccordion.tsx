@@ -4,12 +4,10 @@ import { DailyScrumDTO } from "@/service/scrum/dto/DailyScrun";
 
 export function DateAccordion({
   scrums,
-  questions,
   openDates,
   setOpenDates,
 }: {
   scrums: DailyScrumDTO[];
-  questions: string[];
   openDates: string[];
   setOpenDates: React.Dispatch<React.SetStateAction<string[]>>;
 }) {
@@ -79,7 +77,7 @@ export function DateAccordion({
                       <UserQnABlock
                         key={u.userId}
                         userName={u.userName}
-                        questions={questions}
+                        questions={u.questions}
                         answers={u.answers}
                       />
                     ))

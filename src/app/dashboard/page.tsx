@@ -25,7 +25,6 @@ export default function Dashboard() {
       }
     })();
   }, []);
-  console.log(groups);
   const todayScrumWritten = groups.filter((g) => g.isScrumToday).length;
   const todayScrumNotWritten = groups.length - todayScrumWritten;
   const showGroups = groups.length > 0;
