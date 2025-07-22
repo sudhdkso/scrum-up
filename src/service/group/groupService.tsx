@@ -158,11 +158,12 @@ export async function getGroupDetailById(
       date: getKstDateStr(new Date(date)),
       answersByUser,
     }));
+  const isManager = group.managerId.toString() === userId;
 
   return {
     id: group._id.toString(),
     name: group.name,
-    inviteCode: group.inviteCode,
+    isManager,
     members,
     questions: questionTexts,
     dailyScrum,

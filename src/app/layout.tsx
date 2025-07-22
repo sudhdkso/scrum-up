@@ -3,7 +3,7 @@ import "./style/globals.css";
 import { usePathname } from "next/navigation";
 import { AuthProvider } from "@/app/components/AuthProvider";
 import NavBar from "@/app/components/NavBar";
-const EXCLUDE_PATHS = ["/"]; // 원하는 경로들
+const EXCLUDE_PATHS = ["/", "/invite/"]; // 원하는 경로들
 
 export default function RootLayout({
   children,
@@ -15,11 +15,10 @@ export default function RootLayout({
     return null;
   }
 
-  const exclude = EXCLUDE_PATHS.some((p) => pathname.startsWith(p));
-  console.log("pathname", pathname);
-  console.log("exclude", exclude);
-  // 완전 분기
-  if (!exclude) {
+  const exclude = EXCLUDE_PATHS.some((p) =>
+    p === "/" ? pathname === "/" : pathname.startsWith(p)
+  );
+  if (exclude) {
     return (
       <html lang="ko">
         <body>
