@@ -12,7 +12,7 @@ export interface CreateGroupRequestDTO {
 export interface GroupDetailResponseDTO {
   id: string;
   name: string;
-  inviteCode: string;
+  isManager: boolean;
   members: GroupMemberResponseDTO[];
   questions: string[];
   dailyScrum: DailyScrumDTO[];

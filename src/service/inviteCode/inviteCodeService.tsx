@@ -1,6 +1,9 @@
 import dbConnect from "@/lib/mongodb";
 import mongoose from "mongoose";
-import InviteCode from "@/models/invite-code";
+import InviteCode, { IInviteCode } from "@/models/invite-code";
+import Group, { IGroup } from "@/models/group";
+import Groupmember from "@/models/group-member";
+import User, { IUser } from "@/models/user";
 
 export async function createInviteCode(groupId: string, userId: string) {
   await dbConnect();
@@ -19,6 +22,36 @@ export async function createInviteCode(groupId: string, userId: string) {
     createdBy: new mongoose.Types.ObjectId(userId),
     code: generateInviteCode(),
   });
+}
+
+export async function getInviteDetail(code: string) {
+  await dbConnect();
+
+  const inviteCode = await InviteCode.findOne({
+    code: code,
+  }).lean<IInviteCode>();
+
+  if (!inviteCode) {
+    throw Error("not found group by invite code");
+  }
+
+  const group = await Group.findById(inviteCode?.groupId).lean<IGroup>();
+
+  if (!group) {
+    throw Error("not found group");
+  }
+
+  const user = await User.findById(group?.managerId).lean<IUser>();
+  const memberCount = await Groupmember.countDocuments({
+    groupId: inviteCode?.groupId,
+  });
+
+  return {
+    inviterName: user?.name,
+    groupName: group?.name,
+    memberCount: memberCount ?? 0,
+    scrumTime: group?.scrumTime,
+  };
 }
 
 function generateInviteCode(length = 8) {
