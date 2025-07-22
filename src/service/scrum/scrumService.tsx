@@ -11,14 +11,14 @@ export async function createScrum(
 ) {
   await dbConnect();
 
-  const question = await Question.find({
+  const question = await Question.findOne({
     groupId: new mongoose.Types.ObjectId(groupId),
   }).lean<IQuestion>();
 
   const scrum = await Scrum.create({
     userId: new mongoose.Types.ObjectId(userId),
     groupId: new mongoose.Types.ObjectId(groupId),
-    questions: question.questionTexts,
+    questions: question?.questionTexts || [],
     answers,
   });
 
@@ -37,6 +37,9 @@ export async function getTodayScrum(groupId: string, userId: string) {
       $lt: end,
     },
   }).lean<DailyScrumUpdateDTO>();
+  console.log("star", start);
+  console.log("end", end);
+  console.log("today scrum", scrum);
   return scrum;
 }
 
@@ -52,24 +55,18 @@ export async function updateTodayScrum(scrumId: string, answers: string[]) {
 }
 
 function getKstTodayRange() {
+  // 현재 시각을 KST로 보정
   const now = new Date();
+  const kstNow = new Date(now.getTime() + 9 * 60 * 60 * 1000);
+  const year = kstNow.getUTCFullYear();
+  const month = kstNow.getUTCMonth();
+  const date = kstNow.getUTCDate();
 
-  const kstOffsetMs = 9 * 60 * 60 * 1000;
-
-  //UTC 기준으로 오늘 KST의 00:00:00 시각 계산
+  // 오늘 0시(KST)의 UTC
   const start = new Date(
-    Date.UTC(
-      now.getUTCFullYear(),
-      now.getUTCMonth(),
-      now.getUTCDate(),
-      -9,
-      0,
-      0,
-      0
-    )
+    Date.UTC(year, month, date, 0, 0, 0) - 9 * 60 * 60 * 1000
   );
-
-  // end: start + 24시간
+  // 내일 0시(KST)의 UTC
   const end = new Date(start.getTime() + 24 * 60 * 60 * 1000);
 
   return { start, end };
