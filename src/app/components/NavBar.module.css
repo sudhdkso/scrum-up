@@ -1,17 +1,23 @@
 .navBar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  width: 100%;
+  max-width: 600px; /* 레이아웃과 동일 */
+  margin: 0 auto; /* 동일하게 가운데 정렬 */
+  box-sizing: border-box;
+  padding: 0 16px; /* 레이아웃과 동일 */
   height: 56px;
-  border-bottom: 1px solid #ddd;
-  padding: 0 20px;
-  font-size: 1.25rem;
-  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background: #fff;
+  border-bottom: 1px solid #ddd;
 }
 
 .logo {
-  color: #5865f2;
+  font-weight: 900;
+  font-size: 1.45em;
+  letter-spacing: 1.2px;
+  color: #2274e7;
+  margin-left: 24px; /* 원하는 만큼 값 조정 */
 }
 
 .user {

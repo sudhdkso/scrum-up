@@ -2,14 +2,14 @@ import mongoose, { Schema, Document, Types } from "mongoose";
 
 export interface IScrum extends Document {
   _id: string;
-  userId: string;
-  groupId: string;
+  userId: Types.ObjectId;
+  groupId: Types.ObjectId;
   date: Date;
   questions: string[];
   answers: string[];
 }
 
-const ScrumSchema: Schema = new Schema({
+const ScrumSchema: Schema = new Schema<IScrum>({
   userId: {
     type: Schema.Types.ObjectId,
     ref: "User",

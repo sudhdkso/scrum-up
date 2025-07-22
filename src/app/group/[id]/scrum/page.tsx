@@ -2,10 +2,8 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { getGroupDetail } from "@/lib/group";
-import { GroupDetailResponseDTO } from "@/service/group/dto/groupDetailResponse.dto";
-import { AuthProvider } from "@/app/components/AuthProvider";
+import { GroupDetailResponseDTO } from "@/service/group/dto/group.dto";
 import GroupHeaderWithDate from "../../GroupHeaderWithDate";
-import NavBar from "@/app/components/NavBar";
 import styles from "@/app/style/scrumForm.module.css";
 
 // 답변 제출 함수
@@ -76,6 +74,7 @@ export default function GroupScrumWritePage() {
       }
     })();
   }, [groupId]);
+
   const handleAnswerChange = (idx: number, value: string) => {
     setAnswers((prev) => prev.map((v, i) => (i === idx ? value : v)));
   };
@@ -99,76 +98,71 @@ export default function GroupScrumWritePage() {
   if (!group) return <div>그룹을 찾을 수 없습니다.</div>;
 
   return (
-    <AuthProvider>
-      <NavBar />
-      <div>
-        <div className={styles.centerContainer}>
-          <h2></h2>
-          <form className={styles.formContainer} onSubmit={handleSubmit}>
-            {/* 상단: 그룹/날짜 */}
-            <div style={{ marginBottom: 20 }}>
-              <GroupHeaderWithDate groupName={group.name} />
-            </div>
-            <div
-              style={{
-                background: "#e8f3ff",
-                color: "#246",
-                padding: "8px 14px",
-                borderRadius: 9,
-                fontWeight: 600,
-                fontSize: "1.08rem",
-                marginBottom: 21,
-              }}
-            >
-              📌 오늘의 스크럼 질문
-            </div>
-            {/* 질문 + 답변 입력 */}
-            {group.questions.map((q, idx) => (
-              <div key={idx} style={{ marginBottom: 22 }}>
-                <div
-                  style={{ marginBottom: 7, fontWeight: 600, color: "#345" }}
-                >
-                  {idx + 1}. {q}
-                </div>
-                <textarea
-                  value={answers[idx]}
-                  onChange={(e) => handleAnswerChange(idx, e.target.value)}
-                  rows={3}
-                  style={{
-                    width: "100%",
-                    borderRadius: 6,
-                    border: "1.2px solid #c9def7",
-                    padding: "10px 12px",
-                    fontSize: "1.08rem",
-                    resize: "vertical",
-                    outline: "none",
-                  }}
-                  placeholder="여기에 답변을 입력하세요"
-                  required
-                />
+    <div>
+      <div className={styles.centerContainer}>
+        <h2></h2>
+        <form className={styles.formContainer} onSubmit={handleSubmit}>
+          {/* 상단: 그룹/날짜 */}
+          <div style={{ marginBottom: 20 }}>
+            <GroupHeaderWithDate groupName={group.name} />
+          </div>
+          <div
+            style={{
+              background: "#e8f3ff",
+              color: "#246",
+              padding: "8px 14px",
+              borderRadius: 9,
+              fontWeight: 600,
+              fontSize: "1.08rem",
+              marginBottom: 21,
+            }}
+          >
+            📌 오늘의 스크럼 질문
+          </div>
+          {/* 질문 + 답변 입력 */}
+          {group.questions.map((q, idx) => (
+            <div key={idx} style={{ marginBottom: 22 }}>
+              <div style={{ marginBottom: 7, fontWeight: 600, color: "#345" }}>
+                {idx + 1}. {q}
               </div>
-            ))}
-            <button
-              type="submit"
-              disabled={submitLoading}
-              style={{
-                width: "100%",
-                padding: "14px",
-                fontSize: "1.16rem",
-                fontWeight: 600,
-                borderRadius: 8,
-                border: "none",
-                background: "#2979ff",
-                color: "#fff",
-                marginTop: 20,
-                cursor: submitLoading ? "not-allowed" : "pointer",
-              }}
-            >
-              {submitLoading ? "제출 중..." : "제출하기"}
-            </button>
-          </form>
-        </div>
+              <textarea
+                value={answers[idx]}
+                onChange={(e) => handleAnswerChange(idx, e.target.value)}
+                rows={3}
+                style={{
+                  width: "100%",
+                  borderRadius: 6,
+                  border: "1.2px solid #c9def7",
+                  padding: "10px 12px",
+                  fontSize: "1.08rem",
+                  resize: "vertical",
+                  outline: "none",
+                }}
+                placeholder="여기에 답변을 입력하세요"
+                required
+              />
+            </div>
+          ))}
+          <button
+            type="submit"
+            disabled={submitLoading}
+            style={{
+              width: "100%",
+              padding: "14px",
+              fontSize: "1.16rem",
+              fontWeight: 600,
+              borderRadius: 8,
+              border: "none",
+              background: "#2979ff",
+              color: "#fff",
+              marginTop: 20,
+              cursor: submitLoading ? "not-allowed" : "pointer",
+            }}
+          >
+            {submitLoading ? "제출 중..." : "제출하기"}
+          </button>
+        </form>
       </div>
-    </AuthProvider>
+    </div>
   );
 }

@@ -1,0 +1,91 @@
+.container {
+  max-width: 520px;
+  width: 95vw;
+  margin: 16px auto;
+  padding: 28px 22px 18px 22px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 3px 24px #0b347808;
+  font-family: "Pretendard", sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.logo {
+  font-weight: 900;
+  font-size: 1.45em;
+  letter-spacing: 1.2px;
+  color: #2274e7;
+}
+
+.inviteSection {
+  margin-bottom: 32px;
+}
+
+.inviteText {
+  font-size: 1.1em;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.infoCard {
+  background: #f2f8ff;
+  border-radius: 10px;
+  padding: 16px;
+  font-size: 1.04em;
+  color: #234;
+  margin-bottom: 5px;
+  line-height: 1.6;
+}
+
+.ctaSection {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 9px;
+  margin-bottom: 18px;
+}
+
+.acceptBtn {
+  background: linear-gradient(90deg, #267fff 60%, #57b7fa 100%);
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.12rem;
+  border: none;
+  border-radius: 7px;
+  padding: 15px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.acceptBtn:hover {
+  background: linear-gradient(90deg, #1366e7 60%, #41a0e2 100%);
+}
+
+.declineBtn {
+  background: none;
+  color: #999;
+  font-size: 0.97em;
+  border: none;
+  margin-top: 0.5em;
+  padding: 7px;
+  cursor: pointer;
+}
+
+.footer {
+  margin-top: 27px;
+  text-align: left;
+  color: #555;
+  font-size: 0.98em;
+}
+
+.divider {
+  border: none;
+  border-bottom: 1px solid #ececec;
+  margin: 18px 0 10px 0;
+}

@@ -1,6 +1,4 @@
 "use client";
-import { AuthProvider } from "@/app/components/AuthProvider";
-import NavBar from "@/app/components/NavBar";
 import { useEffect, useState } from "react";
 import { GroupHeader } from "../GroupHeader";
 import { TodayScrumStatus } from "../TodayScrumStatus";
@@ -10,7 +8,7 @@ import { MemberTabAccordion } from "../accordion/MemberTabAccordion";
 import { useParams } from "next/navigation";
 import { getGroupDetail } from "@/lib/group";
 import { DailyScrumDTO } from "@/service/scrum/dto/DailyScrun";
-import { GroupDetailResponseDTO } from "@/service/group/dto/groupDetailResponse.dto";
+import { GroupDetailResponseDTO } from "@/service/group/dto/group.dto";
 import ScrumQuestionDropdown from "../ScrumQuestionDropdown";
 
 export default function GroupScrumDetailPage() {
@@ -49,39 +47,36 @@ export default function GroupScrumDetailPage() {
   const scrums = dailyScrums;
 
   return (
-    <AuthProvider>
-      <NavBar />
-      <div
-        style={{
-          maxWidth: 600,
-          minHeight: "100vh",
-          background: "#fff",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <GroupHeader group={group} />
-        <TodayScrumStatus isSrumToday={group.isScrumToday} groupId={groupId} />
-        <ScrumQuestionDropdown questions={group.questions} />
-        <TabBar tab={tab} setTab={setTab} />
-        <main style={{ flex: 1, padding: "0 18px" }}>
-          {tab === "date" ? (
-            <DateAccordion
-              scrums={scrums}
-              openDates={openDates}
-              setOpenDates={setOpenDates}
-            />
-          ) : (
-            <MemberTabAccordion
-              members={group.members}
-              scrums={scrums}
-              openMembers={openMembers}
-              setOpenMembers={setOpenMembers}
-            />
-          )}
-        </main>
-        <div style={{ height: 16 }} />
-      </div>
-    </AuthProvider>
+    <div
+      style={{
+        maxWidth: 600,
+        minHeight: "100vh",
+        background: "#fff",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <GroupHeader group={group} />
+      <TodayScrumStatus isSrumToday={group.isScrumToday} groupId={groupId} />
+      <ScrumQuestionDropdown questions={group.questions} />
+      <TabBar tab={tab} setTab={setTab} />
+      <main style={{ flex: 1, padding: "0 18px" }}>
+        {tab === "date" ? (
+          <DateAccordion
+            scrums={scrums}
+            openDates={openDates}
+            setOpenDates={setOpenDates}
+          />
+        ) : (
+          <MemberTabAccordion
+            members={group.members}
+            scrums={scrums}
+            openMembers={openMembers}
+            setOpenMembers={setOpenMembers}
+          />
+        )}
+      </main>
+      <div style={{ height: 16 }} />
+    </div>
   );
 }
