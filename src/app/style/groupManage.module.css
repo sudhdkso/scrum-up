@@ -1,0 +1,261 @@
+.adminSection {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 38px 2vw 32px 2vw; /* 전체 가로영역 여백만 약간 */
+  background: #fff;
+}
+
+.headerSection {
+  margin-bottom: 16px;
+}
+
+.groupInfo {
+  width: 100%;
+}
+
+.groupName {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #225;
+  margin-right: 12px;
+  display: inline-block;
+}
+
+.iconBtn {
+  background: none;
+  border: none;
+  color: #267fff;
+  font-size: 1.15em;
+  margin-left: 6px;
+  cursor: pointer;
+}
+
+.groupDesc {
+  color: #466;
+  font-size: 1em;
+  margin: 6px 0 0 0;
+}
+
+.alarmRow {
+  margin-top: 8px;
+  font-size: 1.05em;
+  color: #2979ff;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 500;
+}
+
+.divider {
+  border: none;
+  border-top: 1.5px solid #eaf2fd;
+  margin: 23px 0 15px 0;
+}
+
+.sectionRow {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 13px;
+  background: #f9fcff;
+  width: 100%;
+}
+
+.sectionEmoji {
+  font-size: 1.2em;
+  margin-right: 3px;
+}
+
+.sectionTitle {
+  font-size: 1.15em;
+  font-weight: 700;
+  color: #234;
+}
+
+.inviteCopyBtn {
+  background: linear-gradient(90deg, #339dff 98%, #a7dbfa 100%);
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  padding: 9px 20px;
+  cursor: pointer;
+  min-width: 114px;
+  margin-left: auto;
+}
+
+.inviteCopyBtn:active {
+  background: linear-gradient(90deg, #25a9fc 98%, #a7dbfa 100%);
+}
+
+.leaveBtn {
+  background: #fff;
+  color: #2490ff;
+  font-weight: 700;
+  border: 1.6px solid #a6d0fa;
+  border-radius: 0;
+  font-size: 1.01em;
+  padding: 9px 27px;
+  cursor: pointer;
+  box-shadow: 0 1.5px 8px #e1e7fa36;
+  transition: background 0.12s, border-color 0.12s;
+}
+
+.leaveBtn:hover {
+  background: #f2f8ff;
+  border-color: #339dff;
+  color: #186fc3;
+}
+
+.fullWidthList {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.rowWide {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #fff;
+  border-bottom: 1px solid #e8f3ff;
+  min-height: 50px;
+  padding: 0;
+}
+
+.roleTag {
+  min-width: 64px;
+  color: #5589aa;
+  text-align: center;
+}
+
+.miniBtn {
+  background: #f2f8ff;
+  color: #267fff;
+  border: 1.1px solid #e0eaff;
+  border-radius: 6px;
+  font-size: 0.97em;
+  padding: 6px 18px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.miniBtn:hover {
+  background: #e9f4ff;
+}
+
+.addBtn {
+  background: none;
+  color: #267fff;
+  border: 1.1px dashed #9ad3fb;
+  border-radius: 12px;
+  font-size: 1em;
+  font-weight: 500;
+  padding: 7px 22px;
+  margin-top: 11px;
+  cursor: pointer;
+}
+.dangerBtn {
+  width: 100%;
+  margin-top: 10px;
+  background: none;
+  border: 1.5px solid #ff6565;
+  color: #ff4242;
+  font-weight: bold;
+  font-size: 1.02em;
+  border-radius: 9px;
+  padding: 14px 0;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.dangerBtn:hover {
+  background: #fff7f7;
+}
+
+.accordionSection {
+  width: 100%;
+}
+
+.accordionHeader {
+  display: flex;
+  align-items: center;
+  background: #f9fcff; /* 💡 더 밝고 연한 배경 */
+  border-radius: 13px;
+  padding: 13px 18px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  box-shadow: 0 1px 5px #cbe2ff13;
+  /* 시각적으로 훨씬 연하고 깔끔한 톤 */
+}
+.arrowIcon {
+  margin-left: auto;
+  font-size: 1.14em;
+  color: #267fff;
+  min-width: 28px;
+  text-align: right;
+}
+
+.accordionBody {
+  background: #fafdff; /* 펼쳐진 영역도 아주 연하게 통일 */
+  padding: 13px 18px 10px 18px;
+  border-radius: 9px;
+  margin-top: 0;
+}
+
+.qRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  background: #f8fafd;
+  border: 1.2px solid #e1eafc;
+  border-radius: 13px;
+  padding: 7px 13px;
+  gap: 12px;
+}
+.qInput {
+  flex: 1;
+  border: 1.7px solid #66a6f9; /* 더 진하고 선명한 파랑 테두리 */
+  background: #fff; /* 인풋 배경은 화이트 */
+  font-size: 1em;
+  outline: none;
+  padding: 9px 13px;
+  border-radius: 7px;
+  transition: border-color 0.13s;
+}
+
+.qInput:focus {
+  border-color: #267fff; /* 포커스 시 더 또렷한 파랑 */
+  background: #fafdff;
+}
+
+.iconDelete,
+.iconAdd {
+  border: none;
+  width: 33px;
+  height: 33px;
+  border-radius: 7px;
+  font-weight: bold;
+  font-size: 1.3em;
+  cursor: pointer;
+  margin-left: 2px;
+}
+.iconDelete {
+  background: #feecec;
+  color: #ee5959;
+}
+.iconDelete:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.iconAdd {
+  background: #edf6ff;
+  color: #3098ff;
+  margin-left: 2px;
+}
