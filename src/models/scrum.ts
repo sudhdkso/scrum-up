@@ -5,7 +5,7 @@ export interface IScrum extends Document {
   userId: string;
   groupId: string;
   date: Date;
-  answer: string[];
+  answers: string[];
 }
 
 const ScrumSchema: Schema = new Schema({
@@ -23,7 +23,7 @@ const ScrumSchema: Schema = new Schema({
     type: Date,
     default: Date.now,
   },
-  answer: {
+  answers: {
     type: [String],
     required: true,
   },

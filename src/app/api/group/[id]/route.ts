@@ -1,13 +1,11 @@
 import { getUserIdBySession } from "@/service/user/userService";
 import { NextRequest, NextResponse } from "next/server";
 import { getGroupDetailById } from "@/service/group/groupService";
-import dbConnect from "@/lib/mongodb";
 
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  await dbConnect();
   try {
     const id = (await params).id;
 

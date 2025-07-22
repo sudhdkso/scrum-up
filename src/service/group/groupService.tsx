@@ -30,7 +30,7 @@ export async function createGroup(request: CreateGroupRequestDTO, user: IUser) {
 
     await group.save({ session });
 
-    const groupMember = await GroupMember.create(
+    await GroupMember.create(
       [
         {
           userId: toObjectId(user._id),
@@ -41,7 +41,6 @@ export async function createGroup(request: CreateGroupRequestDTO, user: IUser) {
       { session, ordered: true }
     );
 
-    console.log("groupMember", groupMember);
     await createQuestion(request.questions, group._id, user._id, session);
     await session.commitTransaction();
 
@@ -63,21 +62,32 @@ export async function getUserGroups(
     throw new Error("userId 필요");
   }
   await dbConnect();
-  const memberships = await GroupMember.find({ userId });
 
+  const memberships = await GroupMember.find({ userId });
   const groupIds = memberships.map((m) => m.groupId);
 
   const groups = await Group.find({ _id: { $in: groupIds } });
+
+  const allScrums = await Scrum.find({
+    groupId: { $in: groupIds },
+    userId: userId,
+  }).lean<IScrum[]>();
+
   return groups.map((group) => {
-    // 자신이 관리자인지 판별 (managerId와 자기 userId 비교)
     const isManager = group.managerId.toString() === userId;
 
-    // 필요시, 소속 멤버 데이터에서 status 등 다른 정보 쓸 수 있음
+    // 해당 그룹의 내 스크럼 중 오늘 날짜가 있는지 확인
+    const groupScrums = allScrums.filter(
+      (scrum) => scrum.groupId.toString() === group._id.toString()
+    );
+
+    const isScrumToday = checkIsScrumToday(groupScrums, userId);
+
     return {
       id: group._id.toString(),
       name: group.name,
       isManager,
-      isScrumToday: false,
+      isScrumToday,
     };
   });
 }
@@ -87,6 +97,7 @@ export async function getGroupDetailById(
   userId: string
 ): Promise<GroupDetailResponseDTO> {
   await dbConnect();
+
   const group = await Group.findById(groupId);
   const question = await Question.findOne({
     groupId: groupId,
@@ -106,7 +117,7 @@ export async function getGroupDetailById(
   );
 
   const members: GroupMemberResponseDTO[] = memberDocs.map((m) => ({
-    id: m._id.toString(),
+    id: m.userId,
     name: userIdToName[m.userId.toString()] || "",
     role: m.role ?? "",
   }));
@@ -122,35 +133,25 @@ export async function getGroupDetailById(
   let isScrumToday = false;
 
   if (userId) {
-    const today = new Date().toISOString().slice(0, 10);
-    isScrumToday = allScrumsInGroup.some(
-      (scrum: IScrum) =>
-        scrum.userId?.toString() === userId &&
-        scrum.date?.toISOString().slice(0, 10) === today
-    );
+    isScrumToday = checkIsScrumToday(allScrumsInGroup, userId);
   }
 
   const scrumMap: { [date: string]: UserAnswerDTO[] } = {};
-  console.log(question);
   for (const scrum of allScrumsInGroup) {
-    const dateStr = scrum.date?.toISOString().slice(0, 10);
+    const dateStr = getKstDateStr(new Date(scrum.date));
     if (!dateStr) continue;
     if (!scrumMap[dateStr]) scrumMap[dateStr] = [];
     scrumMap[dateStr].push({
       userId: scrum.userId?.toString(),
       userName: userIdToName[scrum.userId?.toString()] || "",
-      answers: scrum.answer || [],
+      answers: scrum.answers || [],
     });
   }
-
-  const formatDate = (d: Date | string) => {
-    return new Date(d).toISOString().slice(0, 10); // "YYYY-MM-DD"
-  };
 
   const dailyScrum: DailyScrumDTO[] = Object.entries(scrumMap)
     .sort((a, b) => b[0].localeCompare(a[0]))
     .map(([date, answersByUser]) => ({
-      date: formatDate(date),
+      date: getKstDateStr(new Date(date)),
       answersByUser,
     }));
 
@@ -182,4 +183,17 @@ function toObjectId(
     return new mongoose.Types.ObjectId(id);
   }
   return id as mongoose.Types.ObjectId;
+}
+
+function checkIsScrumToday(allScrums: IScrum[], userId: string): boolean {
+  const today = getKstDateStr();
+  return allScrums.some(
+    (scrum) =>
+      scrum.userId?.toString() === userId && getKstDateStr(scrum.date) === today
+  );
+}
+
+function getKstDateStr(date = new Date()) {
+  const kst = new Date(date.getTime() + 9 * 60 * 60 * 1000);
+  return kst.toISOString().slice(0, 10);
 }
