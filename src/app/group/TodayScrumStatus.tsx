@@ -1,4 +1,18 @@
-export function TodayScrumStatus({ isSrumToday }: { isSrumToday: boolean }) {
+import { useRouter } from "next/navigation";
+
+export function TodayScrumStatus({
+  isSrumToday,
+  groupId,
+}: {
+  isSrumToday: boolean;
+  groupId: string;
+}) {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/group/${groupId}/scrum`);
+  };
+
   return (
     <div
       style={{
@@ -19,6 +33,7 @@ export function TodayScrumStatus({ isSrumToday }: { isSrumToday: boolean }) {
           : "✍️ 오늘 스크럼 작성해 주세요"}
       </span>
       <button
+        onClick={handleClick}
         style={{
           padding: "8px 18px",
           borderRadius: 18,
@@ -28,7 +43,7 @@ export function TodayScrumStatus({ isSrumToday }: { isSrumToday: boolean }) {
           fontSize: "1.01rem",
         }}
       >
-        {isSrumToday ? "요약 보기" : "작성하러 가기"}
+        {isSrumToday ? "수정하기" : "작성하러 가기"}
       </button>
     </div>
   );
