@@ -8,7 +8,7 @@ import User, { IUser } from "@/models/user";
 export async function createInviteCode(groupId: string, userId: string) {
   await dbConnect();
   const now = new Date();
-  let inviteCode = await InviteCode.findOne({
+  const inviteCode = await InviteCode.findOne({
     groupId: new mongoose.Types.ObjectId(groupId),
     expiresAt: { $gt: now },
   });

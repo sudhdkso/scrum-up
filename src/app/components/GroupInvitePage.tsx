@@ -75,7 +75,7 @@ export default function GroupInvitePage({
         <div className={styles.aboutService}>
           <span style={{ fontWeight: 600 }}>❓ ScrumUp이 뭔가요?</span>
           <p style={{ margin: "8px 0 0 0" }}>
-            "매일 3분, 성장하는 팀의 비결!"
+            &quot;매일 3분, 성장하는 팀의 비결!&quot;
             <a
               href="https://scrumup.example.com/about"
               target="_blank"
