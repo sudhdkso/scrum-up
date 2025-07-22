@@ -1,13 +1,14 @@
 import { getUserIdOr401 } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
-import { getGroupDetailById } from "@/service/group/groupService";
+import { createScrum } from "@/service/scrum/scrumService";
 
-export async function GET(
+export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const groupId = (await params).id;
+    const body = await req.json();
 
     if (!groupId) {
       return NextResponse.json({ error: "No group id" }, { status: 400 });
@@ -15,12 +16,9 @@ export async function GET(
 
     const userId = await getUserIdOr401(req);
 
-    const group = await getGroupDetailById(groupId, userId);
-    if (!group) {
-      return NextResponse.json({ error: "Group not found" }, { status: 404 });
-    }
-
-    return NextResponse.json({ group }, { status: 200 });
+    const answers = body.answers;
+    const scrum = await createScrum(answers, groupId, userId);
+    return NextResponse.json({ scrum }, { status: 201 });
   } catch (error) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : String(error) },
