@@ -37,7 +37,7 @@ export function TodayScrumStatus({
         style={{
           padding: "8px 18px",
           borderRadius: 18,
-          background: "#4267B2",
+          background: "#267fff",
           color: "#fff",
           border: 0,
           fontSize: "1.01rem",

@@ -18,3 +18,14 @@ export async function getGroupDetail(groupId: string) {
   }
   return response.json();
 }
+
+export async function getInviteCode(groupId: string) {
+  const response = await fetch(`/api/group/${groupId}/invite-code`, {
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  return response.json();
+}

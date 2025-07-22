@@ -3,6 +3,10 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --primary-blue: #267fff;
+  --primary-blue-dark: #2274e7;
+  --secondary-blue: #57b7fa;
+  --border-blue: #8ec7fa;
 }
 
 body {

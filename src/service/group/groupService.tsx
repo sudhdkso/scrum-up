@@ -1,17 +1,20 @@
 import mongoose from "mongoose";
 import dbConnect from "@/lib/mongodb";
-import { CreateGroupRequestDTO } from "./dto/createGroupRequest.dto";
+import {
+  CreateGroupRequestDTO,
+  GroupSummaryDTO,
+  GroupDetailResponseDTO,
+} from "./dto/group.dto";
 import { IUser } from "@/models/user";
-import Group from "@/models/group";
+import Group, { IGroup } from "@/models/group";
 import { createQuestion } from "../question/questionService";
-import { GroupSummaryDTO } from "./dto/groupSummary";
-import GroupMember, { IGroupMember } from "@/models/group_member";
+import GroupMember, { IGroupMember } from "@/models/group-member";
 import Scrum, { IScrum } from "@/models/scrum";
-import { GroupDetailResponseDTO } from "./dto/groupDetailResponse.dto";
 import { GroupMemberResponseDTO } from "../groupMember/dto/groupMemberResponse.dto";
 import { DailyScrumDTO, UserAnswerDTO } from "../scrum/dto/DailyScrun";
 import User from "@/models/user";
 import Question, { IQuestion } from "@/models/question";
+import InviteCode, { IInviteCode } from "@/models/invite-code";
 
 export async function createGroup(request: CreateGroupRequestDTO, user: IUser) {
   await dbConnect();
@@ -117,7 +120,7 @@ export async function getGroupDetailById(
   );
 
   const members: GroupMemberResponseDTO[] = memberDocs.map((m) => ({
-    id: m.userId,
+    id: m.userId.toString(),
     name: userIdToName[m.userId.toString()] || "",
     role: m.role ?? "",
   }));
@@ -155,15 +158,68 @@ export async function getGroupDetailById(
       date: getKstDateStr(new Date(date)),
       answersByUser,
     }));
+  const isManager = group.managerId.toString() === userId;
 
   return {
     id: group._id.toString(),
     name: group.name,
-    inviteCode: group.inviteCode,
+    isManager,
     members,
     questions: questionTexts,
     dailyScrum,
     isScrumToday,
+  };
+}
+
+export async function getGroupManageData(groupId: string) {
+  await dbConnect();
+  const group = await Group.findById(groupId);
+
+  const question = await Question.findOne({
+    groupId: groupId,
+  }).lean<IQuestion>();
+  const questionTexts = question ? question.questionTexts : [];
+
+  const memberDocs = await GroupMember.find({
+    groupId: toObjectId(groupId),
+  }).lean<IGroupMember[]>();
+
+  const userIds = memberDocs.map((m) => m.userId);
+
+  //그룹에 포함된 그룸멤버 Id가져와서 이름맵으로 변환
+  const users = await User.find({ _id: { $in: userIds } }).lean<IUser[]>();
+  const userIdToName = Object.fromEntries(
+    users.map((u) => [u._id.toString(), u.name || ""])
+  );
+
+  const members: GroupMemberResponseDTO[] = memberDocs.map((m) => ({
+    id: m.userId.toString(),
+    name: userIdToName[m.userId.toString()] || "",
+    role: m.role ?? "",
+  }));
+
+  const inviteCodeDoc = await InviteCode.findOne({
+    groupId: toObjectId(groupId),
+  }).lean<IInviteCode>();
+
+  const inviteCode = inviteCodeDoc
+    ? {
+        code: inviteCodeDoc.code,
+        expiresAt: inviteCodeDoc.expiresAt,
+      }
+    : {
+        code: "",
+        expiresAt: 0,
+      };
+
+  return {
+    id: group._id.toString(),
+    name: group.name,
+    desc: group.descrption,
+    scrumTime: group.scrumTime,
+    inviteCode: inviteCode,
+    members,
+    questions: questionTexts,
   };
 }
 

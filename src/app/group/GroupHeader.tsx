@@ -1,15 +1,11 @@
-import React, { useState } from "react";
-import { GroupDetailResponseDTO } from "@/service/group/dto/groupDetailResponse.dto";
+import Image from "next/image";
+import React from "react";
+import { GroupDetailResponseDTO } from "@/service/group/dto/group.dto";
+import { useRouter } from "next/navigation";
 
 export function GroupHeader({ group }: { group: GroupDetailResponseDTO }) {
-  const [copyMsg, setCopyMsg] = useState(false);
-
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(group.inviteCode);
-    setCopyMsg(true);
-    setTimeout(() => setCopyMsg(false), 1500);
-  };
-
+  const router = useRouter();
+  const isManager = group.isManager;
   return (
     <div
       style={{
@@ -24,53 +20,24 @@ export function GroupHeader({ group }: { group: GroupDetailResponseDTO }) {
           fontWeight: 700,
           fontSize: "1.25rem",
           lineHeight: 1.4,
+          display: "flex",
+          alignItems: "center",
+          gap: 6,
         }}
       >
         {group.name}
-      </span>
-      <div
-        style={{
-          position: "relative",
-          display: "inline-block",
-          marginLeft: 18,
-        }}
-      >
-        <button
-          onClick={handleCopy}
-          style={{
-            background: "#f3f7fb",
-            border: "1px solid #cfd8dc",
-            borderRadius: 6,
-            padding: "4px 12px",
-            cursor: "pointer",
-            fontSize: "0.95rem",
-          }}
-        >
-          초대코드 복사
-        </button>
-        {copyMsg && (
-          <div
-            style={{
-              position: "absolute",
-              left: "50%",
-              transform: "translateX(-50%)",
-              top: "110%",
-              background: "#222",
-              color: "#fff",
-              fontSize: "0.97rem",
-              borderRadius: 6,
-              padding: "6px 17px",
-              whiteSpace: "nowrap",
-              opacity: 0.94,
-              zIndex: 100,
-              boxShadow: "0 3px 12px #ddd",
-              marginTop: 2,
-            }}
-          >
-            복사되었습니다!
-          </div>
+        {isManager && (
+          <Image
+            src="/settings.svg"
+            alt="설정"
+            width={22}
+            height={22}
+            style={{ cursor: "pointer", marginLeft: 4 }}
+            onClick={() => router.push(`/group/${group.id}/manage`)}
+          />
         )}
-      </div>
+      </span>
+
       <span style={{ color: "#555", fontSize: "1.03rem", marginLeft: "auto" }}>
         멤버 {group.members.length}명 | 질문 {group.questions.length}개
       </span>

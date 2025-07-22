@@ -4,28 +4,28 @@
   font-size: 1rem;
   cursor: pointer;
   padding: 7px 16px;
-  transition: background 0.1s, color 0.1s;
+  transition: background 0.12s, color 0.12s;
   outline: none;
   border: none;
+  box-shadow: 0 2px 8px #2274e705;
 }
 
 .primary {
-  background: #5865f2;
+  background: linear-gradient(90deg, #267fff 97%, #277ffe 100%);
   color: #fff;
 }
 
 .primary:hover {
-  background: #4150c5;
+  background: linear-gradient(90deg, #2274e7 97%, #2374ea 100%);
 }
-
 .secondary {
   background: #fff;
-  color: #5865f2;
-  border: 1.5px solid #8ca0ed;
+  color: var(--primary-blue);
+  border: 1.5px solid var(--border-blue);
 }
 
 .secondary:hover {
-  background: #eff2fe;
+  background: #f2f8ff;
 }
 
 .round {
