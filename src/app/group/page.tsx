@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import styles from "../style/groupForm.module.css";
+import styles from "@/style/groupForm.module.css";
 import Button from "../../components/Button";
 import TextInput from "../../components/TextInput";
 import TextAreaInput from "../../components/TextAreaInput";
