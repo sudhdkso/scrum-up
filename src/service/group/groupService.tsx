@@ -258,6 +258,15 @@ export async function joinGroup(code: string, user: IUser) {
   return { alreadyMember: false, groupId: group._id };
 }
 
+export async function deleteGroupByGroupId(groupId: string) {
+  await dbConnect();
+  await GroupMember.deleteMany({ groupId });
+
+  await Group.findByIdAndDelete(groupId);
+
+  return;
+}
+
 function generateInviteCode(length = 8) {
   const chars =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
