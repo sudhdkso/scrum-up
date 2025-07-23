@@ -11,10 +11,14 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Not found code" }, { status: 404 });
     }
     const user = await getUserOr401(req);
-
-    joinGroup(code, user);
-
-    return NextResponse.json({ status: 200 });
+    const joinRes = await joinGroup(code, user);
+    return NextResponse.json(
+      {
+        groupId: joinRes.groupId,
+        alreadyMember: joinRes.alreadyMember,
+      },
+      { status: 200 }
+    );
   } catch (error) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : String(error) },
