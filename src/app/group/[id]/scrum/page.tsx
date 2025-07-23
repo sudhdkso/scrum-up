@@ -4,7 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import { getGroupDetail } from "@/lib/group";
 import { GroupDetailResponseDTO } from "@/service/group/dto/group.dto";
 import GroupHeaderWithDate from "../../GroupHeaderWithDate";
-import styles from "@/app/style/scrumForm.module.css";
+import styles from "@/style/scrumForm.module.css";
 
 // 답변 제출 함수
 async function submitScrumAnswer({

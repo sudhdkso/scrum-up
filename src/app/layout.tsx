@@ -1,5 +1,5 @@
 "use client";
-import "./style/globals.css";
+import "@/style/globals.css";
 import { usePathname } from "next/navigation";
 import { AuthProvider } from "@/components/AuthProvider";
 import Footer from "../components/Footer";
