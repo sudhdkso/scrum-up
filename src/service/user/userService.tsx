@@ -3,6 +3,7 @@ import User from "@/models/user";
 import { getUserIdBySessionId } from "@/lib/session";
 
 export async function getUserBySession(sessionId: string) {
+  await dbConnect();
   const userId = await getUserIdBySessionId(sessionId);
   if (!userId) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });

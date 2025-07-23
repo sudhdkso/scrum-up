@@ -1,10 +1,11 @@
 "use client";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import InvitePage from "@/app/components/GroupInvitePage";
+import InvitePage from "@/components/GroupInvitePage";
 import { getInviteDetailByCode } from "@/lib/invite";
 import { InviteDetailDTO } from "@/service/inviteCode/dto/invite-code.dto";
-import { useUser } from "@/app/components/AuthProvider";
+import { useUser } from "@/components/AuthProvider";
+import { joinGroup } from "@/lib/group";
 
 const KAKAO_CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID;
 const REDIRECT_URI = process.env.NEXT_PUBLIC_INVITE_REDIRECT_URI;
@@ -40,18 +41,19 @@ export default function InviteByCodePage() {
       return;
     }
 
-    // 로그인 상태면 바로 가입 처리
-    // joinGroupApiCall(code).then(() => {
-    //   // 가입 완료 후 페이지 이동 등 처리
-    // });
+    joinGroup(code)
+      .then(() => (window.location.href = "/dashboard"))
+      .catch((e) => {
+        setError(e as Error);
+      });
   };
 
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div>에러 발생: {error.message}</div>;
   if (!info) return <div>초대 정보를 찾을 수 없습니다.</div>;
+
   return (
     <InvitePage
-      // 실제로는 code로 그룹 정보 불러와 넘겨주면 됨
       inviterName={info.inviterName}
       appName="ScrumUp"
       groupName={info.groupName}

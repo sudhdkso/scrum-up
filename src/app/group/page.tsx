@@ -2,10 +2,10 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import styles from "../style/groupForm.module.css";
-import Button from "../components/Button";
-import TextInput from "../components/TextInput";
-import TextAreaInput from "../components/TextAreaInput";
-import ScrapQuestions from "../components/ScrapQuestions";
+import Button from "../../components/Button";
+import TextInput from "../../components/TextInput";
+import TextAreaInput from "../../components/TextAreaInput";
+import ScrapQuestions from "../../components/ScrapQuestions";
 
 const DEFAULT_QUESTIONS = [
   "어제 무엇을 했나요?",

@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
     const code = url.searchParams.get("code");
     const state = url.searchParams.get("state");
     if (!code || !state)
-      return NextResponse.json({ error: "Not" }, { status: 400 });
+      return NextResponse.json({ error: "Not found code" }, { status: 400 });
 
     const { user, sessionId, error } = await login(code, true);
     if (!user || error)
