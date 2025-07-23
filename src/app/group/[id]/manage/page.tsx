@@ -6,6 +6,8 @@ import Button from "@/components/Button";
 import { getInviteCode } from "@/lib/group";
 import { GroupManageDTO } from "@/service/group/dto/group.dto";
 import ScrapQuestions from "@/components/ScrapQuestions";
+import { updateGroupQuestion } from "@/lib/group";
+
 export default function GroupManagePage() {
   const params = useParams();
   const groupId = params!.id as string;
@@ -13,6 +15,8 @@ export default function GroupManagePage() {
   const [group, setGroup] = useState<GroupManageDTO | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [saving, setSaving] = useState(false);
+
   useEffect(() => {
     if (!groupId) return;
 
@@ -90,10 +94,28 @@ export default function GroupManagePage() {
 
   const handleDeleteQuestion = (idx: number) =>
     setQuestions(questions.filter((_, i) => i !== idx));
+
   const handleSaveQuestions = async () => {
-    // 서버로 questions 전체 덮어쓰기 요청(fetch)
-    setEditing(false);
+    try {
+      setSaving(true);
+      console.log(questions);
+      await updateGroupQuestion(questions, groupId);
+      setEditing(false);
+
+      // 저장 성공 후 원본 동기화
+      setGroup((prev) =>
+        prev ? { ...prev, questions: [...questions] } : prev
+      );
+
+      // 알림
+      alert("질문이 저장되었습니다.");
+    } catch (err) {
+      alert("질문 저장에 실패했습니다.");
+    } finally {
+      setSaving(false);
+    }
   };
+
   const handleCancelEdit = () => {
     if (group?.questions) {
       setQuestions([...group.questions]);
