@@ -1,6 +1,7 @@
 // middleware.ts
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import path from "path";
 
 export async function middleware(req: NextRequest) {
   const url = req.nextUrl.clone();
@@ -17,7 +18,7 @@ export async function middleware(req: NextRequest) {
     pathname.endsWith(".svg") ||
     pathname.startsWith("/invite") ||
     pathname.startsWith("/api/invite") ||
-    pathname.startsWith("/login")
+    pathname.startsWith("/privacy")
   ) {
     return NextResponse.next();
   }

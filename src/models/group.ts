@@ -16,9 +16,9 @@ const GroupSchema: Schema = new Schema<IGroup>({
   managerId: { type: Schema.Types.ObjectId, ref: "User", required: true },
   description: { type: String },
   inviteCode: { type: String, required: true },
-  scrumTime: { type: String, required: true }, // 예: "09:00"
+  scrumTime: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
-  cycle: { type: String, required: true }, // 예: "매일"
+  cycle: { type: String, required: true },
 });
 
 export default mongoose.models.Group ||

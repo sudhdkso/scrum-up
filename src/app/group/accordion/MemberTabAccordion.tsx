@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { UserQnASectionByDate } from "./UserQnASectionByDate";
+import { UserQnABlock } from "./UserQnABlock";
 import { GroupMemberResponseDTO } from "@/service/groupMember/dto/groupMemberResponse.dto";
 import { DailyScrumDTO } from "@/service/scrum/dto/DailyScrun";
-
+import { InnerAccordionCard } from "@/components/InnerAccordionCard";
 type MemberTabAccordionProps = {
   members: GroupMemberResponseDTO[];
   scrums: DailyScrumDTO[];
@@ -69,7 +69,7 @@ export function MemberTabAccordion({
               fontWeight: 600,
               fontSize: "1.08rem",
               padding: 0,
-              overflow: "hidden", // 카드 내부 끊김 방지
+              overflow: "hidden",
               transition: "box-shadow 0.18s",
             }}
           >
@@ -119,81 +119,22 @@ export function MemberTabAccordion({
                 ) : (
                   allDatesScrums.map(({ date, userScrum }, idx) =>
                     userScrum ? (
-                      <div
+                      <InnerAccordionCard
                         key={date}
-                        style={{
-                          border: "1.3px solid #e2e7ed",
-                          borderRadius: 8,
-                          marginBottom:
-                            idx < allDatesScrums.length - 1 ? 13 : 0,
-                          background: openDates.includes(date)
-                            ? "#f2f6fa"
-                            : "#fafcff",
-                          boxShadow: "none",
-                          overflow: "hidden",
-                          transition: "background 0.18s, border 0.15s",
-                        }}
-                      >
-                        {/* 날짜별 아코디언 헤더 */}
-                        <div
-                          onClick={() => toggleOpenDate(member.id, date)}
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            fontWeight: 600,
-                            fontSize: "1em",
-                            cursor: "pointer",
-                            padding: "12px 15px 12px 15px",
-                            borderBottom: openDates.includes(date)
-                              ? "1px solid #b2defc"
-                              : "1px solid #f0f2f5",
-                            background: openDates.includes(date)
-                              ? "#eaf6fd"
-                              : "transparent",
-                            width: "100%",
-                            boxSizing: "border-box",
-                            transition: "background 0.13s, border 0.14s",
-                          }}
-                          onMouseOver={(e) => {
-                            e.currentTarget.style.background = "#f2f8fe";
-                          }}
-                          onMouseOut={(e) => {
-                            e.currentTarget.style.background =
-                              openDates.includes(date)
-                                ? "#eaf6fd"
-                                : "transparent";
-                          }}
-                        >
+                        open={openDates.includes(date)}
+                        headerIcon={
                           <span style={{ fontSize: 16, marginRight: 8 }}>
                             📅
                           </span>
-                          <span style={{ fontWeight: 700 }}>{date}</span>
-                          <span
-                            style={{
-                              marginLeft: "auto",
-                              color: "#b2b7cb",
-                              fontSize: "1em",
-                            }}
-                          >
-                            {openDates.includes(date) ? "▼" : "▶"}
-                          </span>
-                        </div>
-                        {/* Q/A 본문: 오직 열렸을 때만 내부에 표시, 패딩 부여 */}
-                        {openDates.includes(date) && (
-                          <div
-                            style={{
-                              padding: "11px 13px 13px 13px",
-                              background: "#fff",
-                            }}
-                          >
-                            <UserQnASectionByDate
-                              date={date}
-                              questions={userScrum.questions ?? []}
-                              answers={userScrum.answers ?? []}
-                            />
-                          </div>
-                        )}
-                      </div>
+                        }
+                        headerTitle={date}
+                        onClickHeader={() => toggleOpenDate(member.id, date)}
+                      >
+                        <UserQnABlock
+                          questions={userScrum.questions ?? []}
+                          answers={userScrum.answers ?? []}
+                        />
+                      </InnerAccordionCard>
                     ) : null
                   )
                 )}
