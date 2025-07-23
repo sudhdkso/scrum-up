@@ -1,76 +1,36 @@
-import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
-import User from "@/models/user";
+import User, { IUser } from "@/models/user";
 import { v4 as uuidv4 } from "uuid";
-import { saveSession } from "@/lib/session";
+import {
+  KakaoTokenResponse,
+  KakaoUserResponse,
+  LoginResult,
+} from "./dto/auth.dto";
 
-const KAKAO_CLIENT_ID = process.env.KAKAO_CLIENT_ID!;
-const KAKAO_REDIRECT_URI = process.env.REDIRECT_URI;
+const KAKAO_CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID!;
+const INVITE_REDIRECT_URI = process.env.NEXT_PUBLIC_INVITE_REDIRECT_URI!;
+const KAKAO_REDIRECT_URI = process.env.REDIRECT_URI!;
 const PROFILE_REQUEST_URI = "https://kapi.kakao.com/v2/user/me";
 const TOKEN_REQUEST_URI = "https://kauth.kakao.com/oauth/token";
 
-interface KakaoTokenResponse {
-  access_token: string;
-  token_type: string;
-}
+export async function login(
+  code: string,
+  isInvite: boolean = false
+): Promise<LoginResult> {
+  const tokenRes = await getToken(code, isInvite);
 
-interface KakaoUserResponse {
-  id: number;
-  kakao_account: {
-    email: string;
-    profile: {
-      nickname: string;
-    };
-  };
-}
+  const tokenData = await tokenRes.json();
 
-export async function GET(req: NextRequest) {
-  try {
-    const url = new URL(req.url);
-    const code = url.searchParams.get("code");
-    if (!code) {
-      return NextResponse.json(
-        { error: "code 파라미터 필요" },
-        { status: 400 }
-      );
-    }
-
-    const tokenRes = await getToken(code);
-
-    const tokenData = await tokenRes.json();
-
-    if (tokenData.error) {
-      return NextResponse.json(
-        { success: false, error: tokenData.error },
-        { status: 400 }
-      );
-    }
-    const userRes = await getProfile(tokenData);
-    const userInfo = await userRes.json();
-
-    const { user, sessionId } = await createKakaoUser(userInfo);
-
-    console.log("사용자 로그인 성공! id=", user.sessionId);
-    await saveSession(sessionId, user._id.toString());
-
-    const response = NextResponse.redirect(new URL("/dashboard", req.url));
-
-    response.cookies.set("sessionId", sessionId, {
-      httpOnly: true,
-      path: "/",
-      maxAge: 60 * 60 * 24,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-    });
-    console.log("session", response.cookies);
-    return response;
-  } catch (error) {
-    console.error("Kakao Auth Error:", error);
-    return NextResponse.json({ error: "Kakao 인증 실패" }, { status: 500 });
+  if (tokenData.error) {
+    return { user: null, sessionId: "", error: tokenData.error };
   }
+  const userRes = await getProfile(tokenData);
+  const userInfo = await userRes.json();
+
+  return await createKakaoUser(userInfo);
 }
 
-async function getToken(code: string) {
+async function getToken(code: string, isInvite: boolean) {
   return await fetch(TOKEN_REQUEST_URI, {
     method: "POST",
     headers: {
@@ -79,7 +39,7 @@ async function getToken(code: string) {
     body: new URLSearchParams({
       grant_type: "authorization_code",
       client_id: KAKAO_CLIENT_ID!,
-      redirect_uri: KAKAO_REDIRECT_URI!,
+      redirect_uri: isInvite ? INVITE_REDIRECT_URI : KAKAO_REDIRECT_URI,
       code,
     }).toString(),
   });
@@ -112,7 +72,7 @@ async function createKakaoUser(userInfo: KakaoUserResponse) {
       name = generateRandomNickname();
     }
 
-    let user = await User.findOne({ kakaoId });
+    let user = await User.findOne({ kakaoId }).lean<IUser>();
 
     if (!user) {
       user = await User.create({

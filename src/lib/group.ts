@@ -29,3 +29,14 @@ export async function getInviteCode(groupId: string) {
   }
   return response.json();
 }
+
+export async function joinGroup(code: string) {
+  const response = await fetch(`/api/group/join/${code}`, {
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  return response.json();
+}

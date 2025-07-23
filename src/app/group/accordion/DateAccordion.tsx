@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { UserQnABlock } from "./UserQnABlock";
 import { DailyScrumDTO } from "@/service/scrum/dto/DailyScrun";
 
@@ -11,10 +11,27 @@ export function DateAccordion({
   openDates: string[];
   setOpenDates: React.Dispatch<React.SetStateAction<string[]>>;
 }) {
-  const toggleOpen = (date: string) => {
+  const [openMembersByDate, setOpenMembersByDate] = useState<
+    Record<string, string[]>
+  >({});
+
+  const toggleOpenDate = (date: string) => {
     setOpenDates((open) =>
       open.includes(date) ? open.filter((d) => d !== date) : [...open, date]
     );
+    setOpenMembersByDate((prev) => ({ ...prev, [date]: [] }));
+  };
+
+  const toggleMember = (date: string, userId: string) => {
+    setOpenMembersByDate((prev) => {
+      const opened = prev[date] ?? [];
+      return {
+        ...prev,
+        [date]: opened.includes(userId)
+          ? opened.filter((id) => id !== userId)
+          : [...opened, userId],
+      };
+    });
   };
 
   return (
@@ -33,54 +50,133 @@ export function DateAccordion({
         </div>
       ) : (
         scrums.map(({ date, answersByUser }) => {
-          const isOpen = openDates.includes(date);
+          const isDateOpen = openDates.includes(date);
+          const openMembers = openMembersByDate[date] ?? [];
+
           return (
             <div
               key={date}
               style={{
-                background: "#f5f6fa",
+                background: "#fff",
                 borderRadius: 8,
                 border: "1.5px solid #e4e6ea",
                 marginBottom: 14,
                 fontWeight: 600,
-                minHeight: 44,
-                cursor: "pointer",
                 fontSize: "1.08rem",
-                padding: "15px 18px 0 18px",
+                padding: "0 0 0 0",
               }}
             >
+              {/* 날짜 아코디언 헤더 */}
               <div
-                onClick={() => toggleOpen(date)}
+                onClick={() => toggleOpenDate(date)}
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  fontSize: "1.12rem",
+                  fontSize: "1.13rem",
+                  padding: "15px 18px",
                   userSelect: "none",
-                  marginBottom: 7,
+                  cursor: "pointer",
+                  width: "100%",
+                  boxSizing: "border-box",
+                  borderTopLeftRadius: 8,
+                  borderTopRightRadius: 8,
+                  transition: "background 0.14s",
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.background = "#f7f9fc";
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.background = "";
                 }}
               >
-                {date}
+                <span style={{ marginRight: 8, fontSize: 19 }}>📅</span>
+                <span style={{ fontWeight: 700 }}>{date}</span>
                 <span
-                  style={{ marginLeft: 9, color: "#9aadc9", fontSize: "1.1em" }}
+                  style={{
+                    marginLeft: "auto",
+                    color: "#9aadc9",
+                    fontSize: "1.13em",
+                  }}
                 >
-                  {isOpen ? "▼" : "▶"}
+                  {isDateOpen ? "▼" : "▶"}
                 </span>
               </div>
-              {isOpen && (
-                <div style={{ marginTop: 13 }}>
+              {/* 날짜가 열렸을 때만 멤버별 아코디언 리스트 노출 */}
+              {isDateOpen && (
+                <div
+                  style={{ padding: "0 12px 12px 12px", background: "#fff" }}
+                >
                   {(answersByUser ?? []).length === 0 ? (
-                    <div style={{ color: "#aaa", margin: "8px 0" }}>
-                      작성된 스크럼이 없습니다.
+                    <div style={{ color: "#aaa", margin: "20px 0" }}>
+                      작성 내역 없음
                     </div>
                   ) : (
-                    (answersByUser ?? []).map((u) => (
-                      <UserQnABlock
-                        key={u.userId}
-                        userName={u.userName}
-                        questions={u.questions}
-                        answers={u.answers}
-                      />
-                    ))
+                    (answersByUser ?? []).map((userInfo) => {
+                      const { userId, userName, questions, answers } = userInfo;
+                      const isMemberOpen = openMembers.includes(userId);
+
+                      return (
+                        <div
+                          key={userId}
+                          style={{
+                            border: "1px solid #ecedef",
+                            borderRadius: 6,
+                            margin: "12px 0",
+                            boxShadow: "0 1px 2px rgba(72,81,102,0.025)",
+                            background: "#fafcff",
+                            padding: 0,
+                          }}
+                        >
+                          {/* 멤버별 아코디언 헤더 */}
+                          <div
+                            onClick={() => toggleMember(date, userId)}
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              fontWeight: 600,
+                              fontSize: "1em",
+                              cursor: "pointer",
+                              padding: "10px 14px",
+                              userSelect: "none",
+                              borderRadius: 6,
+                              width: "100%",
+                              boxSizing: "border-box",
+                              transition: "background 0.13s",
+                            }}
+                            onMouseOver={(e) => {
+                              e.currentTarget.style.background = "#f3f5f9";
+                            }}
+                            onMouseOut={(e) => {
+                              e.currentTarget.style.background = "";
+                            }}
+                          >
+                            <span style={{ fontSize: 17, marginRight: 8 }}>
+                              👤
+                            </span>
+                            <span style={{ fontWeight: 700 }}>{userName}</span>
+                            <span
+                              style={{
+                                marginLeft: "auto",
+                                color: "#b2b7cb",
+                                fontSize: "1em",
+                              }}
+                            >
+                              {isMemberOpen ? "▼" : "▶"}
+                            </span>
+                          </div>
+                          {/* 멤버 QNA가 펼쳐졌을 때만 상세내용 */}
+                          {isMemberOpen && (
+                            <div style={{ padding: "6px 6px 11px 6px" }}>
+                              <UserQnABlock
+                                userName={userName}
+                                questions={questions}
+                                answers={answers}
+                              />
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })
                   )}
                 </div>
               )}

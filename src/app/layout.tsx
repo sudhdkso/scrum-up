@@ -1,8 +1,9 @@
 "use client";
-import "./style/globals.css";
+import "@/style/globals.css";
 import { usePathname } from "next/navigation";
-import { AuthProvider } from "@/app/components/AuthProvider";
-import NavBar from "@/app/components/NavBar";
+import { AuthProvider } from "@/components/AuthProvider";
+import Footer from "../components/Footer";
+import NavBar from "@/components/NavBar";
 const EXCLUDE_PATHS = ["/", "/invite/"]; // 원하는 경로들
 
 export default function RootLayout({
@@ -35,6 +36,7 @@ export default function RootLayout({
         <AuthProvider>
           <NavBar />
           <div className="layout-container">{children}</div>
+          <Footer />
         </AuthProvider>
       </body>
     </html>
