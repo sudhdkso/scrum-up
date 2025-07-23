@@ -37,6 +37,7 @@ export async function createGroup(request: CreateGroupRequestDTO, user: IUser) {
       [
         {
           userId: toObjectId(user._id),
+          name: user.name,
           groupId: toObjectId(group._id),
           role: "manager",
         },
@@ -221,6 +222,28 @@ export async function getGroupManageData(groupId: string) {
     members,
     questions: questionTexts,
   };
+}
+
+export async function joinGroup(code: string, user: IUser) {
+  await dbConnect();
+  console.log("code", code);
+  const inviteCode = await InviteCode.findOne({
+    code: code,
+  }).lean<IInviteCode>();
+
+  if (!inviteCode) throw Error("not found inviteCode");
+
+  const group = await Group.findById(inviteCode.groupId).lean<IGroup>();
+
+  if (!group) throw Error("not found group");
+
+  await GroupMember.create({
+    userId: user._id,
+    name: user.name,
+    groupId: group._id,
+    role: "member",
+  });
+  return;
 }
 
 function generateInviteCode(length = 8) {
