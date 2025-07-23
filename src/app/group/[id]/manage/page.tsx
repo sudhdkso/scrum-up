@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import styles from "@/style/groupManage.module.css";
 import Button from "@/components/Button";
 import { getInviteCode } from "@/lib/group";
@@ -9,6 +9,7 @@ import ScrapQuestions from "@/components/ScrapQuestions";
 import { updateGroupQuestion } from "@/lib/group";
 
 export default function GroupManagePage() {
+  const router = useRouter();
   const params = useParams();
   const groupId = params!.id as string;
 
@@ -137,18 +138,12 @@ export default function GroupManagePage() {
         <section className={styles.headerSection}>
           <div className={styles.groupInfo}>
             <span className={styles.groupName}>{group.name}</span>
-            <button className={styles.iconBtn} title="그룹 수정">
-              ⚙️
-            </button>
             <div className={styles.groupDesc}>{group.desc}</div>
             <div className={styles.alarmRow}>
               <span role="img" aria-label="alarm">
                 ⏰
               </span>
               알림 시간 <b>{group.scrumTime}</b>
-              <button className={styles.iconBtn} title="알림시간 수정">
-                🕒
-              </button>
             </div>
           </div>
         </section>
@@ -201,7 +196,18 @@ export default function GroupManagePage() {
 
         <hr className={styles.divider} />
 
-        {/* 질문 관리 (아코디언) */}
+        <div
+          className={styles.sectionRow}
+          style={{ cursor: "pointer" }}
+          onClick={() => router.push(`/group/${groupId}/edit`)}
+        >
+          <span className={styles.sectionEmoji} role="img" aria-label="edit">
+            ✏️
+          </span>
+          <div className={styles.sectionTitle}>그룹 정보 수정 </div>
+        </div>
+
+        {/* 질문 관리 (아코디언)
         <Accordion
           open={questionOpen}
           setOpen={setQuestionOpen}
@@ -223,7 +229,7 @@ export default function GroupManagePage() {
               취소
             </Button>
           </div>
-        </Accordion>
+        </Accordion> */}
 
         <hr className={styles.divider} />
 
