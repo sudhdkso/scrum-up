@@ -5,7 +5,7 @@ import styles from "@/style/groupManage.module.css";
 import Button from "@/components/Button";
 import { getInviteCode } from "@/lib/group";
 import { GroupManageDTO } from "@/service/group/dto/group.dto";
-
+import ScrapQuestions from "@/components/ScrapQuestions";
 export default function GroupManagePage() {
   const params = useParams();
   const groupId = params!.id as string;
@@ -187,33 +187,13 @@ export default function GroupManagePage() {
           emoji="❓"
           title="질문 관리"
         >
-          <ul className={styles.fullWidthList}>
-            {questions.map((q, idx) => (
-              <li key={idx} className={styles.qRow}>
-                <input
-                  type="text"
-                  value={q}
-                  className={styles.qInput}
-                  onChange={(e) => handleQuestionChange(idx, e.target.value)}
-                />
-                <button
-                  className={styles.iconDelete}
-                  onClick={() => handleDeleteQuestion(idx)}
-                  disabled={questions.length === 1}
-                >
-                  -
-                </button>
-                {idx === questions.length - 1 && (
-                  <button
-                    className={styles.iconAdd}
-                    onClick={handleAddQuestion}
-                  >
-                    +
-                  </button>
-                )}
-              </li>
-            ))}
-          </ul>
+          <ScrapQuestions
+            questions={questions}
+            onChange={setQuestions}
+            maxQuestions={10}
+            inputClassName={styles.inputBase}
+          />
+
           <div className={styles.questionEditBtns}>
             <Button variant="primary" onClick={handleSaveQuestions}>
               저장하기
@@ -226,10 +206,7 @@ export default function GroupManagePage() {
 
         <hr className={styles.divider} />
 
-        <div className={styles.sectionRow}>
-          <span className={styles.sectionEmoji} role="img" aria-label="danger">
-            ⚠️
-          </span>
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <button
             className={styles.dangerBtn}
             onClick={() => window.confirm("정말 그룹을 삭제하시겠습니까?")}

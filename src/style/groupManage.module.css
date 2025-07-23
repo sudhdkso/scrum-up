@@ -160,31 +160,41 @@
   margin-top: 11px;
   cursor: pointer;
 }
+
 .dangerBtn {
-  width: 100%;
-  margin-top: 10px;
-  background: none;
-  border: 1.5px solid #ff6565;
-  color: #ff4242;
-  font-weight: bold;
-  font-size: 1.02em;
-  border-radius: 9px;
-  padding: 14px 0;
-  cursor: pointer;
-  transition: background 0.12s;
+  background: #fff0f0; /* 연한 red background */
+  color: #e33636; /* 강한 빨강 */
+  border: 1px solid #f5cccc;
+  font-size: 0.98rem; /* 기존보다 소폭 작게 */
+  padding: 7px 20px; /* 적당한 패딩 */
+  border-radius: 6px;
+  margin-left: 8px;
+  font-weight: 600;
+  min-width: unset; /* 필요하면 명시적으로 */
+  height: unset;
+  box-shadow: none;
+  justify-content: flex-end;
+  transition: background 0.15s;
 }
 .dangerBtn:hover {
-  background: #fff7f7;
+  background: #ffeaea;
 }
 
 .accordionSection {
   width: 100%;
 }
 
+.questionEditBtns {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+}
+
 .accordionHeader {
   display: flex;
   align-items: center;
-  background: #f9fcff; /* 💡 더 밝고 연한 배경 */
+  background: #f9fcff;
   border-radius: 13px;
   padding: 13px 18px;
   margin-bottom: 8px;
@@ -192,8 +202,8 @@
   user-select: none;
   position: relative;
   box-shadow: 0 1px 5px #cbe2ff13;
-  /* 시각적으로 훨씬 연하고 깔끔한 톤 */
 }
+
 .arrowIcon {
   margin-left: auto;
   font-size: 1.14em;
@@ -203,59 +213,20 @@
 }
 
 .accordionBody {
-  background: #fafdff; /* 펼쳐진 영역도 아주 연하게 통일 */
+  background: #fafdff;
   padding: 13px 18px 10px 18px;
   border-radius: 9px;
   margin-top: 0;
 }
 
-.qRow {
-  display: flex;
-  align-items: center;
-  margin-bottom: 8px;
-  background: #f8fafd;
-  border: 1.2px solid #e1eafc;
-  border-radius: 13px;
-  padding: 7px 13px;
-  gap: 12px;
-}
-.qInput {
-  flex: 1;
-  border: 1.7px solid #66a6f9; /* 더 진하고 선명한 파랑 테두리 */
-  background: #fff; /* 인풋 배경은 화이트 */
-  font-size: 1em;
-  outline: none;
-  padding: 9px 13px;
-  border-radius: 7px;
-  transition: border-color 0.13s;
-}
-
-.qInput:focus {
-  border-color: #267fff; /* 포커스 시 더 또렷한 파랑 */
-  background: #fafdff;
-}
-
-.iconDelete,
-.iconAdd {
-  border: none;
-  width: 33px;
-  height: 33px;
-  border-radius: 7px;
-  font-weight: bold;
-  font-size: 1.3em;
-  cursor: pointer;
-  margin-left: 2px;
-}
-.iconDelete {
-  background: #feecec;
-  color: #ee5959;
-}
-.iconDelete:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-.iconAdd {
-  background: #edf6ff;
-  color: #3098ff;
-  margin-left: 2px;
+.inputBase,
+.textareaBase,
+.selectBase {
+  width: 100%;
+  background: #f5f6fa;
+  border: 1.5px solid #d1d5db;
+  border-radius: 12px;
+  font-size: 1rem;
+  padding: 0.75rem 1.15rem;
+  transition: box-shadow 0.15s, border-color 0.15s;
 }

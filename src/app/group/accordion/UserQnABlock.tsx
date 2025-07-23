@@ -104,7 +104,12 @@ export function UserQnABlock({
                 A.
               </span>
               <span
-                style={{ color: "#3b413c", fontWeight: 500, lineHeight: 1.54 }}
+                style={{
+                  color: "#3b413c",
+                  fontWeight: 500,
+                  lineHeight: 1.54,
+                  whiteSpace: "pre-line",
+                }}
               >
                 {answers[idx] && answers[idx].trim() !== "" ? (
                   answers[idx]
