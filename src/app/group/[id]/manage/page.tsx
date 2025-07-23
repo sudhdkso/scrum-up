@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import styles from "@/app/style/groupManage.module.css";
+import styles from "@/style/groupManage.module.css";
 import Button from "@/components/Button";
 import { getInviteCode } from "@/lib/group";
 import { GroupManageDTO } from "@/service/group/dto/group.dto";
