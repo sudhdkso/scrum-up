@@ -57,7 +57,12 @@ export function UserQnASectionByDate({
               Q.
             </span>
             <span
-              style={{ color: "#424242", fontWeight: 500, lineHeight: 1.54 }}
+              style={{
+                color: "#424242",
+                fontWeight: 500,
+                lineHeight: 1.54,
+                whiteSpace: "pre-line",
+              }}
             >
               {q}
             </span>
