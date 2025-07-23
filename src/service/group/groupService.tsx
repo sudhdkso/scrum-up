@@ -226,7 +226,6 @@ export async function getGroupManageData(groupId: string) {
 
 export async function joinGroup(code: string, user: IUser) {
   await dbConnect();
-  console.log("code", code);
   const inviteCode = await InviteCode.findOne({
     code: code,
   }).lean<IInviteCode>();
@@ -237,13 +236,26 @@ export async function joinGroup(code: string, user: IUser) {
 
   if (!group) throw Error("not found group");
 
+  // 이미 멤버인지 체크!
+  const existingMember = await GroupMember.findOne({
+    userId: user._id,
+    groupId: group._id,
+  });
+
+  if (existingMember) {
+    // 이미 멤버이면
+    return { alreadyMember: true, groupId: group._id };
+  }
+
+  // 신규 가입
   await GroupMember.create({
     userId: user._id,
     name: user.name,
     groupId: group._id,
     role: "member",
   });
-  return;
+
+  return { alreadyMember: false, groupId: group._id };
 }
 
 function generateInviteCode(length = 8) {

@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { AuthProvider } from "@/components/AuthProvider";
 import Footer from "../components/Footer";
 import NavBar from "@/components/NavBar";
-const EXCLUDE_PATHS = ["/", "/invite/"]; // 원하는 경로들
+const EXCLUDE_PATHS = ["/", "/invite/", "/login"];
 
 export default function RootLayout({
   children,
@@ -24,6 +24,7 @@ export default function RootLayout({
       <html lang="ko">
         <body>
           <div className="layout-container">{children}</div>
+          <Footer />
         </body>
       </html>
     );

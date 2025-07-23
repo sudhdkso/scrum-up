@@ -3,7 +3,6 @@ import { UserQnASectionByDate } from "./UserQnASectionByDate";
 import { GroupMemberResponseDTO } from "@/service/groupMember/dto/groupMemberResponse.dto";
 import { DailyScrumDTO } from "@/service/scrum/dto/DailyScrun";
 
-// props 타입
 type MemberTabAccordionProps = {
   members: GroupMemberResponseDTO[];
   scrums: DailyScrumDTO[];
@@ -63,15 +62,18 @@ export function MemberTabAccordion({
             key={member.id}
             style={{
               background: "#fff",
-              borderRadius: 8,
+              borderRadius: 12,
               border: "1.5px solid #e4e6ea",
               marginBottom: 14,
+              boxShadow: "0 1px 4px rgba(80,90,110,0.02)",
               fontWeight: 600,
               fontSize: "1.08rem",
               padding: 0,
+              overflow: "hidden", // 카드 내부 끊김 방지
+              transition: "box-shadow 0.18s",
             }}
           >
-            {/* 멤버 아코디언 헤더 */}
+            {/* 멤버 헤더 */}
             <div
               onClick={() => toggleOpenMember(member.id)}
               style={{
@@ -83,6 +85,7 @@ export function MemberTabAccordion({
                 cursor: "pointer",
                 width: "100%",
                 boxSizing: "border-box",
+                background: "#fff",
                 borderTopLeftRadius: 8,
                 borderTopRightRadius: 8,
                 transition: "background 0.14s",
@@ -91,7 +94,7 @@ export function MemberTabAccordion({
                 e.currentTarget.style.background = "#f7f9fc";
               }}
               onMouseOut={(e) => {
-                e.currentTarget.style.background = "";
+                e.currentTarget.style.background = "#fff";
               }}
             >
               <span style={{ marginRight: 8, fontSize: 19 }}>👤</span>
@@ -106,30 +109,29 @@ export function MemberTabAccordion({
                 {isOpen ? "▼" : "▶"}
               </span>
             </div>
-            {/* 멤버가 열렸을 때만 날짜별 아코디언 노출 */}
+
             {isOpen && (
-              <div
-                style={{
-                  padding: "0 12px 12px 12px",
-                  background: "#fff",
-                }}
-              >
+              <div style={{ padding: "0 12px 16px 12px", background: "#fff" }}>
                 {allDatesScrums.length === 0 ? (
                   <div style={{ color: "#aaa", margin: "20px 0" }}>
                     작성 내역 없음
                   </div>
                 ) : (
-                  allDatesScrums.map(({ date, userScrum }) =>
+                  allDatesScrums.map(({ date, userScrum }, idx) =>
                     userScrum ? (
                       <div
                         key={date}
                         style={{
-                          border: "1px solid #ecedef",
-                          borderRadius: 6,
-                          margin: "12px 0",
-                          boxShadow: "0 1px 2px rgba(72,81,102,0.025)",
-                          background: "#fafcff",
-                          padding: 0,
+                          border: "1.3px solid #e2e7ed",
+                          borderRadius: 8,
+                          marginBottom:
+                            idx < allDatesScrums.length - 1 ? 13 : 0,
+                          background: openDates.includes(date)
+                            ? "#f2f6fa"
+                            : "#fafcff",
+                          boxShadow: "none",
+                          overflow: "hidden",
+                          transition: "background 0.18s, border 0.15s",
                         }}
                       >
                         {/* 날짜별 아코디언 헤더 */}
@@ -141,21 +143,28 @@ export function MemberTabAccordion({
                             fontWeight: 600,
                             fontSize: "1em",
                             cursor: "pointer",
-                            padding: "10px 14px",
-                            userSelect: "none",
-                            borderRadius: 6,
+                            padding: "12px 15px 12px 15px",
+                            borderBottom: openDates.includes(date)
+                              ? "1px solid #b2defc"
+                              : "1px solid #f0f2f5",
+                            background: openDates.includes(date)
+                              ? "#eaf6fd"
+                              : "transparent",
                             width: "100%",
                             boxSizing: "border-box",
-                            transition: "background 0.13s",
+                            transition: "background 0.13s, border 0.14s",
                           }}
                           onMouseOver={(e) => {
-                            e.currentTarget.style.background = "#f3f5f9";
+                            e.currentTarget.style.background = "#f2f8fe";
                           }}
                           onMouseOut={(e) => {
-                            e.currentTarget.style.background = "";
+                            e.currentTarget.style.background =
+                              openDates.includes(date)
+                                ? "#eaf6fd"
+                                : "transparent";
                           }}
                         >
-                          <span style={{ fontSize: 17, marginRight: 8 }}>
+                          <span style={{ fontSize: 16, marginRight: 8 }}>
                             📅
                           </span>
                           <span style={{ fontWeight: 700 }}>{date}</span>
@@ -169,9 +178,14 @@ export function MemberTabAccordion({
                             {openDates.includes(date) ? "▼" : "▶"}
                           </span>
                         </div>
-                        {/* 날짜(QNA)가 펼쳐졌을 때만 상세내용 */}
+                        {/* Q/A 본문: 오직 열렸을 때만 내부에 표시, 패딩 부여 */}
                         {openDates.includes(date) && (
-                          <div style={{ padding: "6px 6px 11px 6px" }}>
+                          <div
+                            style={{
+                              padding: "11px 13px 13px 13px",
+                              background: "#fff",
+                            }}
+                          >
                             <UserQnASectionByDate
                               date={date}
                               questions={userScrum.questions ?? []}

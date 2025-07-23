@@ -24,7 +24,6 @@ export default function GroupScrumDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
-  // fetch group info
   useEffect(() => {
     if (!groupId) return;
     (async () => {

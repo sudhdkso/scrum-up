@@ -5,6 +5,8 @@ import styles from "@/style/groupManage.module.css";
 import Button from "@/components/Button";
 import { getInviteCode } from "@/lib/group";
 import { GroupManageDTO } from "@/service/group/dto/group.dto";
+import ScrapQuestions from "@/components/ScrapQuestions";
+import { updateGroupQuestion } from "@/lib/group";
 
 export default function GroupManagePage() {
   const params = useParams();
@@ -13,6 +15,8 @@ export default function GroupManagePage() {
   const [group, setGroup] = useState<GroupManageDTO | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [saving, setSaving] = useState(false);
+
   useEffect(() => {
     if (!groupId) return;
 
@@ -90,10 +94,27 @@ export default function GroupManagePage() {
 
   const handleDeleteQuestion = (idx: number) =>
     setQuestions(questions.filter((_, i) => i !== idx));
+
   const handleSaveQuestions = async () => {
-    // 서버로 questions 전체 덮어쓰기 요청(fetch)
-    setEditing(false);
+    try {
+      setSaving(true);
+      await updateGroupQuestion(questions, groupId);
+      setEditing(false);
+
+      // 저장 성공 후 원본 동기화
+      setGroup((prev) =>
+        prev ? { ...prev, questions: [...questions] } : prev
+      );
+
+      // 알림
+      alert("질문이 저장되었습니다.");
+    } catch (err) {
+      alert("질문 저장에 실패했습니다.");
+    } finally {
+      setSaving(false);
+    }
   };
+
   const handleCancelEdit = () => {
     if (group?.questions) {
       setQuestions([...group.questions]);
@@ -187,33 +208,13 @@ export default function GroupManagePage() {
           emoji="❓"
           title="질문 관리"
         >
-          <ul className={styles.fullWidthList}>
-            {questions.map((q, idx) => (
-              <li key={idx} className={styles.qRow}>
-                <input
-                  type="text"
-                  value={q}
-                  className={styles.qInput}
-                  onChange={(e) => handleQuestionChange(idx, e.target.value)}
-                />
-                <button
-                  className={styles.iconDelete}
-                  onClick={() => handleDeleteQuestion(idx)}
-                  disabled={questions.length === 1}
-                >
-                  -
-                </button>
-                {idx === questions.length - 1 && (
-                  <button
-                    className={styles.iconAdd}
-                    onClick={handleAddQuestion}
-                  >
-                    +
-                  </button>
-                )}
-              </li>
-            ))}
-          </ul>
+          <ScrapQuestions
+            questions={questions}
+            onChange={setQuestions}
+            maxQuestions={10}
+            inputClassName={styles.inputBase}
+          />
+
           <div className={styles.questionEditBtns}>
             <Button variant="primary" onClick={handleSaveQuestions}>
               저장하기
@@ -226,10 +227,7 @@ export default function GroupManagePage() {
 
         <hr className={styles.divider} />
 
-        <div className={styles.sectionRow}>
-          <span className={styles.sectionEmoji} role="img" aria-label="danger">
-            ⚠️
-          </span>
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <button
             className={styles.dangerBtn}
             onClick={() => window.confirm("정말 그룹을 삭제하시겠습니까?")}

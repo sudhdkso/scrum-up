@@ -37,9 +37,6 @@ export async function getTodayScrum(groupId: string, userId: string) {
       $lt: end,
     },
   }).lean<DailyScrumUpdateDTO>();
-  console.log("star", start);
-  console.log("end", end);
-  console.log("today scrum", scrum);
   return scrum;
 }
 

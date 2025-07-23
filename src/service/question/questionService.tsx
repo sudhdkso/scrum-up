@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import dbConnect from "@/lib/mongodb";
-import Question from "@/models/question";
+import Question, { IQuestion } from "@/models/question";
 
 export async function createQuestion(
   questions: string[],
@@ -20,4 +20,13 @@ export async function createQuestion(
     await question.save();
   }
   return question;
+}
+
+export async function updateQuestion(questions: string[], groupId: string) {
+  await dbConnect();
+  return await Question.findOneAndUpdate(
+    { groupId: new mongoose.Types.ObjectId(groupId) },
+    { $set: { questionTexts: questions } },
+    { new: true }
+  );
 }
