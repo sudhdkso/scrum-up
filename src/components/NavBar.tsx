@@ -4,7 +4,7 @@ import { useUser } from "./AuthProvider";
 import { useRouter } from "next/navigation";
 
 export default function NavBar() {
-  const user = useUser();
+  const { user } = useUser();
   const router = useRouter();
   return (
     <nav className={styles.navBar}>

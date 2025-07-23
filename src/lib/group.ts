@@ -47,7 +47,7 @@ export async function updateGroupQuestion(
 }
 
 export async function joinGroup(code: string) {
-  const response = await fetch(`/api/group/join/${code}`, {
+  const response = await fetch(`/api/group/join?code=${code}`, {
     credentials: "include",
   });
 

@@ -98,7 +98,6 @@ export default function GroupManagePage() {
   const handleSaveQuestions = async () => {
     try {
       setSaving(true);
-      console.log(questions);
       await updateGroupQuestion(questions, groupId);
       setEditing(false);
 
