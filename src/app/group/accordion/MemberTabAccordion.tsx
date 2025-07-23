@@ -17,12 +17,10 @@ export function MemberTabAccordion({
   openMembers,
   setOpenMembers,
 }: MemberTabAccordionProps) {
-  // 각 멤버별로 어떤 날짜(date)들이 열려 있는지(동시여러개) 상태 관리
   const [openDatesByMember, setOpenDatesByMember] = useState<
     Record<string, string[]>
   >({});
 
-  // 한 멤버의 날짜별 scrum 추출
   function getUserScrumsByDate(userId: string) {
     return scrums
       .map((d) => ({
@@ -32,7 +30,6 @@ export function MemberTabAccordion({
       .filter((x) => !!x.userScrum);
   }
 
-  // 멤버 토글
   const toggleOpenMember = (memberId: string) => {
     setOpenMembers((prev) =>
       prev.includes(memberId)
@@ -42,7 +39,6 @@ export function MemberTabAccordion({
     setOpenDatesByMember((prev) => ({ ...prev, [memberId]: [] }));
   };
 
-  // 멤버 내 날짜 토글 (동시 여러 개 열림)
   const toggleOpenDate = (memberId: string, date: string) => {
     setOpenDatesByMember((prev) => {
       const openDates = prev[memberId] || [];

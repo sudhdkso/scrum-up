@@ -50,7 +50,7 @@ export default function GroupCreate() {
   const sendTime = `${hour24}:${minute}`;
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault(); // 새로고침 방지
+    e.preventDefault();
     setLoading(true);
 
     const res = await fetch("/api/group", {
