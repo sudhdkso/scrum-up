@@ -6,7 +6,7 @@ export async function middleware(req: NextRequest) {
   const url = req.nextUrl.clone();
 
   if (
-    url.pathname.startsWith("/api/user/auth") ||
+    url.pathname.startsWith("/api/auth") ||
     url.pathname.startsWith("/public") ||
     url.pathname.startsWith("/style") ||
     url.pathname.startsWith("/_next") ||
@@ -14,6 +14,8 @@ export async function middleware(req: NextRequest) {
     url.pathname.endsWith(".jpg") ||
     url.pathname.endsWith(".ico") ||
     url.pathname.endsWith(".svg") ||
+    url.pathname.startsWith("/invite") ||
+    url.pathname.startsWith("/api/invite") ||
     url.pathname === "/" // 로그인 페이지가 / 이면 여기에 포함
   ) {
     return NextResponse.next();

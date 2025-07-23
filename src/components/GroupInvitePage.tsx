@@ -1,5 +1,5 @@
 import Image from "next/image";
-import styles from "../style/InvitePage.module.css"; // CSS module 예시
+import styles from "@/style/InvitePage.module.css"; // CSS module 예시
 
 export default function GroupInvitePage({
   inviterName = "홍길동",
