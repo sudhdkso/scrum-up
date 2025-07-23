@@ -173,7 +173,6 @@
   min-width: unset; /* 필요하면 명시적으로 */
   height: unset;
   box-shadow: none;
-  justify-content: flex-end;
   transition: background 0.15s;
 }
 .dangerBtn:hover {
