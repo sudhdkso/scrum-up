@@ -11,7 +11,6 @@ export function DateAccordion({
   openDates: string[];
   setOpenDates: React.Dispatch<React.SetStateAction<string[]>>;
 }) {
-  // 날짜별로 어떤 멤버들이 열려있는지 상태 관리
   const [openMembersByDate, setOpenMembersByDate] = useState<
     Record<string, string[]>
   >({});
@@ -20,7 +19,6 @@ export function DateAccordion({
     setOpenDates((open) =>
       open.includes(date) ? open.filter((d) => d !== date) : [...open, date]
     );
-    // 날짜가 닫히면 하위 멤버 오픈상태 초기화(선택)
     setOpenMembersByDate((prev) => ({ ...prev, [date]: [] }));
   };
 
