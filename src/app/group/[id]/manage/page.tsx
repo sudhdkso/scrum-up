@@ -7,6 +7,9 @@ import { getInviteCode } from "@/lib/group";
 import { GroupManageDTO } from "@/service/group/dto/group.dto";
 import ScrapQuestions from "@/components/ScrapQuestions";
 import { updateGroupQuestion } from "@/lib/group";
+import GroupDeleteSection from "./GroupDeleteSection";
+import { kickGroupMember } from "@/lib/group-member";
+import KickMemberSection from "./KickMemberSection";
 
 export default function GroupManagePage() {
   const router = useRouter();
@@ -16,7 +19,14 @@ export default function GroupManagePage() {
   const [group, setGroup] = useState<GroupManageDTO | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
-  const [saving, setSaving] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
+  const [kickTarget, setKickTarget] = useState<null | {
+    id: string;
+    name: string;
+  }>(null);
+  const [kicking, setKicking] = useState(false);
 
   useEffect(() => {
     if (!groupId) return;
@@ -72,61 +82,23 @@ export default function GroupManagePage() {
     setInviteCopied(true);
     setTimeout(() => setInviteCopied(false), 1200);
   };
-  const handleLeave = async (id: string) => {
-    //탈퇴 fetch 호출
-  };
 
-  const [questions, setQuestions] = useState<string[]>([]);
-
-  useEffect(() => {
-    if (group?.questions) {
-      setQuestions([...group.questions]);
-    }
-  }, [group]);
-  const [editing, setEditing] = useState(false);
-
-  // 질문 수정/추가/삭제/저장 로직
-  const handleQuestionChange = (idx: number, value: string) => {
-    const updated = [...questions];
-    updated[idx] = value;
-    setQuestions(updated);
-  };
-  const handleAddQuestion = () => setQuestions([...questions, ""]);
-
-  const handleDeleteQuestion = (idx: number) =>
-    setQuestions(questions.filter((_, i) => i !== idx));
-
-  const handleSaveQuestions = async () => {
+  async function handleDeleteGroup() {
+    setDeleting(true);
     try {
-      setSaving(true);
-      await updateGroupQuestion(questions, groupId);
-      setEditing(false);
-
-      // 저장 성공 후 원본 동기화
-      setGroup((prev) =>
-        prev ? { ...prev, questions: [...questions] } : prev
-      );
-
-      // 알림
-      alert("질문이 저장되었습니다.");
-    } catch (err) {
-      alert("질문 저장에 실패했습니다.");
+      await fetch(`/api/group/${groupId}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      setDeleteOpen(false);
+      router.push("/dashboard"); // 삭제 후 이동!
     } finally {
-      setSaving(false);
+      setDeleting(false);
     }
-  };
-
-  const handleCancelEdit = () => {
-    if (group?.questions) {
-      setQuestions([...group.questions]);
-    }
-    setEditing(false);
-  };
+  }
 
   // 멤버 관리 아코디언
   const [memberOpen, setMemberOpen] = useState(false);
-  // 질문 관리 아코디언
-  const [questionOpen, setQuestionOpen] = useState(false);
 
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div>에러: {error.message}</div>;
@@ -180,14 +152,22 @@ export default function GroupManagePage() {
                   </span>
                 </span>
                 {m.role !== "manager" && (
-                  <div style={{ display: "flex", gap: 8 }}>
-                    <Button
-                      variant="secondary"
-                      onClick={() => handleLeave(m.id)}
-                    >
-                      탈퇴
-                    </Button>
-                  </div>
+                  <KickMemberSection
+                    memberName={m.name}
+                    onKick={async () => {
+                      await kickGroupMember(groupId, m.id);
+                      setGroup((prev) =>
+                        prev
+                          ? {
+                              ...prev,
+                              members: prev.members.filter(
+                                (mem) => mem.id !== m.id
+                              ),
+                            }
+                          : prev
+                      );
+                    }}
+                  />
                 )}
               </li>
             ))}
@@ -207,40 +187,14 @@ export default function GroupManagePage() {
           <div className={styles.sectionTitle}>그룹 정보 수정 </div>
         </div>
 
-        {/* 질문 관리 (아코디언)
-        <Accordion
-          open={questionOpen}
-          setOpen={setQuestionOpen}
-          emoji="❓"
-          title="질문 관리"
-        >
-          <ScrapQuestions
-            questions={questions}
-            onChange={setQuestions}
-            maxQuestions={10}
-            inputClassName={styles.inputBase}
-          />
-
-          <div className={styles.questionEditBtns}>
-            <Button variant="primary" onClick={handleSaveQuestions}>
-              저장하기
-            </Button>
-            <Button variant="secondary" onClick={handleCancelEdit}>
-              취소
-            </Button>
-          </div>
-        </Accordion> */}
+        {/* 질문 관리 (아코디언) */}
 
         <hr className={styles.divider} />
 
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <button
-            className={styles.dangerBtn}
-            onClick={() => window.confirm("정말 그룹을 삭제하시겠습니까?")}
-          >
-            그룹 삭제하기
-          </button>
-        </div>
+        <GroupDeleteSection
+          groupId={groupId}
+          onDeleted={() => router.push("/dashboard")}
+        />
       </div>
     </div>
   );

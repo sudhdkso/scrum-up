@@ -1,4 +1,3 @@
-// components/Modal.tsx
 import React from "react";
 
 interface ModalProps {
@@ -18,7 +17,8 @@ interface ModalProps {
     color?: "primary" | "danger" | "secondary";
     disabled?: boolean;
   };
-  footer?: React.ReactNode; // 추가 footer나 custom 버튼 사용 시
+  footer?: React.ReactNode;
+  styleOverlay?: React.CSSProperties;
 }
 
 export default function Modal({
@@ -29,6 +29,7 @@ export default function Modal({
   leftButton,
   rightButton,
   footer,
+  styleOverlay,
 }: ModalProps) {
   if (!open) return null;
 
@@ -42,6 +43,7 @@ export default function Modal({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        ...styleOverlay, // ← 이렇게 전달
       }}
       onClick={onClose}
       tabIndex={-1}
