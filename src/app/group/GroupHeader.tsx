@@ -28,7 +28,7 @@ export function GroupHeader({ group }: { group: GroupDetailResponseDTO }) {
         {group.name}
         {isManager && (
           <Image
-            src="/settings.svg"
+            src="/settings.png"
             alt="설정"
             width={22}
             height={22}

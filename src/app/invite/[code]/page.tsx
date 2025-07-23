@@ -42,7 +42,14 @@ export default function InviteByCodePage() {
     }
 
     joinGroup(code)
-      .then(() => (window.location.href = "/dashboard"))
+      .then((res) => {
+        if (res.alreadyMember) {
+          window.location.href = `/group/${res.groupId}`;
+        } else {
+          window.location.href = `/dashboard`;
+          // 또는 가입 후 대시보드로 이동 원하면 /dashboard 등
+        }
+      })
       .catch((e) => {
         setError(e as Error);
       });
