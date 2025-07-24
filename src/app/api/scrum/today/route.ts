@@ -1,9 +1,11 @@
+import dbConnect from "@/lib/mongodb";
 import { getUserIdOr401 } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
 import { getTodayScrum } from "@/services/scrum/scrumService";
 
 export async function GET(req: NextRequest) {
   try {
+    await dbConnect();
     const userId = await getUserIdOr401(req);
     const url = new URL(req.url);
     const groupId = url.searchParams.get("groupId");

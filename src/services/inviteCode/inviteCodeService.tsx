@@ -1,4 +1,3 @@
-import dbConnect from "@/lib/mongodb";
 import mongoose from "mongoose";
 import InviteCode, { IInviteCode } from "@/models/invite-code";
 import Group, { IGroup } from "@/models/group";
@@ -6,7 +5,6 @@ import Groupmember from "@/models/group-member";
 import User, { IUser } from "@/models/user";
 
 export async function createInviteCode(groupId: string, userId: string) {
-  await dbConnect();
   const now = new Date();
   const inviteCode = await InviteCode.findOne({
     groupId: new mongoose.Types.ObjectId(groupId),
@@ -25,8 +23,6 @@ export async function createInviteCode(groupId: string, userId: string) {
 }
 
 export async function getInviteDetail(code: string) {
-  await dbConnect();
-
   const inviteCode = await InviteCode.findOne({
     code: code,
   }).lean<IInviteCode>();

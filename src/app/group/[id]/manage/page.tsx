@@ -2,11 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import styles from "@/style/groupManage.module.css";
-import Button from "@/components/Button";
 import { getInviteCode } from "@/lib/group";
 import { GroupManageDTO } from "@/services/group/dto/group.dto";
-import ScrapQuestions from "@/components/ScrapQuestions";
-import { updateGroupQuestion } from "@/lib/group";
 import GroupDeleteSection from "./GroupDeleteSection";
 import { kickGroupMember } from "@/lib/group-member";
 import KickMemberSection from "./KickMemberSection";
@@ -19,14 +16,6 @@ export default function GroupManagePage() {
   const [group, setGroup] = useState<GroupManageDTO | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
-  const [deleteOpen, setDeleteOpen] = useState(false);
-  const [deleting, setDeleting] = useState(false);
-
-  const [kickTarget, setKickTarget] = useState<null | {
-    id: string;
-    name: string;
-  }>(null);
-  const [kicking, setKicking] = useState(false);
 
   useEffect(() => {
     if (!groupId) return;
@@ -82,21 +71,6 @@ export default function GroupManagePage() {
     setInviteCopied(true);
     setTimeout(() => setInviteCopied(false), 1200);
   };
-
-  async function handleDeleteGroup() {
-    setDeleting(true);
-    try {
-      await fetch(`/api/group/${groupId}`, {
-        method: "DELETE",
-        credentials: "include",
-      });
-      setDeleteOpen(false);
-      router.push("/dashboard"); // 삭제 후 이동!
-    } finally {
-      setDeleting(false);
-    }
-  }
-
   // 멤버 관리 아코디언
   const [memberOpen, setMemberOpen] = useState(false);
 

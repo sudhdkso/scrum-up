@@ -1,4 +1,3 @@
-import dbConnect from "@/lib/mongodb";
 import { GroupDetailResponseDTO } from "./dto/group.dto";
 import { Group, Scrum, Question } from "@/models";
 import { IScrum, IQuestion } from "@/models/types";
@@ -10,8 +9,6 @@ export async function getGroupDetailById(
   groupId: string,
   userId: string
 ): Promise<GroupDetailResponseDTO> {
-  await dbConnect();
-
   const group = await Group.findById(groupId);
   const question = await Question.findOne({
     groupId: groupId,

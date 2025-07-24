@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import dbConnect from "@/lib/mongodb";
 import { createQuestion } from "../question/questionService";
 import { CreateGroupRequestDTO } from "./dto/group.dto";
 import { Group, GroupMember } from "@/models";
@@ -7,7 +6,6 @@ import { IUser } from "@/models/types";
 import { createGroupMember } from "@/services/groupMember";
 
 export async function createGroup(request: CreateGroupRequestDTO, user: IUser) {
-  await dbConnect();
   const session = await mongoose.startSession();
   session.startTransaction();
 
