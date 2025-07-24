@@ -1,24 +1,10 @@
-import mongoose from "mongoose";
 import dbConnect from "@/lib/mongodb";
 import { GroupDetailResponseDTO } from "./dto/group.dto";
-import {
-  Group,
-  GroupMember,
-  User,
-  Scrum,
-  Question,
-  InviteCode,
-} from "@/models";
-import {
-  IUser,
-  IGroupMember,
-  IScrum,
-  IQuestion,
-  IInviteCode,
-} from "@/models/types";
-import { GroupMemberResponseDTO } from "../groupMember/dto/groupMemberResponse.dto";
+import { Group, Scrum, Question, InviteCode } from "@/models";
+import { IScrum, IQuestion, IInviteCode } from "@/models/types";
 import { DailyScrumDTO, UserAnswerDTO } from "../scrum/dto/DailyScrun";
 import { checkIsScrumToday, getKstDateStr } from "./groupUtils";
+import { getGroupMembersWithNameMap } from "@/services/groupMember";
 
 export async function getGroupDetailById(
   groupId: string,
@@ -30,29 +16,10 @@ export async function getGroupDetailById(
   const question = await Question.findOne({
     groupId: groupId,
   }).lean<IQuestion>();
+
   const questionTexts = question ? question.questionTexts : [];
 
-  const memberDocs = await GroupMember.find({
-    groupId: group._id,
-  }).lean<IGroupMember[]>();
-
-  const userIds = memberDocs.map((m) => m.userId);
-
-  //그룹에 포함된 그룸멤버 Id가져와서 이름맵으로 변환
-  const users = await User.find({ _id: { $in: userIds } }).lean<IUser[]>();
-  const userIdToName = Object.fromEntries(
-    users.map((u) => [u._id.toString(), u.name || ""])
-  );
-
-  const members: GroupMemberResponseDTO[] = memberDocs.map((m) => ({
-    id: m.userId.toString(),
-    name: userIdToName[m.userId.toString()] || "",
-    role: m.role ?? "",
-  }));
-
-  memberDocs.forEach((m) => {
-    userIdToName[m.id] = m.name;
-  });
+  const { members, userIdToName } = await getGroupMembersWithNameMap(group._id);
 
   const allScrumsInGroup = await Scrum.find({
     groupId: group._id,
@@ -105,23 +72,7 @@ export async function getGroupManageData(groupId: string) {
   }).lean<IQuestion>();
   const questionTexts = question ? question.questionTexts : [];
 
-  const memberDocs = await GroupMember.find({
-    groupId: group._id,
-  }).lean<IGroupMember[]>();
-
-  const userIds = memberDocs.map((m) => m.userId);
-
-  //그룹에 포함된 그룸멤버 Id가져와서 이름맵으로 변환
-  const users = await User.find({ _id: { $in: userIds } }).lean<IUser[]>();
-  const userIdToName = Object.fromEntries(
-    users.map((u) => [u._id.toString(), u.name || ""])
-  );
-
-  const members: GroupMemberResponseDTO[] = memberDocs.map((m) => ({
-    id: m.userId.toString(),
-    name: userIdToName[m.userId.toString()] || "",
-    role: m.role ?? "",
-  }));
+  const { members } = await getGroupMembersWithNameMap(group._id);
 
   const inviteCodeDoc = await InviteCode.findOne({
     groupId: group._id,

@@ -1,9 +1,8 @@
-import mongoose from "mongoose";
 import dbConnect from "@/lib/mongodb";
 import { GroupSummaryDTO } from "./dto/group.dto";
 import { Group, GroupMember, Scrum } from "@/models";
 import { IScrum } from "@/models/types";
-import { checkIsScrumToday, getKstDateStr } from "./groupUtils";
+import { checkIsScrumToday } from "./groupUtils";
 
 export async function getUserGroups(
   userId: string
