@@ -60,7 +60,7 @@ export default function GroupEditPage() {
         scrumTime,
         cycle: scrumCycle,
       });
-      alert("그룹 정보가 저장되었습니다!");
+      alert("그룹 정보가 저장되었습니다!"); //alert말고 다른거로 수정하기
       router.push(`/group/${groupId}/manage`);
     } catch (e: any) {
       alert(e.message || "저장 실패");
@@ -194,7 +194,10 @@ export default function GroupEditPage() {
               ))}
             </select>
             <Button
-              onClick={() => setEditTime(false)}
+              onClick={() => {
+                setScrumTime(`${scrumHour}:${scrumMinute}`);
+                setEditTime(false);
+              }}
               style={{
                 marginLeft: 10,
                 fontSize: "0.97em",
