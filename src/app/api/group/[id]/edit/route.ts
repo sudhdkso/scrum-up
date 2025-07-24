@@ -1,7 +1,7 @@
 import dbConnect from "@/lib/mongodb";
 import { getUserIdOr401 } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
-import { getGroupEditData } from "@/services/group";
+import { getGroupEditData, updateGroupData } from "@/services/group";
 
 export async function GET(
   req: NextRequest,
@@ -23,7 +23,7 @@ export async function GET(
   }
 }
 
-export async function POST(
+export async function PUT(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
@@ -34,6 +34,13 @@ export async function POST(
     if (!groupId) {
       return NextResponse.json({ error: "No group id" }, { status: 400 });
     }
+    const body = await req.json();
+    if (!body.name || typeof body.name !== "string") {
+      return NextResponse.json({ error: "그룹명(name) 누락" }, { status: 400 });
+    }
+
+    await updateGroupData(groupId, body);
+    return NextResponse.json({ success: true });
   } catch (error) {
     const groupId = (await params).id;
     if (!groupId) {
