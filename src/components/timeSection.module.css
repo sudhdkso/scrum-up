@@ -1,0 +1,70 @@
+.timeSelectBlock {
+  margin-top: 18px;
+}
+
+.labelBox {
+  margin-bottom: 6px;
+}
+
+.sectionDesc {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.timeRow {
+  display: flex;
+  flex-direction: row;
+  gap: 7px;
+  margin-top: 8px;
+  align-items: center;
+}
+
+.selectBase {
+  font-size: 1rem;
+  background: #f5f6fa;
+  border: 1.5px solid #d1d5db;
+  border-radius: 12px;
+  padding: 4px 12px;
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+
+.selectBase:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #8bb6f9;
+  border-color: #5b8dea;
+}
+
+.cycleButtonWrap {
+  display: flex;
+  gap: 10px;
+  margin: 15px 0 0 0;
+}
+
+.cycleBtn {
+  background: #f2f4fa;
+  border: 1.5px solid #d3daf8;
+  color: #6e7ca3;
+  font-size: 0.97rem;
+  border-radius: 7px;
+  padding: 4px 18px;
+  cursor: pointer;
+  font-weight: 500;
+  outline: none;
+  box-shadow: none;
+  transition: background 0.09s, border 0.09s, color 0.09s;
+}
+
+.cycleBtnActive {
+  background: #267fff;
+  color: #fff;
+  border-color: #267fff;
+  box-shadow: 0 0 0 2px #b5d9ff55;
+  z-index: 1;
+}
+
+.cycleBtn:not(.cycleBtnActive):hover {
+  background: #e5effe;
+  color: #2660c2;
+  border-color: #b8c7ec;
+}
