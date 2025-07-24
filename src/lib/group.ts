@@ -56,3 +56,13 @@ export async function joinGroup(code: string) {
   }
   return response.json();
 }
+
+export async function getGroupEditData(groupId: string) {
+  const response = await fetch(`/api/group/${groupId}/edit`, {
+    credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  return response.json();
+}
