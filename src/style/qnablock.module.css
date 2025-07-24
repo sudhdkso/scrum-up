@@ -1,0 +1,103 @@
+.qnaWrap {
+  margin: 23px 0 34px 0;
+  padding: 0 8px;
+}
+
+.qBlock,
+.aBlock {
+  display: flex;
+  align-items: flex-start;
+  border-radius: 7px;
+  font-weight: 500;
+  font-size: 1em;
+  padding: 11px 18px;
+  min-height: 36px;
+  margin-bottom: 5px;
+  transition: background 0.14s, box-shadow 0.14s;
+  cursor: default;
+  word-break: break-word;
+}
+
+.qBlock {
+  background: rgba(255, 236, 109, 0.13);
+  color: #88752a;
+  margin-bottom: 6px;
+}
+.qBlock:hover {
+  background: rgba(255, 236, 109, 0.2);
+  box-shadow: 0 2px 7px rgba(180, 180, 140, 0.06);
+}
+
+.aBlock {
+  background: rgba(186, 245, 168, 0.11);
+  color: #497a59;
+  margin-bottom: 13px;
+}
+.aBlock:hover {
+  background: rgba(186, 245, 168, 0.17);
+  box-shadow: 0 2px 7px rgba(130, 180, 140, 0.08);
+}
+
+.qLabel,
+.aLabel {
+  margin-right: 10px;
+  font-weight: 600;
+  font-size: 1em;
+  flex-shrink: 0;
+}
+.qLabel {
+  color: #bcae58;
+}
+.aLabel {
+  color: #74ba8a;
+}
+
+.qaContent {
+  color: #2d2e33;
+  font-weight: 500;
+  line-height: 1.62;
+  white-space: pre-line;
+}
+
+.aMissing {
+  color: #bbb;
+  font-weight: 500;
+}
+
+/* 반응형 (모바일) */
+@media (max-width: 600px) {
+  .qnaWrap {
+    margin: 17px 0 24px 0;
+    padding: 0 2vw;
+  }
+  .qBlock,
+  .aBlock {
+    font-size: 0.97em;
+    padding: 7px 7vw;
+    border-radius: 5px;
+    min-height: 32px;
+    margin-bottom: 4px;
+  }
+  .qBlock {
+    margin-bottom: 5px;
+  }
+  .aBlock {
+    margin-bottom: 10px;
+  }
+  .qaContent {
+    font-size: 0.98em;
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 400px) {
+  .qBlock,
+  .aBlock {
+    font-size: 0.93em;
+    padding: 5px 3vw;
+    min-height: 24px;
+  }
+  .qnaWrap {
+    margin: 7px 0 17px 0;
+  }
+}
