@@ -1,6 +1,6 @@
 import { getUserIdOr401 } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
-import { getGroupManageData } from "@/services/group";
+import { getGroupManagementInfo } from "@/services/group";
 
 export async function GET(
   req: NextRequest,
@@ -12,7 +12,7 @@ export async function GET(
       return NextResponse.json({ error: "No group id" }, { status: 400 });
     }
 
-    const group = await getGroupManageData(groupId);
+    const group = await getGroupManagementInfo(groupId);
     return NextResponse.json({ group }, { status: 200 });
   } catch (error) {
     return NextResponse.json(

@@ -30,3 +30,9 @@ export async function updateQuestion(questions: string[], groupId: string) {
     { new: true }
   );
 }
+
+export async function getQuestionByGroupId(
+  groupId: string
+): Promise<IQuestion | null> {
+  return Question.findOne({ groupId }).lean<IQuestion>();
+}
