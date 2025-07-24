@@ -62,8 +62,8 @@ export default function GroupEditPage() {
       });
       alert("그룹 정보가 저장되었습니다!"); //alert말고 다른거로 수정하기
       router.push(`/group/${groupId}/manage`);
-    } catch (e: any) {
-      alert(e.message || "저장 실패");
+    } catch (e) {
+      alert((e as Error).message || "저장 실패");
     } finally {
       setSavePending(false);
     }
