@@ -1,5 +1,5 @@
 "use client";
-import styles from "./NavBar.module.css";
+import styles from "./navBar.module.css";
 import { useUser } from "./AuthProvider";
 import { useRouter } from "next/navigation";
 
