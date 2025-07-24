@@ -20,6 +20,16 @@ export default function Footer() {
         >
           GitHub
         </a>
+        <a
+          href="/privacy"
+          style={{
+            color: "#999",
+            marginLeft: "7px",
+            textDecoration: "underline",
+          }}
+        >
+          개인정보처리방침
+        </a>
       </div>
       <div>© 2025 Scrum-Up. MIT Licensed.</div>
     </footer>

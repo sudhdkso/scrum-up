@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
 import { useRouter } from "next/navigation";
-import { GroupSummaryDTO } from "@/service/group/dto/group.dto";
+import { GroupSummaryDTO } from "@/services/group/dto/group.dto";
 import { getUserGroups } from "@/lib/group";
 
 export default function Dashboard() {
@@ -163,7 +163,17 @@ export default function Dashboard() {
                     <span title="오늘 스크럼 참여">
                       {group.isScrumToday ? "✔️" : "⚠️"}
                     </span>
-                    {group.isManager ? (
+
+                    <Button
+                      variant="secondary"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        router.push(`/group/${group.id}/scrum`);
+                      }}
+                    >
+                      작성
+                    </Button>
+                    {group.isManager && (
                       <Button
                         variant="primary"
                         onClick={(e) => {
@@ -172,16 +182,6 @@ export default function Dashboard() {
                         }}
                       >
                         관리
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="secondary"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          router.push(`/group/${group.id}/scrum`);
-                        }}
-                      >
-                        작성
                       </Button>
                     )}
                   </span>

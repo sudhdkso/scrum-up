@@ -1,11 +1,13 @@
+import dbConnect from "@/lib/mongodb";
 import { NextRequest, NextResponse } from "next/server";
-import { updateQuestion } from "@/service/question/questionService";
+import { updateQuestion } from "@/services/question/questionService";
 
 export async function PUT(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    await dbConnect();
     const groupId = (await params).id;
     if (!groupId) {
       return NextResponse.json({ error: "No group id" }, { status: 400 });

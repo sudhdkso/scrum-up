@@ -7,8 +7,8 @@ import { DateAccordion } from "../accordion/DateAccordion";
 import { MemberTabAccordion } from "../accordion/MemberTabAccordion";
 import { useParams } from "next/navigation";
 import { getGroupDetail } from "@/lib/group";
-import { DailyScrumDTO } from "@/service/scrum/dto/DailyScrun";
-import { GroupDetailResponseDTO } from "@/service/group/dto/group.dto";
+import { DailyScrumDTO } from "@/services/scrum/dto/DailyScrun";
+import { GroupDetailResponseDTO } from "@/services/group/dto/group.dto";
 import ScrumQuestionDropdown from "../ScrumQuestionDropdown";
 
 export default function GroupScrumDetailPage() {

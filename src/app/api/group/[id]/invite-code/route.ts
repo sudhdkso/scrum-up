@@ -1,12 +1,14 @@
+import dbConnect from "@/lib/mongodb";
 import { getUserIdOr401 } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
-import { createInviteCode } from "@/service/inviteCode/inviteCodeService";
+import { createInviteCode } from "@/services/inviteCode/inviteCodeService";
 
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    await dbConnect();
     const groupId = (await params).id;
     if (!groupId) {
       return NextResponse.json({ error: "No group id" }, { status: 400 });
