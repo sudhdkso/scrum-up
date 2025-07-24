@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./timeSection.module.css";
+import styles from "./TimeSection.module.css";
 
 const CYCLES = [
   { key: "매일", label: "매일" },

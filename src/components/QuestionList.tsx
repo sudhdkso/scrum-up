@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { MdDelete, MdAdd } from "react-icons/md";
-import styles from "./questionList.module.css";
+import styles from "./QuestionList.module.css";
 
 interface QuestionListProps {
   questions: string[];
