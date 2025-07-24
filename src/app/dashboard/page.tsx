@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
 import { useRouter } from "next/navigation";
-import { GroupSummaryDTO } from "@/service/group/dto/group.dto";
+import { GroupSummaryDTO } from "@/services/group/dto/group.dto";
 import { getUserGroups } from "@/lib/group";
 
 export default function Dashboard() {

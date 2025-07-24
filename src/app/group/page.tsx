@@ -86,7 +86,6 @@ export default function GroupCreate() {
       <div className={styles.centerContainer}>
         <form className={styles.formContainer} onSubmit={handleSubmit}>
           <h2 className={styles.formTitle}>그룹 생성</h2>
-          {/* ... (나머지 입력필드, select 등 동일) */}
           <TextInput
             label="그룹 이름"
             required
@@ -102,7 +101,68 @@ export default function GroupCreate() {
             placeholder="그룹 설명을 입력하세요"
             className={styles.textareaBase}
           />
-          {/* (중략: 시간/주기 etc) */}
+          {/*스크럼 시간*/}
+          <label className={styles.labelBase}>
+            스크럼 시간
+            <div
+              style={{
+                display: "flex",
+                gap: 12,
+                alignItems: "center",
+                marginTop: 6,
+              }}
+            >
+              <select
+                value={ampm}
+                onChange={(e) => setAmpm(e.target.value)}
+                className={styles.selectBase}
+                style={{ width: 100 }}
+              >
+                <option value="AM">오전</option>
+                <option value="PM">오후</option>
+              </select>
+              <select
+                value={hour}
+                onChange={(e) => setHour(e.target.value)}
+                className={styles.selectBase}
+                style={{ width: 100 }}
+              >
+                {hourList.map((v) => (
+                  <option key={v} value={v}>
+                    {v}
+                  </option>
+                ))}
+              </select>
+              <span style={{ fontWeight: 400, color: "#666" }}>:</span>
+              <select
+                value={minute}
+                onChange={(e) => setMinute(e.target.value)}
+                className={styles.selectBase}
+                style={{ width: 100 }}
+              >
+                {minuteList.map((v) => (
+                  <option key={v} value={v}>
+                    {v}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </label>
+
+          <label className={styles.labelBase}>
+            스크럼 주기
+            <select
+              value={cycle}
+              onChange={(e) => setCycle(e.target.value)}
+              className={styles.selectBase}
+              style={{ width: 100, marginTop: 7, marginLeft: 7 }}
+            >
+              <option value="매일">매일</option>
+              <option value="평일">평일</option>
+              <option value="주말">주말</option>
+            </select>
+          </label>
+
           <ScrapQuestions
             questions={questions}
             onChange={setQuestions}

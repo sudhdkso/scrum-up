@@ -1,6 +1,6 @@
 import { getUserIdOr401 } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
-import { kickGroupMember } from "@/service/groupMember/groupMemberService";
+import { kickGroupMember } from "@/services/groupMember/groupMemberService";
 
 export async function DELETE(
   req: NextRequest,

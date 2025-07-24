@@ -1,6 +1,6 @@
 import { getUserIdOr401 } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
-import { createScrum } from "@/service/scrum/scrumService";
+import { createScrum } from "@/services/scrum/scrumService";
 
 export async function POST(
   req: NextRequest,

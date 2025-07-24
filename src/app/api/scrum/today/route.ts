@@ -1,6 +1,6 @@
 import { getUserIdOr401 } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
-import { getTodayScrum } from "@/service/scrum/scrumService";
+import { getTodayScrum } from "@/services/scrum/scrumService";
 
 export async function GET(req: NextRequest) {
   try {

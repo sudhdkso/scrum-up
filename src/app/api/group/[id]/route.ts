@@ -1,9 +1,6 @@
 import { getUserIdOr401 } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
-import {
-  getGroupDetailById,
-  deleteGroupByGroupId,
-} from "@/service/group/groupService";
+import { getGroupDetailById, deleteGroupWithAllData } from "@/services/group";
 
 export async function GET(
   req: NextRequest,
@@ -42,12 +39,13 @@ export async function DELETE(
     if (!groupId) {
       return NextResponse.json({ error: "No group id" }, { status: 400 });
     }
-    await deleteGroupByGroupId(groupId);
+    await deleteGroupWithAllData(groupId);
     return NextResponse.json(
       { message: "그룹 삭제에 성공했습니다." },
       { status: 200 }
     );
   } catch (error) {
+    console.log(String(error));
     return NextResponse.json(
       { error: error instanceof Error ? error.message : String(error) },
       { status: 500 }

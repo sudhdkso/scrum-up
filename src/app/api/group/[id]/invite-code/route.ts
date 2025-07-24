@@ -1,6 +1,6 @@
 import { getUserIdOr401 } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
-import { createInviteCode } from "@/service/inviteCode/inviteCodeService";
+import { createInviteCode } from "@/services/inviteCode/inviteCodeService";
 
 export async function GET(
   req: NextRequest,

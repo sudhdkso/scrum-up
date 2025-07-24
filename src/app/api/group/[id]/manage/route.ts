@@ -1,6 +1,6 @@
 import { getUserIdOr401 } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
-import { getGroupManageData } from "@/service/group/groupService";
+import { getGroupManageData } from "@/services/group";
 
 export async function GET(
   req: NextRequest,

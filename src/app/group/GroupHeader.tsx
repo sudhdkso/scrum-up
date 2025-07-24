@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import { GroupDetailResponseDTO } from "@/service/group/dto/group.dto";
+import { GroupDetailResponseDTO } from "@/services/group/dto/group.dto";
 import { useRouter } from "next/navigation";
 
 export function GroupHeader({ group }: { group: GroupDetailResponseDTO }) {

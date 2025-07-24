@@ -1,6 +1,6 @@
 import { getUserIdOr401 } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
-import { updateTodayScrum } from "@/service/scrum/scrumService";
+import { updateTodayScrum } from "@/services/scrum/scrumService";
 
 export async function PATCH(
   req: NextRequest,

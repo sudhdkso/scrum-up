@@ -4,7 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import styles from "@/style/groupManage.module.css";
 import Button from "@/components/Button";
 import { getInviteCode } from "@/lib/group";
-import { GroupManageDTO } from "@/service/group/dto/group.dto";
+import { GroupManageDTO } from "@/services/group/dto/group.dto";
 import ScrapQuestions from "@/components/ScrapQuestions";
 import { updateGroupQuestion } from "@/lib/group";
 import GroupDeleteSection from "./GroupDeleteSection";
