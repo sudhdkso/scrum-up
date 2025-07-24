@@ -4,6 +4,7 @@ import { createQuestion } from "../question/questionService";
 import { CreateGroupRequestDTO } from "./dto/group.dto";
 import { Group, GroupMember } from "@/models";
 import { IUser } from "@/models/types";
+import { createGroupMember } from "@/services/groupMember";
 
 export async function createGroup(request: CreateGroupRequestDTO, user: IUser) {
   await dbConnect();
@@ -21,19 +22,10 @@ export async function createGroup(request: CreateGroupRequestDTO, user: IUser) {
 
     await group.save({ session });
 
-    await GroupMember.create(
-      [
-        {
-          userId: user._id,
-          name: user.name,
-          groupId: group._id,
-          role: "manager",
-        },
-      ],
-      { session, ordered: true }
-    );
+    await createGroupMember(group._id, user, "manager", session);
 
     await createQuestion(request.questions, group._id, user._id, session);
+
     await session.commitTransaction();
 
     return group;
