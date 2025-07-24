@@ -3,7 +3,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import InvitePage from "@/components/GroupInvitePage";
 import { getInviteDetailByCode } from "@/lib/invite";
-import { InviteDetailDTO } from "@/service/inviteCode/dto/invite-code.dto";
+import { InviteDetailDTO } from "@/services/inviteCode/dto/invite-code.dto";
 import { useUser } from "@/components/AuthProvider";
 import { joinGroup } from "@/lib/group";
 

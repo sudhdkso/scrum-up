@@ -1,6 +1,6 @@
-import { getUserBySession } from "@/service/user/userService";
+import { getUserBySession } from "@/services/user/userService";
 import { NextRequest, NextResponse } from "next/server";
-import { joinGroup } from "@/service/group/groupService";
+import { joinGroup } from "@/services/group/groupService";
 import { getUserOr401 } from "@/lib/auth";
 
 export async function GET(req: NextRequest) {

@@ -1,7 +1,7 @@
-import { getUserBySession } from "@/service/user/userService";
+import { getUserBySession } from "@/services/user/userService";
 import { NextRequest, NextResponse } from "next/server";
-import { createGroup, getUserGroups } from "@/service/group/groupService";
-import { CreateGroupRequestDTO } from "@/service/group/dto/group.dto";
+import { createGroup, getUserGroups } from "@/services/group";
+import { CreateGroupRequestDTO } from "@/services/group/dto/group.dto";
 import { getUserIdOr401 } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {

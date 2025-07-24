@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import {
   getUserIdBySession,
   getUserBySession,
-} from "@/service/user/userService";
+} from "@/services/user/userService";
 
 export async function getUserIdOr401(req: NextRequest) {
   const sessionId = req.cookies.get("sessionId")?.value;

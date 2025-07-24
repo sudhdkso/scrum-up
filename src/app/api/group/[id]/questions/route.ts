@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { updateQuestion } from "@/service/question/questionService";
+import { updateQuestion } from "@/services/question/questionService";
 
 export async function PUT(
   req: NextRequest,

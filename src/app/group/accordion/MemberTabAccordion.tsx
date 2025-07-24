@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { UserQnABlock } from "./UserQnABlock";
-import { GroupMemberResponseDTO } from "@/service/groupMember/dto/groupMemberResponse.dto";
-import { DailyScrumDTO } from "@/service/scrum/dto/DailyScrun";
+import { GroupMemberResponseDTO } from "@/services/groupMember/dto/groupMemberResponse.dto";
+import { DailyScrumDTO } from "@/services/scrum/dto/DailyScrun";
 import { InnerAccordionCard } from "@/components/InnerAccordionCard";
 type MemberTabAccordionProps = {
   members: GroupMemberResponseDTO[];

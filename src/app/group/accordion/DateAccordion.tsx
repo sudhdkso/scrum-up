@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { UserQnABlock } from "./UserQnABlock";
-import { DailyScrumDTO } from "@/service/scrum/dto/DailyScrun";
+import { DailyScrumDTO } from "@/services/scrum/dto/DailyScrun";
 import { InnerAccordionCard } from "@/components/InnerAccordionCard";
 
 export function DateAccordion({

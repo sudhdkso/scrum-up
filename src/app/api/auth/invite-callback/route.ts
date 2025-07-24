@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { login } from "@/service/auth/authService";
+import { login } from "@/services/auth/authService";
 import { saveSession } from "@/lib/session";
-import { joinGroup } from "@/service/group/groupService";
+import { joinGroup } from "@/services/group/groupService";
 
 export async function GET(req: NextRequest) {
   try {

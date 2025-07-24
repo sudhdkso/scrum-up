@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getInviteDetail } from "@/service/inviteCode/inviteCodeService";
+import { getInviteDetail } from "@/services/inviteCode/inviteCodeService";
 
 export async function GET(req: NextRequest) {
   try {

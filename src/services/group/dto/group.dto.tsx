@@ -1,5 +1,5 @@
-import { DailyScrumDTO } from "@/service/scrum/dto/DailyScrun";
-import { GroupMemberResponseDTO } from "@/service/groupMember/dto/groupMemberResponse.dto";
+import { DailyScrumDTO } from "@/services/scrum/dto/DailyScrun";
+import { GroupMemberResponseDTO } from "@/services/groupMember/dto/groupMemberResponse.dto";
 
 export interface CreateGroupRequestDTO {
   name: string;
@@ -7,6 +7,14 @@ export interface CreateGroupRequestDTO {
   questions: string[];
   scrumTime: string;
   cycle: string;
+}
+
+export interface GroupEditDTO {
+  id: string;
+  name: string;
+  desc: string;
+  scrmTime: string;
+  questions: string[];
 }
 
 export interface GroupDetailResponseDTO {

@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { getGroupDetail } from "@/lib/group";
-import { GroupDetailResponseDTO } from "@/service/group/dto/group.dto";
+import { GroupDetailResponseDTO } from "@/services/group/dto/group.dto";
 import GroupHeaderWithDate from "../../GroupHeaderWithDate";
 import styles from "@/style/scrumForm.module.css";
 
