@@ -1,4 +1,5 @@
 import { User, GroupMember } from "@/models";
+import { IGroupMember } from "@/models/group-member";
 import { IUser } from "@/models/user";
 export async function getGroupMembersWithNameMap(groupId: string) {
   const memberDocs = await GroupMember.find({ groupId }).lean();
@@ -25,4 +26,10 @@ export async function getGroupMembersWithNameMap(groupId: string) {
     members,
     userIdToName,
   };
+}
+
+export async function getGroupMemberByGroupId(
+  groupId: string
+): Promise<IGroupMember[]> {
+  return await GroupMember.find({ groupId }).lean<IGroupMember[]>();
 }
