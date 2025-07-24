@@ -36,16 +36,16 @@
   .tabBtn {
     font-size: 0.95rem;
     padding: 7px 14px;
-    min-width: 92px;
-    max-width: 138px;
+    min-width: 68px;
+    max-width: 134px;
   }
 }
 @media (max-width: 400px) {
   .tabBtn {
     font-size: 0.87rem;
-    padding: 6px 8px;
-    min-width: 92px;
-    max-width: 138px;
+    padding: 6px 10px;
+    min-width: 98px;
+    max-width: 142px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

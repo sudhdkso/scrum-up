@@ -4,6 +4,7 @@ import Button from "../../components/Button";
 import { useRouter } from "next/navigation";
 import { GroupSummaryDTO } from "@/services/group/dto/group.dto";
 import { getUserGroups } from "@/lib/group";
+import styles from "./dashboard.module.css";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -29,6 +30,7 @@ export default function Dashboard() {
 
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div>에러 발생: {error.message}</div>;
+
   return (
     <div
       style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
@@ -36,78 +38,27 @@ export default function Dashboard() {
       <div style={{ padding: "32px 0", flex: 1 }}>
         {/* 오늘의 스크럼 요약 */}
         {showGroups && (
-          <section
-            style={{
-              background: "#eef3fb",
-              borderRadius: 10,
-              padding: "18px 24px",
-              marginBottom: 32,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              boxShadow: "0 1px 4px rgba(90,90,150,0.04)",
-              fontWeight: 500,
-              fontSize: "1.15rem",
-              color: "#333",
-              gap: 24,
-            }}
-          >
-            <div
-              style={{
-                marginBottom: 12,
-                fontWeight: 700,
-                fontSize: "1.3rem",
-              }}
-            >
-              🌼 오늘의 스크럼 요약 🌼
-            </div>
-            <div style={{ display: "flex", flexDirection: "row", gap: 80 }}>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <span style={{ fontSize: "1rem", color: "#666" }}>
+          <section className={styles.dashboardSummaryCard}>
+            <div className={styles.summaryTitle}>🌼 오늘의 스크럼 요약 🌼</div>
+            <div className={styles.summaryStatus}>
+              <div className={styles.summaryStatItem}>
+                <span className={styles.summaryStatLabel}>
                   오늘 작성한 스크럼
                 </span>
-                <b
-                  style={{
-                    color: "#4267B2",
-                    fontSize: "1.3rem",
-                    marginTop: 4,
-                  }}
-                >
+                <b className={`${styles.summaryStatValue} ${styles.completed}`}>
                   {todayScrumWritten}
                 </b>
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <span style={{ fontSize: "1rem", color: "#666" }}>
-                  미작성 스크럼
-                </span>
-                <b
-                  style={{
-                    color: "#d9534f",
-                    fontSize: "1.3rem",
-                    marginTop: 4,
-                  }}
-                >
+              <div className={styles.summaryStatItem}>
+                <span className={styles.summaryStatLabel}>미작성 스크럼</span>
+                <b className={`${styles.summaryStatValue} ${styles.missed}`}>
                   {todayScrumNotWritten}
                 </b>
               </div>
             </div>
           </section>
         )}
-
-        {/* 소속 그룹 (리스트 및 타이틀+버튼들은 그룹 있을 때에만 노출) */}
+        {/* 소속 그룹 리스트 */}
         {showGroups ? (
           <div>
             <div
@@ -128,25 +79,14 @@ export default function Dashboard() {
                 <Button variant="secondary">🔍 그룹 참가</Button>
               </div>
             </div>
-            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+            <ul className={styles.dashboardList}>
               {groups.map((group) => (
                 <li
                   key={group.id}
+                  className={styles.dashboardGroupItem}
                   onClick={() => router.push(`/group/${group.id}`)}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 12,
-                    justifyContent: "space-between",
-                    background: "#f6f6fa",
-                    borderRadius: 10,
-                    padding: "18px 16px",
-                    marginBottom: 12,
-                    cursor: "pointer",
-                    transition: "background 0.12s",
-                  }}
                 >
-                  <span style={{ fontWeight: 500, fontSize: "1.08rem" }}>
+                  <span className={styles.groupName}>
                     {group.name}
                     {group.isManager && (
                       <span
@@ -157,13 +97,10 @@ export default function Dashboard() {
                       </span>
                     )}
                   </span>
-                  <span
-                    style={{ display: "flex", alignItems: "center", gap: 8 }}
-                  >
+                  <span className={styles.groupBtns}>
                     <span title="오늘 스크럼 참여">
                       {group.isScrumToday ? "✔️" : "⚠️"}
                     </span>
-
                     <Button
                       variant="secondary"
                       onClick={(e) => {
@@ -190,7 +127,7 @@ export default function Dashboard() {
             </ul>
           </div>
         ) : (
-          // 그룹이 없을 때: 타이틀+버튼 없이 중앙 안내 및 버튼만 표시
+          // 그룹이 없을 때 안내
           <div
             style={{
               display: "flex",

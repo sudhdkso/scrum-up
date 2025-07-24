@@ -24,7 +24,7 @@ function getSubmitCycle(cycle: CycleType[]) {
   ) {
     return "매일";
   } else if (cycle.includes("평일")) return "평일";
-  else "주말";
+  else return "주말";
 }
 
 function getSummaryCycleText(cycle: CycleType[]): string {
@@ -115,11 +115,11 @@ export default function GroupCreateAccordion() {
   return (
     <div className={styles.centerContainer}>
       <form
-        style={{ width: "90%", maxWidth: "90%", margin: 0, padding: 0 }}
+        className={styles.formContainer}
         onSubmit={handleSubmit}
         autoComplete="off"
       >
-        {/* 이름/설명 */}
+        {/* 1단계: 그룹 이름/설명 */}
         <Accordion
           open={activeStep === 1}
           onHeaderClick={() => setActiveStep(1)}
@@ -205,7 +205,7 @@ export default function GroupCreateAccordion() {
           </Button>
         </Accordion>
 
-        {/*  시간/주기 */}
+        {/* 2단계: 시간/주기 */}
         <Accordion
           open={activeStep === 2}
           onHeaderClick={() => setActiveStep(2)}
@@ -262,7 +262,7 @@ export default function GroupCreateAccordion() {
           </div>
         </Accordion>
 
-        {/*  질문 리스트 */}
+        {/* 3단계: 질문 리스트 */}
         <Accordion
           open={activeStep === 3}
           onHeaderClick={() => setActiveStep(3)}
@@ -300,7 +300,7 @@ export default function GroupCreateAccordion() {
           </div>
         </Accordion>
 
-        {/* 최종 확인 */}
+        {/* 4단계: 최종 확인 */}
         <Accordion
           open={activeStep === 4}
           onHeaderClick={() => setActiveStep(4)}

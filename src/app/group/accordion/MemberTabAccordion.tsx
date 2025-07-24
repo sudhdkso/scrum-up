@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { UserQnABlock } from "./UserQnABlock";
 import { GroupMemberResponseDTO } from "@/services/groupMember/dto/groupMemberResponse.dto";
 import { DailyScrumDTO } from "@/services/scrum/dto/DailyScrun";
-import { InnerAccordionCard } from "@/components/InnerAccordionCard";
+import styles from "./accordionCard.module.css"; // 추가!
+
 type MemberTabAccordionProps = {
   members: GroupMemberResponseDTO[];
   scrums: DailyScrumDTO[];
@@ -58,83 +59,49 @@ export function MemberTabAccordion({
         const openDates = openDatesByMember[member.id] ?? [];
 
         return (
-          <div
-            key={member.id}
-            style={{
-              background: "#fff",
-              borderRadius: 12,
-              border: "1.5px solid #e4e6ea",
-              marginBottom: 14,
-              boxShadow: "0 1px 4px rgba(80,90,110,0.02)",
-              fontWeight: 600,
-              fontSize: "1.08rem",
-              padding: 0,
-              overflow: "hidden",
-              transition: "box-shadow 0.18s",
-            }}
-          >
+          <div key={member.id} className={styles.accordionCardWrap}>
             {/* 멤버 헤더 */}
             <div
+              className={styles.accordionHeader}
               onClick={() => toggleOpenMember(member.id)}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                fontSize: "1.13rem",
-                padding: "15px 18px",
-                userSelect: "none",
-                cursor: "pointer",
-                width: "100%",
-                boxSizing: "border-box",
-                background: "#fff",
-                borderTopLeftRadius: 8,
-                borderTopRightRadius: 8,
-                transition: "background 0.14s",
-              }}
-              onMouseOver={(e) => {
-                e.currentTarget.style.background = "#f7f9fc";
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.background = "#fff";
-              }}
+              tabIndex={0}
             >
-              <span style={{ marginRight: 8, fontSize: 19 }}>👤</span>
+              <span className={styles.accordionIcon}>👤</span>
               <span style={{ fontWeight: 700 }}>{member.name}</span>
-              <span
-                style={{
-                  marginLeft: "auto",
-                  color: "#9aadc9",
-                  fontSize: "1.13em",
-                }}
-              >
+              <span className={styles.accordionChevron}>
                 {isOpen ? "▼" : "▶"}
               </span>
             </div>
-
             {isOpen && (
-              <div style={{ padding: "0 12px 16px 12px", background: "#fff" }}>
+              <div className={styles.accordionBody}>
                 {allDatesScrums.length === 0 ? (
                   <div style={{ color: "#aaa", margin: "20px 0" }}>
                     작성 내역 없음
                   </div>
                 ) : (
-                  allDatesScrums.map(({ date, userScrum }, idx) =>
+                  allDatesScrums.map(({ date, userScrum }) =>
                     userScrum ? (
-                      <InnerAccordionCard
-                        key={date}
-                        open={openDates.includes(date)}
-                        headerIcon={
-                          <span style={{ fontSize: 16, marginRight: 8 }}>
-                            📅
+                      <div key={date} className={styles.accordionCardWrap}>
+                        <div
+                          className={styles.accordionHeader}
+                          onClick={() => toggleOpenDate(member.id, date)}
+                          tabIndex={0}
+                        >
+                          <span className={styles.accordionIcon}>📅</span>
+                          <span style={{ fontWeight: 700 }}>{date}</span>
+                          <span className={styles.accordionChevron}>
+                            {openDates.includes(date) ? "▼" : "▶"}
                           </span>
-                        }
-                        headerTitle={date}
-                        onClickHeader={() => toggleOpenDate(member.id, date)}
-                      >
-                        <UserQnABlock
-                          questions={userScrum.questions ?? []}
-                          answers={userScrum.answers ?? []}
-                        />
-                      </InnerAccordionCard>
+                        </div>
+                        {openDates.includes(date) && (
+                          <div className={styles.accordionBody}>
+                            <UserQnABlock
+                              questions={userScrum.questions ?? []}
+                              answers={userScrum.answers ?? []}
+                            />
+                          </div>
+                        )}
+                      </div>
                     ) : null
                   )
                 )}

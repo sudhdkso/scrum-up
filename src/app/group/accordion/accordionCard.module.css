@@ -14,9 +14,9 @@
 .accordionHeader {
   display: flex;
   align-items: center;
-  font-size: 1.15rem; /* (조금 더 크게) */
-  padding: 18px 28px; /* 위아래/좌우 패딩 넓게 */
-  line-height: 1.52; /* 행간/볼륨감 */
+  font-size: 1.15rem;
+  padding: 18px 28px;
+  line-height: 1.52;
   font-weight: 600;
   box-sizing: border-box;
   gap: 14px;

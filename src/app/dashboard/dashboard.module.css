@@ -56,8 +56,8 @@
   background: #f6f6fa; /* 옅은 회색 배경 */
   border-radius: 10px; /* 둥근 사각형 */
   justify-content: space-between;
-  gap: 8px;
-  padding: 18px 16px;
+  gap: 16px;
+  padding: 20px 24px;
   margin-bottom: 12px;
   cursor: pointer;
   flex-direction: row !important;
@@ -109,8 +109,9 @@
     flex-direction: row !important;
     flex-wrap: nowrap !important;
     align-items: stretch;
-    padding: 12px 6px;
-    gap: 4px;
+    gap: 6px;
+    padding: 10px 6px;
+    margin-bottom: 7px;
   }
   .groupName {
     max-width: 44vw;

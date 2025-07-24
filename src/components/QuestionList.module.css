@@ -69,6 +69,33 @@
   border-color: #b9cdfd;
 }
 
+.inputError {
+  border: 1.7px solid #e95d5d !important;
+  background: #fff4f4 !important;
+}
+
+.qCardNew {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+}
+.qCardNewRow {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+
+.errorMessage {
+  color: #e95d5d;
+  font-size: 0.85rem;
+  margin-top: 5px;
+  margin-left: 2px;
+  font-weight: 500;
+  user-select: none;
+  min-height: 18px;
+}
+
 @media (max-width: 600px) {
   .qCard,
   .qCardNew,
@@ -80,18 +107,7 @@
     font-size: 0.96rem;
     padding: 7px 9px;
   }
-}
-
-.inputError {
-  border: 1.7px solid #e95d5d !important;
-  background: #fff4f4 !important;
-}
-
-.errorMessage {
-  color: #e95d5d;
-  font-size: 0.85rem;
-  margin-top: 4px;
-  margin-left: 6px;
-  font-weight: 500;
-  user-select: none;
+  .qCardNewRow {
+    gap: 7px;
+  }
 }
