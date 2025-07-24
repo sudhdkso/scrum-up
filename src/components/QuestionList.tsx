@@ -69,33 +69,37 @@ export default function QuestionList({
 
       {addMode ? (
         <div className={styles.qCardNew}>
-          <input
-            value={newQ}
-            onChange={(e) => {
-              setNewQ(e.target.value);
-              if (error) setError(""); // 값 변경 시 에러 해제
-            }}
-            className={`${styles.qCardInput} ${error ? styles.inputError : ""}`}
-            placeholder="새 질문 입력"
-            autoFocus
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
+          <div className={styles.qCardNewRow}>
+            <input
+              value={newQ}
+              onChange={(e) => {
+                setNewQ(e.target.value);
+                if (error) setError(""); // 값 변경 시 에러 해제
+              }}
+              className={`${styles.qCardInput} ${
+                error ? styles.inputError : ""
+              }`}
+              placeholder="새 질문 입력"
+              autoFocus
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  addQuestion();
+                }
+              }}
+            />
+            <button
+              className={styles.iconBtn}
+              type="button"
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={(e) => {
                 e.preventDefault();
                 addQuestion();
-              }
-            }}
-          />
-          <button
-            className={styles.iconBtn}
-            type="button"
-            onMouseDown={(e) => e.preventDefault()}
-            onClick={(e) => {
-              e.preventDefault();
-              addQuestion();
-            }}
-          >
-            <MdAdd size={18} />
-          </button>
+              }}
+            >
+              <MdAdd size={18} />
+            </button>
+          </div>
           {error && <div className={styles.errorMessage}>{error}</div>}
         </div>
       ) : (
