@@ -7,21 +7,34 @@
 }
 
 .formContainer {
-  max-width: none;
+  max-width: 450px;
   width: 100%;
   background: #fff;
-  border: 0;
   border-radius: 1rem;
-  box-shadow: none;
-  padding: 2.25rem 2rem 2.5rem 2rem;
+  box-shadow: 0 6px 24px rgba(55, 76, 112, 0.08);
+  padding: 0.7rem 2rem 2.5rem 2rem;
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 2px;
+}
+
+.formTitle {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 4px;
+  text-align: center;
+  letter-spacing: -0.02em;
+}
+
+.labelBase {
+  font-size: 1.02rem;
+  font-weight: 500;
+  color: #23272f;
+  margin-bottom: 6px;
 }
 
 .inputBase,
-.textareaBase,
-.selectBase {
+.textareaBase {
   width: 100%;
   background: #f5f6fa;
   border: 1.5px solid #d1d5db;
@@ -32,25 +45,114 @@
 }
 
 .inputBase:focus,
-.textareaBase:focus,
-.selectBase:focus {
+.textareaBase:focus {
   outline: none;
   box-shadow: 0 0 0 2px #8bb6f9;
   border-color: #5b8dea;
 }
 
-/* 제목/라벨 등 타이포그래피 */
-.formTitle {
-  font-size: 1.6rem;
-  font-weight: bold;
-  margin-bottom: 4px;
-  text-align: center;
-  letter-spacing: -0.02em;
+.accordionSection {
+  background: #f8fafc;
+  border-radius: 0.85rem;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 6px #d5daee10;
+  transition: box-shadow 0.15s;
+  border: 1.5px solid #e7ebf3;
+  overflow: hidden;
 }
 
-.labelBase {
-  font-size: 0.98rem;
-  font-weight: 500;
-  color: #23272f;
-  margin-right: 15px;
+.accordionSection.opened {
+  box-shadow: 0 2px 12px #9ab9fa28;
+  border-color: #a5bcf5;
+}
+
+.accordionHeader {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.08rem;
+  font-weight: 600;
+  gap: 8px;
+  padding: 18px 22px;
+  border-bottom: 1px solid #e6edfa;
+  outline: none;
+}
+
+.accordionHeader:active,
+.accordionHeader:focus-visible {
+  background: #ebeefb;
+}
+
+.accordionTitle {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.accordionArrow {
+  font-size: 1.12em;
+  color: #7ca6ef;
+}
+
+.accordionSummary {
+  color: #999;
+  font-size: 1rem;
+  margin-right: 12px;
+  max-width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 400;
+  text-align: right;
+}
+
+.accordionBody {
+  padding: 22px 22px 22px 27px;
+  background: #fafdff;
+  animation: fadeIn 0.15s;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0.25;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.buttonRow {
+  display: flex;
+  gap: 10px;
+  margin-top: 19px;
+}
+
+.button[disabled],
+.button:disabled {
+  background: #d1d5db !important;
+  color: #8a929f !important;
+  opacity: 0.7;
+  cursor: not-allowed !important;
+  border: none;
+}
+
+.finalList {
+  font-size: 1.01rem;
+  margin-bottom: 10px;
+  padding-left: 6px;
+}
+.finalList ul {
+  margin: 4px 0 0 16px;
+  padding-left: 0;
+}
+
+.inputError {
+  border: 1.7px solid #e95d5d !important;
+  background: #fff4f4 !important;
 }

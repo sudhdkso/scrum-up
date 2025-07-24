@@ -1,21 +1,21 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import styles from "@/style/groupManage.module.css";
-import Button from "@/components/Button";
 import { getInviteCode } from "@/lib/group";
-import { GroupManageDTO } from "@/service/group/dto/group.dto";
-import ScrapQuestions from "@/components/ScrapQuestions";
-import { updateGroupQuestion } from "@/lib/group";
+import { GroupManageDTO } from "@/services/group/dto/group.dto";
+import GroupDeleteSection from "./GroupDeleteSection";
+import { kickGroupMember } from "@/lib/group-member";
+import KickMemberSection from "./KickMemberSection";
 
 export default function GroupManagePage() {
+  const router = useRouter();
   const params = useParams();
   const groupId = params!.id as string;
 
   const [group, setGroup] = useState<GroupManageDTO | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
-  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     if (!groupId) return;
@@ -71,61 +71,8 @@ export default function GroupManagePage() {
     setInviteCopied(true);
     setTimeout(() => setInviteCopied(false), 1200);
   };
-  const handleLeave = async (id: string) => {
-    //탈퇴 fetch 호출
-  };
-
-  const [questions, setQuestions] = useState<string[]>([]);
-
-  useEffect(() => {
-    if (group?.questions) {
-      setQuestions([...group.questions]);
-    }
-  }, [group]);
-  const [editing, setEditing] = useState(false);
-
-  // 질문 수정/추가/삭제/저장 로직
-  const handleQuestionChange = (idx: number, value: string) => {
-    const updated = [...questions];
-    updated[idx] = value;
-    setQuestions(updated);
-  };
-  const handleAddQuestion = () => setQuestions([...questions, ""]);
-
-  const handleDeleteQuestion = (idx: number) =>
-    setQuestions(questions.filter((_, i) => i !== idx));
-
-  const handleSaveQuestions = async () => {
-    try {
-      setSaving(true);
-      await updateGroupQuestion(questions, groupId);
-      setEditing(false);
-
-      // 저장 성공 후 원본 동기화
-      setGroup((prev) =>
-        prev ? { ...prev, questions: [...questions] } : prev
-      );
-
-      // 알림
-      alert("질문이 저장되었습니다.");
-    } catch (err) {
-      alert("질문 저장에 실패했습니다.");
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const handleCancelEdit = () => {
-    if (group?.questions) {
-      setQuestions([...group.questions]);
-    }
-    setEditing(false);
-  };
-
   // 멤버 관리 아코디언
   const [memberOpen, setMemberOpen] = useState(false);
-  // 질문 관리 아코디언
-  const [questionOpen, setQuestionOpen] = useState(false);
 
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div>에러: {error.message}</div>;
@@ -137,18 +84,12 @@ export default function GroupManagePage() {
         <section className={styles.headerSection}>
           <div className={styles.groupInfo}>
             <span className={styles.groupName}>{group.name}</span>
-            <button className={styles.iconBtn} title="그룹 수정">
-              ⚙️
-            </button>
             <div className={styles.groupDesc}>{group.desc}</div>
             <div className={styles.alarmRow}>
               <span role="img" aria-label="alarm">
                 ⏰
               </span>
               알림 시간 <b>{group.scrumTime}</b>
-              <button className={styles.iconBtn} title="알림시간 수정">
-                🕒
-              </button>
             </div>
           </div>
         </section>
@@ -185,14 +126,22 @@ export default function GroupManagePage() {
                   </span>
                 </span>
                 {m.role !== "manager" && (
-                  <div style={{ display: "flex", gap: 8 }}>
-                    <Button
-                      variant="secondary"
-                      onClick={() => handleLeave(m.id)}
-                    >
-                      탈퇴
-                    </Button>
-                  </div>
+                  <KickMemberSection
+                    memberName={m.name}
+                    onKick={async () => {
+                      await kickGroupMember(groupId, m.id);
+                      setGroup((prev) =>
+                        prev
+                          ? {
+                              ...prev,
+                              members: prev.members.filter(
+                                (mem) => mem.id !== m.id
+                              ),
+                            }
+                          : prev
+                      );
+                    }}
+                  />
                 )}
               </li>
             ))}
@@ -201,40 +150,25 @@ export default function GroupManagePage() {
 
         <hr className={styles.divider} />
 
-        {/* 질문 관리 (아코디언) */}
-        <Accordion
-          open={questionOpen}
-          setOpen={setQuestionOpen}
-          emoji="❓"
-          title="질문 관리"
+        <div
+          className={styles.sectionRow}
+          style={{ cursor: "pointer" }}
+          onClick={() => router.push(`/group/${groupId}/edit`)}
         >
-          <ScrapQuestions
-            questions={questions}
-            onChange={setQuestions}
-            maxQuestions={10}
-            inputClassName={styles.inputBase}
-          />
+          <span className={styles.sectionEmoji} role="img" aria-label="edit">
+            ✏️
+          </span>
+          <div className={styles.sectionTitle}>그룹 정보 수정 </div>
+        </div>
 
-          <div className={styles.questionEditBtns}>
-            <Button variant="primary" onClick={handleSaveQuestions}>
-              저장하기
-            </Button>
-            <Button variant="secondary" onClick={handleCancelEdit}>
-              취소
-            </Button>
-          </div>
-        </Accordion>
+        {/* 질문 관리 (아코디언) */}
 
         <hr className={styles.divider} />
 
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <button
-            className={styles.dangerBtn}
-            onClick={() => window.confirm("정말 그룹을 삭제하시겠습니까?")}
-          >
-            그룹 삭제하기
-          </button>
-        </div>
+        <GroupDeleteSection
+          groupId={groupId}
+          onDeleted={() => router.push("/dashboard")}
+        />
       </div>
     </div>
   );

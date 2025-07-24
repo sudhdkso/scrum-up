@@ -1,12 +1,14 @@
+import dbConnect from "@/lib/mongodb";
 import { getUserIdOr401 } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
-import { createScrum } from "@/service/scrum/scrumService";
+import { createScrum } from "@/services/scrum/scrumService";
 
 export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    await dbConnect();
     const groupId = (await params).id;
     const body = await req.json();
 

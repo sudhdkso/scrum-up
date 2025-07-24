@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { UserQnABlock } from "./UserQnABlock";
-import { DailyScrumDTO } from "@/service/scrum/dto/DailyScrun";
+import { DailyScrumDTO } from "@/services/scrum/dto/DailyScrun";
+import { InnerAccordionCard } from "@/components/InnerAccordionCard";
 
 export function DateAccordion({
   scrums,
@@ -109,95 +110,30 @@ export function DateAccordion({
               {isDateOpen && (
                 <div
                   style={{
-                    padding: "0 8px 16px 8px",
-                    background: "#fafdff",
+                    padding: "0 12px 16px 12px",
+                    background: "#fff",
                   }}
                 >
-                  {(answersByUser ?? []).length === 0 ? (
-                    <div style={{ color: "#aaa", margin: "24px 0" }}>
-                      작성 내역 없음
-                    </div>
-                  ) : (
-                    (answersByUser ?? []).map((userInfo) => {
-                      const { userId, userName, questions, answers } = userInfo;
-                      const isMemberOpen = openMembers.includes(userId);
+                  {(answersByUser ?? []).map((userInfo, idx) => {
+                    const { userId, userName, questions, answers } = userInfo;
+                    const isMemberOpen = openMembers.includes(userId);
 
-                      return (
-                        <div
-                          key={userId}
-                          style={{
-                            border: isMemberOpen
-                              ? "1.2px solid #93cbfa"
-                              : "1px solid #f2f4f6",
-                            borderRadius: 5,
-                            margin: "13px 0",
-                            background: "#f7fafd",
-                            padding: 0,
-                            transition: "border 0.18s, background 0.17s",
-                          }}
-                        >
-                          {/* 멤버별 아코디언 헤더 */}
-                          <div
-                            onClick={() => toggleMember(date, userId)}
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              fontWeight: 600,
-                              fontSize: "1em",
-                              cursor: "pointer",
-                              padding: "9px 15px",
-                              userSelect: "none",
-                              borderRadius: 5,
-                              width: "100%",
-                              boxSizing: "border-box",
-                              background: isMemberOpen
-                                ? "#edf5fc"
-                                : "transparent",
-                              transition: "background 0.14s",
-                            }}
-                            onMouseOver={(e) => {
-                              e.currentTarget.style.background = "#f1f6fa";
-                            }}
-                            onMouseOut={(e) => {
-                              e.currentTarget.style.background = isMemberOpen
-                                ? "#edf5fc"
-                                : "transparent";
-                            }}
-                          >
-                            <span style={{ fontSize: 18, marginRight: 8 }}>
-                              👤
-                            </span>
-                            <span style={{ fontWeight: 700 }}>{userName}</span>
-                            <span
-                              style={{
-                                marginLeft: "auto",
-                                color: "#b2b7cb",
-                                fontSize: "1em",
-                              }}
-                            >
-                              {isMemberOpen ? "▼" : "▶"}
-                            </span>
-                          </div>
-                          {/* 멤버 QNA가 펼쳐졌을 때만 상세내용 */}
-                          {isMemberOpen && (
-                            <div
-                              style={{
-                                padding: "7px 11px 13px 15px",
-                                background: "#fff",
-                                borderRadius: 5,
-                              }}
-                            >
-                              <UserQnABlock
-                                userName={userName}
-                                questions={questions}
-                                answers={answers}
-                              />
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })
-                  )}
+                    return (
+                      <InnerAccordionCard
+                        key={userId}
+                        open={isMemberOpen}
+                        headerIcon={
+                          <span style={{ fontSize: 16, marginRight: 8 }}>
+                            👤
+                          </span>
+                        }
+                        headerTitle={userName}
+                        onClickHeader={() => toggleMember(date, userId)}
+                      >
+                        <UserQnABlock questions={questions} answers={answers} />
+                      </InnerAccordionCard>
+                    );
+                  })}
                 </div>
               )}
             </div>

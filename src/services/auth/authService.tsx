@@ -56,13 +56,11 @@ async function getProfile(tokenData: KakaoTokenResponse) {
 
 async function createKakaoUser(userInfo: KakaoUserResponse) {
   try {
-    await dbConnect(); // DB 연결 보장
+    await dbConnect();
     const kakaoId = userInfo.id.toString();
 
-    // 이메일이 없으면 오류 처리하거나 가짜 이메일 생성
     let email = userInfo.kakao_account?.email;
     if (!email) {
-      // 예: kakaoId 기반 임시 이메일 생성
       email = `temp_${kakaoId}@scrumup.local`;
     }
 

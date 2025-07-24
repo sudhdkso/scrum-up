@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import dbConnect from "@/lib/mongodb";
 import Question, { IQuestion } from "@/models/question";
 
 export async function createQuestion(
@@ -23,10 +22,15 @@ export async function createQuestion(
 }
 
 export async function updateQuestion(questions: string[], groupId: string) {
-  await dbConnect();
   return await Question.findOneAndUpdate(
     { groupId: new mongoose.Types.ObjectId(groupId) },
     { $set: { questionTexts: questions } },
     { new: true }
   );
+}
+
+export async function getQuestionByGroupId(
+  groupId: string
+): Promise<IQuestion | null> {
+  return Question.findOne({ groupId }).lean<IQuestion>();
 }

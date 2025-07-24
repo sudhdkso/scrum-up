@@ -1,6 +1,6 @@
 import dbConnect from "@/lib/mongodb";
 import { NextRequest } from "next/server";
-import { getUserBySession } from "@/service/user/userService";
+import { getUserBySession } from "@/services/user/userService";
 
 export async function POST(req: NextRequest) {
   await dbConnect();

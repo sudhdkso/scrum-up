@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { AuthProvider } from "@/components/AuthProvider";
 import Footer from "../components/Footer";
 import NavBar from "@/components/NavBar";
-const EXCLUDE_PATHS = ["/", "/invite/", "/login"];
+const EXCLUDE_PATHS = ["/", "/invite/", "/login", "/privacy"];
 
 export default function RootLayout({
   children,
