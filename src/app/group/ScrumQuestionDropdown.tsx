@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./ScrumQuestionDropdown.module.css";
+import styles from "./scrumQuestionDropdown.module.css";
 
 function ScrumQuestionDropdown({ questions }: { questions: string[] }) {
   const [open, setOpen] = useState(false);
