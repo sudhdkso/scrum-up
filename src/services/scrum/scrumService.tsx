@@ -1,4 +1,3 @@
-import dbConnect from "@/lib/mongodb";
 import Scrum from "@/models/scrum";
 import mongoose from "mongoose";
 import Question, { IQuestion } from "@/models/question";
@@ -9,8 +8,6 @@ export async function createScrum(
   groupId: string,
   userId: string
 ) {
-  await dbConnect();
-
   const question = await Question.findOne({
     groupId: new mongoose.Types.ObjectId(groupId),
   }).lean<IQuestion>();
@@ -26,8 +23,6 @@ export async function createScrum(
 }
 
 export async function getTodayScrum(groupId: string, userId: string) {
-  await dbConnect();
-
   const { start, end } = getKstTodayRange();
   const scrum = await Scrum.findOne({
     userId: new mongoose.Types.ObjectId(userId),
@@ -41,7 +36,6 @@ export async function getTodayScrum(groupId: string, userId: string) {
 }
 
 export async function updateTodayScrum(scrumId: string, answers: string[]) {
-  await dbConnect();
   return await Scrum.updateOne(
     {
       _id: new mongoose.Types.ObjectId(scrumId),

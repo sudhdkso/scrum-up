@@ -1,10 +1,8 @@
-import dbConnect from "@/lib/mongodb";
 import { Group, Question, InviteCode } from "@/models";
 import { IQuestion, IInviteCode } from "@/models/types";
 import { getGroupMembersWithNameMap } from "@/services/groupMember";
 
 export async function getGroupManagementInfo(groupId: string) {
-  await dbConnect();
   const group = await Group.findById(groupId);
 
   const question = await Question.findOne({

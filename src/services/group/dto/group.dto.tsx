@@ -54,3 +54,11 @@ export interface GroupManageDTO {
   }[];
   questions: string[];
 }
+
+export interface GroupUpdateDTO {
+  name: string;
+  description?: string;
+  questions: string[];
+  scrumTime: string;
+  cycle: string;
+}

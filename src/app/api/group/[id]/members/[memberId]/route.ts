@@ -1,3 +1,4 @@
+import dbConnect from "@/lib/mongodb";
 import { getUserIdOr401 } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
 import { kickGroupMember } from "@/services/groupMember/groupMemberService";
@@ -7,6 +8,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string; memberId: string }> }
 ) {
   try {
+    await dbConnect();
     const { id, memberId } = await params;
     if (!id || !memberId) {
       return NextResponse.json(

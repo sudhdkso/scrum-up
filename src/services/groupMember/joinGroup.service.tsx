@@ -1,4 +1,3 @@
-import dbConnect from "@/lib/mongodb";
 import { Group, GroupMember, InviteCode } from "@/models";
 import { IUser, IGroup, IInviteCode } from "@/models/types";
 import { createGroupMember } from "./createGroupMember.service";
@@ -12,8 +11,6 @@ export async function joinGroup(
   code: string,
   user: IUser
 ): Promise<JoinGroupResult> {
-  await dbConnect();
-
   const inviteCode = await InviteCode.findOne({ code }).lean<IInviteCode>();
   if (!inviteCode) throw new Error("초대코드가 유효하지 않습니다.");
 

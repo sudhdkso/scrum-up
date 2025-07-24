@@ -7,6 +7,7 @@ import { getGroupEditData } from "@/lib/group";
 import { GroupManageDTO } from "@/services/group/dto/group.dto";
 import { MdEdit } from "react-icons/md";
 import QuestionList from "@/components/QuestionList";
+import { updateGroupData } from "@/lib/group";
 
 export default function GroupEditPage() {
   const router = useRouter();
@@ -31,8 +32,6 @@ export default function GroupEditPage() {
   const [scrumMinute, setScrumMinute] = useState("00");
 
   const [questions, setQuestions] = useState<string[]>([]);
-  const [addMode, setAddMode] = useState(false);
-  const [newQ, setNewQ] = useState("");
 
   useEffect(() => {
     if (!groupId) return;
@@ -54,11 +53,17 @@ export default function GroupEditPage() {
   const handleSave = async () => {
     setSavePending(true);
     try {
-      // ...update API 호출
-      alert("변경사항이 저장되었습니다!");
+      await updateGroupData(groupId, {
+        name: nameValue,
+        desc: descValue,
+        questions,
+        scrumTime,
+        cycle: scrumCycle,
+      });
+      alert("그룹 정보가 저장되었습니다!");
       router.push(`/group/${groupId}/manage`);
-    } catch (e) {
-      alert("저장 실패");
+    } catch (e: any) {
+      alert(e.message || "저장 실패");
     } finally {
       setSavePending(false);
     }
@@ -70,22 +75,6 @@ export default function GroupEditPage() {
   const minuteList = Array.from({ length: 12 }, (_, i) =>
     String(i * 5).padStart(2, "0")
   );
-
-  const updateQuestion = (idx: number, value: string) => {
-    setQuestions((qs) => qs.map((q, i) => (i === idx ? value : q)));
-  };
-  const removeQuestion = (idx: number) => {
-    if (questions.length <= 1) return;
-    setQuestions((qs) => qs.filter((_, i) => i !== idx));
-  };
-  const addQuestion = () => {
-    const value = newQ.trim();
-    if (!value) return;
-    if (questions.length >= 10) return;
-    setQuestions((qs) => [...qs, value]);
-    setNewQ("");
-    setAddMode(false);
-  };
 
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div style={{ color: "red" }}>{error}</div>;
@@ -237,7 +226,7 @@ export default function GroupEditPage() {
       <QuestionList
         questions={questions}
         setQuestions={setQuestions}
-        maxQuestions={10} // 필요에 따라 조정 가능
+        maxQuestions={10}
         minQuestions={1}
       />
 

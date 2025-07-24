@@ -1,4 +1,3 @@
-import dbConnect from "@/lib/mongodb";
 import { GroupSummaryDTO } from "./dto/group.dto";
 import { Group, GroupMember, Scrum } from "@/models";
 import { IScrum } from "@/models/types";
@@ -10,7 +9,6 @@ export async function getUserGroups(
   if (!userId) {
     throw new Error("userId 필요");
   }
-  await dbConnect();
 
   const memberships = await GroupMember.find({ userId });
   const groupIds = memberships.map((m) => m.groupId);

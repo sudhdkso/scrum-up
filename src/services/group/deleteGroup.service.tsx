@@ -1,9 +1,7 @@
 import mongoose from "mongoose";
-import dbConnect from "@/lib/mongodb";
 import { Group, GroupMember, Scrum, Question, InviteCode } from "@/models";
 
 export async function deleteGroupWithAllData(groupId: string) {
-  await dbConnect();
   const session = await mongoose.startSession();
 
   try {

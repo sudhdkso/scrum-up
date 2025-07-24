@@ -1,10 +1,12 @@
+import dbConnect from "@/lib/mongodb";
 import { getUserBySession } from "@/services/user/userService";
 import { NextRequest, NextResponse } from "next/server";
-import { joinGroup } from "@/services/group/groupService";
+import { joinGroup } from "@/services/groupMember/joinGroup.service";
 import { getUserOr401 } from "@/lib/auth";
 
 export async function GET(req: NextRequest) {
   try {
+    await dbConnect();
     const url = new URL(req.url);
     const code = url.searchParams.get("code");
     if (!code) {

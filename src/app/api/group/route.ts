@@ -1,3 +1,4 @@
+import dbConnect from "@/lib/mongodb";
 import { getUserBySession } from "@/services/user/userService";
 import { NextRequest, NextResponse } from "next/server";
 import { createGroup, getUserGroups } from "@/services/group";
@@ -6,6 +7,7 @@ import { getUserIdOr401 } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
   try {
+    await dbConnect();
     const sessionId = req.cookies.get("sessionId")?.value;
     if (!sessionId) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
