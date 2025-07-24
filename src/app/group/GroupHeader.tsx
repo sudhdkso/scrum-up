@@ -1,7 +1,7 @@
-import Image from "next/image";
 import React from "react";
 import { GroupDetailResponseDTO } from "@/services/group/dto/group.dto";
 import { useRouter } from "next/navigation";
+import { MdSettings } from "react-icons/md"; // ← 추가
 
 export function GroupHeader({ group }: { group: GroupDetailResponseDTO }) {
   const router = useRouter();
@@ -27,13 +27,12 @@ export function GroupHeader({ group }: { group: GroupDetailResponseDTO }) {
       >
         {group.name}
         {isManager && (
-          <Image
-            src="/settings.png"
-            alt="설정"
-            width={22}
-            height={22}
+          <MdSettings
+            size={22}
             style={{ cursor: "pointer", marginLeft: 4 }}
             onClick={() => router.push(`/group/${group.id}/manage`)}
+            title="설정"
+            color="#999"
           />
         )}
       </span>
