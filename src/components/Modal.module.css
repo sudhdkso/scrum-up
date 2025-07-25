@@ -1,0 +1,121 @@
+/* 모달 오버레이 (바깥 배경) */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.17);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2vw; /* 모바일에서 좌우 여백 확보 */
+}
+
+.modalContainer {
+  width: 100%;
+  min-width: 0;
+  max-width: 430px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 6px 32px rgba(40, 70, 140, 0.15);
+  padding: 32px 24px 20px 24px;
+  position: relative;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.modalCloseBtn {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: #bbb;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* 버튼 그룹 */
+.modalBtnGroup {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.modalButton {
+  flex: 1;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1.04rem;
+  padding: 11px 0;
+  cursor: pointer;
+  transition: background 0.14s, opacity 0.13s;
+}
+
+/* 컬러별 버튼 */
+.modalButton.primary {
+  background: var(--primary-blue, #267fff);
+  color: #fff;
+}
+.modalButton.danger {
+  background: #e94141;
+  color: #fff;
+}
+.modalButton.secondary {
+  background: #f2f4fa;
+  color: #267fff;
+}
+.modalButton:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+@media (max-width: 600px) {
+  .modalOverlay {
+    padding: 0 10vw;
+  }
+  .modalContainer {
+    max-width: 95vw;
+    padding: 20px 6vw 16px 6vw;
+    border-radius: 13px;
+  }
+  .modalCloseBtn {
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+  }
+  .modalButton {
+    font-size: 0.98rem;
+    padding: 9px 0;
+    border-radius: 7px;
+  }
+  .modalContent > *:not(:last-child) {
+    margin-bottom: 14px;
+  }
+}
+
+@media (max-width: 400px) {
+  .modalOverlay {
+    padding: 0 8vw;
+  }
+  .modalContainer {
+    max-width: 98vw;
+    padding: 10px 5vw 10px 5vw;
+    border-radius: 11px;
+  }
+  .modalCloseBtn {
+    top: 7px;
+    right: 7px;
+    font-size: 18px;
+  }
+  .modalButton {
+    font-size: 0.93rem;
+    padding: 7px 0;
+    border-radius: 5px;
+  }
+  .modalContent > *:not(:last-child) {
+    margin-bottom: 8px;
+  }
+}

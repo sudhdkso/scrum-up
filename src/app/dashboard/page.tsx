@@ -186,27 +186,29 @@ export default function Dashboard() {
                     <span title="오늘 스크럼 참여">
                       {group.isScrumToday ? "✔️" : "⚠️"}
                     </span>
-                    <Button
+                    <button
                       className={styles.iconBtn}
                       onClick={(e) => {
                         e.stopPropagation();
                         router.push(`/group/${group.id}/scrum`);
                       }}
                       title="스크럼 작성"
+                      type="button"
                     >
                       <MdEdit size={20} color="#267fff" />
-                    </Button>
+                    </button>
                     {group.isManager && (
-                      <Button
+                      <button
                         className={styles.iconBtnPrimary}
                         onClick={(e) => {
                           e.stopPropagation();
                           router.push(`/group/${group.id}/manage`);
                         }}
                         title="그룹 관리"
+                        type="button"
                       >
                         <FiSettings size={20} color="#fff" />
-                      </Button>
+                      </button>
                     )}
                   </span>
                 </li>

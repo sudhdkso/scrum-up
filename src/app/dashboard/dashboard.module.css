@@ -104,7 +104,6 @@
   background: #f6fbff;
 }
 
-/* 관리(Primary) 아이콘 버튼: 파란 배경 + 흰색 아이콘 */
 .iconBtnPrimary {
   background: #267fff;
   border: none;
@@ -160,7 +159,7 @@
   }
   .groupName {
     max-width: 60vw;
-    font-size: 1.01rem;
+    font-size: 0.9rem;
   }
   .groupBtns {
     flex-shrink: 0;
@@ -192,7 +191,7 @@
     padding: 10px 10px;
   }
   .groupName {
-    font-size: 0.98rem;
+    font-size: 0.85rem;
     max-width: 98vw;
   }
   .groupBtns {
