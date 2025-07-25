@@ -17,9 +17,20 @@ export function UserQnABlock({ questions, answers }: SectionProps) {
           </div>
           <div className={styles.aBlock}>
             <span className={styles.aLabel}>A.</span>
-            <span className={styles.qaContent}>
+            <span className={styles.aContentLines}>
               {answers[idx] && answers[idx].trim() !== "" ? (
-                answers[idx]
+                answers[idx].split("\n").map((line, i) =>
+                  line.trim() === "" ? (
+                    <div key={i} className={styles.aLineEmpty}>
+                      {/* 빈 줄 spacer */}
+                    </div>
+                  ) : (
+                    <div key={i} className={styles.aLine}>
+                      <span className={styles.aLineBullet} />
+                      <span className={styles.aLineText}>{line}</span>
+                    </div>
+                  )
+                )
               ) : (
                 <span className={styles.aMissing}>미작성</span>
               )}
