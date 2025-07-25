@@ -50,7 +50,6 @@
   transition: transform 0.15s;
 }
 
-/* ---- 반응형 ---- */
 @media (max-width: 600px) {
   .accordionCardWrap {
     border-radius: 8px;
@@ -60,7 +59,7 @@
   }
   .accordionHeader {
     font-size: 1.01rem;
-    padding: 10px 5vw 10px 4vw;
+    padding: 13px 5vw 13px 4vw;
     line-height: 1.36;
     gap: 18px;
     border-top-left-radius: 7px;
@@ -87,7 +86,7 @@
   .accordionHeader {
     font-size: 0.93rem;
     gap: 15px;
-    padding: 8px 5vw 8px 4vw;
+    padding: 10px 5vw 10px 4vw;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
   }
