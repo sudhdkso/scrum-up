@@ -83,7 +83,6 @@ export default function GroupScrumWritePage() {
         setLoading(false);
       }
     })();
-    // groupId 바뀔 때마다만 실행
   }, [groupId]);
 
   useEffect(() => {

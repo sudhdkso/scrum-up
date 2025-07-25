@@ -82,6 +82,52 @@
   gap: 8px;
 }
 
+.iconBtn {
+  background: #fff;
+  border: none;
+  box-shadow: 0 2px 7px #bcd6fa2f;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: box-shadow 0.13s, background 0.13s;
+  outline: none;
+}
+
+.iconBtn:hover,
+.iconBtn:focus {
+  box-shadow: 0 3px 13px #a2c7f24a;
+  background: #f6fbff;
+}
+
+/* 관리(Primary) 아이콘 버튼: 파란 배경 + 흰색 아이콘 */
+.iconBtnPrimary {
+  background: #267fff;
+  border: none;
+  color: #fff;
+  box-shadow: 0 2px 7px #bcd6fa33;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: box-shadow 0.13s, background 0.13s;
+  outline: none;
+}
+.iconBtnPrimary:hover,
+.iconBtnPrimary:focus {
+  box-shadow: 0 3px 13px #5da7ff46;
+  background: #1664c9;
+  color: #fff;
+}
+
 @media (max-width: 600px) {
   .dashboardSummaryCard {
     font-size: 1.07rem;

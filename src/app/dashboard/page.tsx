@@ -7,6 +7,8 @@ import { getUserGroups } from "@/lib/group";
 import styles from "./dashboard.module.css";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { MdEdit } from "react-icons/md";
+import { FiSettings } from "react-icons/fi";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -185,23 +187,25 @@ export default function Dashboard() {
                       {group.isScrumToday ? "✔️" : "⚠️"}
                     </span>
                     <Button
-                      variant="secondary"
+                      className={styles.iconBtn}
                       onClick={(e) => {
                         e.stopPropagation();
                         router.push(`/group/${group.id}/scrum`);
                       }}
+                      title="스크럼 작성"
                     >
-                      작성
+                      <MdEdit size={20} color="#267fff" />
                     </Button>
                     {group.isManager && (
                       <Button
-                        variant="primary"
+                        className={styles.iconBtnPrimary}
                         onClick={(e) => {
                           e.stopPropagation();
                           router.push(`/group/${group.id}/manage`);
                         }}
+                        title="그룹 관리"
                       >
-                        관리
+                        <FiSettings size={20} color="#fff" />
                       </Button>
                     )}
                   </span>
