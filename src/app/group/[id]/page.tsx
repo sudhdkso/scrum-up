@@ -106,7 +106,7 @@ export default function GroupScrumDetailPage() {
       <TodayScrumStatus isSrumToday={group.isScrumToday} groupId={groupId} />
       <ScrumQuestionDropdown questions={group.questions} />
       <TabBar tab={tab} setTab={setTab} />
-      <main style={{ flex: 1, padding: "0 18px" }}>
+      <main style={{ flex: 1, padding: "0 2px" }}>
         {tab === "date" ? (
           <DateAccordion
             scrums={scrums}
