@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { MdDelete, MdAdd } from "react-icons/md";
 import styles from "./QuestionList.module.css";
+import SingleLineInput from "@/components/SingleLineInput";
 
 interface QuestionListProps {
   questions: string[];
@@ -47,60 +48,37 @@ export default function QuestionList({
 
   return (
     <div className={styles.qCardsWrap}>
+      {/* 기존 질문들 */}
       {questions.map((q, idx) => (
-        <div className={styles.qCard} key={idx}>
-          <input
-            value={q}
-            className={styles.qCardInput}
-            onChange={(e) => updateQuestion(idx, e.target.value)}
-          />
-          {questions.length > minQuestions && (
-            <button
-              className={styles.iconBtn}
-              onClick={() => removeQuestion(idx)}
-              type="button"
-              aria-label="삭제"
-            >
-              <MdDelete size={16} />
-            </button>
-          )}
-        </div>
+        <SingleLineInput
+          key={idx}
+          value={q}
+          onChange={(val) => updateQuestion(idx, val)}
+          showRemoveButton={questions.length > minQuestions}
+          onRemove={() => removeQuestion(idx)}
+          showAddButton={false}
+          errorMsg={undefined}
+          placeholder={`질문 ${idx + 1}`}
+        />
       ))}
 
+      {/* 새 질문 추가 입력 */}
       {addMode ? (
         <div className={styles.qCardNew}>
-          <div className={styles.qCardNewRow}>
-            <input
-              value={newQ}
-              onChange={(e) => {
-                setNewQ(e.target.value);
-                if (error) setError(""); // 값 변경 시 에러 해제
-              }}
-              className={`${styles.qCardInput} ${
-                error ? styles.inputError : ""
-              }`}
-              placeholder="새 질문 입력"
-              autoFocus
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  addQuestion();
-                }
-              }}
-            />
-            <button
-              className={styles.iconBtn}
-              type="button"
-              onMouseDown={(e) => e.preventDefault()}
-              onClick={(e) => {
-                e.preventDefault();
-                addQuestion();
-              }}
-            >
-              <MdAdd size={18} />
-            </button>
-          </div>
-          {error && <div className={styles.errorMessage}>{error}</div>}
+          <SingleLineInput
+            value={newQ}
+            onChange={(val) => {
+              setNewQ(val);
+              if (error) setError("");
+            }}
+            placeholder="새 질문 입력"
+            autoFocus
+            showAddButton={true}
+            showRemoveButton={false}
+            onAdd={addQuestion}
+            onEnter={addQuestion}
+            errorMsg={error}
+          />
         </div>
       ) : (
         questions.length < maxQuestions && (
