@@ -1,6 +1,7 @@
 .qnaWrap {
   margin: 23px 0 34px 0;
   padding: 0 8px;
+  margin: 23px auto 34px auto;
 }
 
 .qBlock,
@@ -59,12 +60,49 @@
   white-space: pre-line;
 }
 
+/* === 답변 줄 구분 ● 스타일 === */
+.aContentLines {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+}
+.aLine {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  padding-bottom: 1px;
+  font-size: 0.98em;
+}
+
+.aLineBullet {
+  display: inline-block;
+  margin-top: 7px;
+  margin-right: 4px;
+  width: 5px;
+  height: 5px;
+  min-width: 5px;
+  border-radius: 50%;
+  background: #77c598;
+  opacity: 0.74;
+  flex-shrink: 0;
+}
+.aLineText {
+  color: #305a2c;
+  font-weight: 500;
+  white-space: pre-line;
+  word-break: break-all;
+}
+.aLineEmpty {
+  height: 6px;
+}
 .aMissing {
   color: #bbb;
   font-weight: 500;
 }
 
-/* 반응형 (모바일) */
+/* ====== 반응형 ====== */
+
 @media (max-width: 600px) {
   .qnaWrap {
     margin: 17px 0 24px 0;
@@ -88,6 +126,12 @@
     font-size: 0.98em;
     line-height: 1.5;
   }
+  .aLine {
+    font-size: 0.96em;
+  }
+  .aContentLines {
+    gap: 2px;
+  }
 }
 
 @media (max-width: 400px) {
@@ -99,5 +143,8 @@
   }
   .qnaWrap {
     margin: 7px 0 17px 0;
+  }
+  .aLine {
+    font-size: 0.93em;
   }
 }
