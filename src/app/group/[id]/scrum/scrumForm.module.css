@@ -50,22 +50,40 @@
   min-height: 1px;
 }
 .questionBoxOuter {
-  background: #f7fafd;
+  background: none;
   border-radius: 8px;
   padding: 13px 9px 9px 13px;
   margin-bottom: 16px;
   box-shadow: 0 1.5px 4px #eaf0fa14;
 }
+
 .questionHeaderRow {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   margin-bottom: 8px;
+  padding: 8px 0 8px 0;
+  background: #eaf4ff;
+  border-radius: 7px 7px 0 0;
+  border-radius: 6px 6px 0 0;
+  border-bottom: 1.5px solid #e0eaff;
 }
+
+.questionHeaderRow::before {
+  content: "";
+  display: block;
+  width: 5px;
+  height: 23px;
+  background: #52b1f8;
+  border-radius: 3px;
+  margin-right: 10px;
+}
+
 .questionTitle {
   font-weight: 650;
-  color: #232425;
+  color: #235fac;
   font-size: 1.09em;
+  letter-spacing: 0.01em;
 }
 
 .errorInput {
@@ -137,39 +155,39 @@
     padding: 10px 1vw 8px 1vw;
   }
   .questionBoxOuter {
-    padding: 7px 1vw 7px 1vw;
-    margin-bottom: 10px;
-    border-radius: 6px;
+    padding: 12px 3vw 12px 3vw;
+    margin-bottom: 23px;
+    border-radius: 7px;
   }
   .questionTitle {
-    font-size: 0.97em;
+    font-size: 1.09em;
   }
   .inputRow,
   .inputInner {
-    margin-bottom: 4px;
+    margin-bottom: 12px;
   }
   .inputBase {
-    font-size: 0.97em;
-    height: 32px;
-    padding: 7px 9px;
-    border-radius: 5px;
+    font-size: 1.08em;
+    height: 41px;
+    padding: 13px 13px;
+    border-radius: 7px;
   }
   .addBtn,
   .removeBtn {
-    width: 20px;
-    height: 20px;
-    font-size: 1em;
-    margin-left: 4px;
+    width: 24px;
+    height: 24px;
+    font-size: 1.08em;
+    margin-left: 6px;
   }
   .inputErrorMsg {
-    font-size: 0.86em;
-    min-height: 12px;
+    font-size: 0.94em;
+    min-height: 16px;
   }
   .submitBtn {
-    padding: 13px 0;
-    font-size: 1.01rem;
-    border-radius: 6px;
-    margin-top: 17px;
+    padding: 15px 0;
+    font-size: 1.08rem;
+    border-radius: 7px;
+    margin-top: 20px;
   }
 }
 
@@ -187,40 +205,45 @@
     font-size: 0.96em;
   }
   .yesterdayToggleBtn {
-    font-size: 0.92em;
-    padding: 5px 2px;
+    font-size: 0.94em;
+    padding: 7px 2px;
   }
   .yesterdayBox {
     font-size: 0.89em;
-    padding: 6px 0 6px 3px;
+    padding: 7px 1.5vw 7px 1.5vw;
   }
   .questionBoxOuter {
-    padding: 4px 2px 5px 2px;
-    border-radius: 4.5px;
+    padding: 9px 1vw 9px 1vw;
+    margin-bottom: 13px;
+    border-radius: 5px;
   }
   .questionTitle {
-    font-size: 0.92em;
+    font-size: 0.97em;
+  }
+  .inputRow,
+  .inputInner {
+    margin-bottom: 10px;
   }
   .inputBase {
-    font-size: 0.92em;
-    height: 24px;
-    padding: 6px 6px;
-    border-radius: 4px;
+    font-size: 1em;
+    height: 37px;
+    padding: 10px 8px;
+    border-radius: 6px;
   }
   .addBtn,
   .removeBtn {
-    width: 13px;
-    height: 13px;
-    font-size: 0.84em;
-    margin-left: 1.5px;
+    width: 18px;
+    height: 18px;
+    font-size: 0.97em;
+    margin-left: 2px;
   }
   .inputErrorMsg {
-    font-size: 0.77em;
-    min-height: 7px;
+    font-size: 0.82em;
+    min-height: 12px;
   }
   .submitBtn {
-    font-size: 0.95rem;
-    padding: 8px 0;
-    border-radius: 5px;
+    font-size: 0.98rem;
+    padding: 9px 0;
+    border-radius: 6px;
   }
 }

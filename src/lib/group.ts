@@ -3,6 +3,7 @@ export async function getUserGroups() {
 
   if (!response.ok) {
     const data = await response.json().catch(() => ({}));
+    console.error("API Error", response.status, data);
     throw new Error(data?.message || "그룹 조회 실패");
   }
 

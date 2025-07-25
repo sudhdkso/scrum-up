@@ -6,9 +6,15 @@ import {
 
 export async function getUserIdOr401(req: NextRequest) {
   const sessionId = req.cookies.get("sessionId")?.value;
-  if (!sessionId) throw new Error("401");
+  if (!sessionId) {
+    console.log("sessionId 없음");
+    throw new Error("401");
+  }
   const userId = await getUserIdBySession(sessionId);
-  if (!userId) throw new Error("401");
+  if (!userId) {
+    console.log("User 없음");
+    throw new Error("401");
+  }
   return userId;
 }
 
