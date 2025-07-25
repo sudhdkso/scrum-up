@@ -197,7 +197,6 @@ export default function GroupScrumWritePage() {
     }
   };
 
-  // **동적 Skeleton!! 질문 개수가 오면 맞춤, 아니면 3개 default**
   if (loading) {
     const questionCount = group?.questions?.length || 3;
     return (
@@ -293,7 +292,7 @@ export default function GroupScrumWritePage() {
                 inputRefs.current[i][j] = el;
               }}
               onChange={(v) => handleAnswerChange(i, j, v)}
-              onKeyDown={(e) => handleInputKeyDown(e as any, i, j)}
+              onKeyDown={(e) => handleInputKeyDown(e, i, j)}
               placeholder={j === 0 ? "답변 입력 후 엔터 또는 +" : "추가 입력"}
               errorMsg={inputErrors[`${i}_${j}`] ? inputMsgs[`${i}_${j}`] : ""}
               showAddButton={j === answers[i].length - 1}

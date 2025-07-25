@@ -6,6 +6,9 @@ import { getInviteDetailByCode } from "@/lib/invite";
 import { InviteDetailDTO } from "@/services/inviteCode/dto/invite-code.dto";
 import { useUser } from "@/components/AuthProvider";
 import { joinGroup } from "@/lib/group";
+import styles from "@/style/InvitePage.module.css";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const KAKAO_CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID;
 const REDIRECT_URI = process.env.NEXT_PUBLIC_INVITE_REDIRECT_URI;
@@ -55,10 +58,62 @@ export default function InviteByCodePage() {
       });
   };
 
-  if (loading) return <div>로딩 중...</div>;
+  if (loading) {
+    return (
+      <main className={styles.container}>
+        {/* 헤더: 로고(상단 중앙 커다랗게) */}
+        <header className={styles.header}>
+          <Skeleton width={140} height={46} borderRadius={13} />
+        </header>
+        {/* 초대 메세지 (라인/여백 큼직하게) */}
+        <section className={styles.inviteSection}>
+          <div
+            className={styles.inviteText}
+            style={{ minHeight: 66, marginBottom: 22 }}
+          >
+            <Skeleton width={270} height={26} style={{ marginBottom: 10 }} />
+            <Skeleton width={202} height={18} />
+          </div>
+          {/* 그룹/멤버/시간 info 카드 */}
+          <div
+            className={styles.infoCard}
+            style={{
+              padding: 27,
+              fontSize: "1.16em",
+              minHeight: 108,
+              margin: "0 auto",
+            }}
+          >
+            <Skeleton width={140} height={24} style={{ marginBottom: 15 }} />
+            <Skeleton width={136} height={21} style={{ marginBottom: 13 }} />
+            <Skeleton width={156} height={20} />
+          </div>
+        </section>
+        {/* CTA 버튼 (크고 넉넉하게) */}
+        <section className={styles.ctaSection} style={{ marginBottom: 26 }}>
+          <Skeleton
+            width="100%"
+            height={54}
+            style={{ borderRadius: 9, marginBottom: 12 }}
+          />
+          <Skeleton
+            width="55%"
+            height={36}
+            style={{ borderRadius: 7, margin: "0 auto" }}
+          />
+        </section>
+        {/* 하단 설명 */}
+        <footer className={styles.footer} style={{ marginTop: 39 }}>
+          <div style={{ marginBottom: 14 }}>
+            <Skeleton width={160} height={20} style={{ marginBottom: 6 }} />
+            <Skeleton width={240} height={16} />
+          </div>
+        </footer>
+      </main>
+    );
+  }
   if (error) return <div>에러 발생: {error.message}</div>;
   if (!info) return <div>초대 정보를 찾을 수 없습니다.</div>;
-
   return (
     <InvitePage
       inviterName={info.inviterName}
@@ -67,7 +122,7 @@ export default function InviteByCodePage() {
       memberCount={info.memberCount}
       scrumTime={info.scrumTime}
       onAccept={handleAccept}
-      // onAccept, onDecline 실제 구현에 맞게 콜백 달기
+      // onDecline 등
     />
   );
 }
