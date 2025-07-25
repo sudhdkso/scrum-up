@@ -7,6 +7,8 @@ import { GroupManageDTO } from "@/services/group/dto/group.dto";
 import GroupDeleteSection from "./GroupDeleteSection";
 import { kickGroupMember } from "@/lib/group-member";
 import KickMemberSection from "./KickMemberSection";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export default function GroupManagePage() {
   const router = useRouter();
@@ -71,10 +73,36 @@ export default function GroupManagePage() {
     setInviteCopied(true);
     setTimeout(() => setInviteCopied(false), 1200);
   };
-  // 멤버 관리 아코디언
+
   const [memberOpen, setMemberOpen] = useState(false);
 
-  if (loading) return <div>로딩 중...</div>;
+  if (loading) {
+    return (
+      <div className={styles.adminSection}>
+        <div style={{ marginBottom: 22 }}>
+          <Skeleton width={148} height={30} style={{ marginBottom: 8 }} />
+          <Skeleton width={180} height={18} />
+        </div>
+        <Skeleton width="60%" height={20} style={{ marginBottom: 21 }} />
+        <Skeleton width="100%" height={36} style={{ marginBottom: 18 }} />
+        {[1, 2].map((_, i) => (
+          <Skeleton
+            key={i}
+            width="90%"
+            height={30}
+            style={{ borderRadius: 6, margin: "11px 0" }}
+          />
+        ))}
+        <Skeleton width="80%" height={15} style={{ margin: "20px 0" }} />
+        <Skeleton
+          width="90%"
+          height={33}
+          style={{ borderRadius: 7, marginTop: 10 }}
+        />
+      </div>
+    );
+  }
+
   if (error) return <div>에러: {error.message}</div>;
   if (!group) return <div>그룹을 찾을 수 없습니다.</div>;
   return (
