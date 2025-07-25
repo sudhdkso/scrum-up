@@ -28,7 +28,7 @@ export function TodayScrumStatus({
         onClick={handleClick}
         className={styles.statusBtn}
       >
-        {isSrumToday ? "수정하기" : "작성하러 가기"}
+        {isSrumToday ? "수정하기" : "작성하기"}
       </Button>
     </div>
   );
