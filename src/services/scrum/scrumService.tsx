@@ -22,7 +22,10 @@ export async function createScrum(
   return scrum;
 }
 
-export async function getTodayScrum(groupId: string, userId: string) {
+export async function getTodayScrum(
+  groupId: string,
+  userId: string
+): Promise<DailyScrumUpdateDTO | null> {
   const { start, end } = getKstDateRange();
   const scrum = await Scrum.findOne({
     userId: new mongoose.Types.ObjectId(userId),
@@ -31,8 +34,14 @@ export async function getTodayScrum(groupId: string, userId: string) {
       $gte: start,
       $lt: end,
     },
-  }).lean<DailyScrumUpdateDTO>();
-  return scrum;
+  });
+  if (!scrum) return null;
+
+  return {
+    scrumId: scrum._id?.toString(),
+    questions: scrum.questions,
+    answers: scrum.answers,
+  } as DailyScrumUpdateDTO;
 }
 
 export async function getYesterdayScrum(groupId: string, userId: string) {
