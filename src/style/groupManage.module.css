@@ -229,3 +229,119 @@
   padding: 0.75rem 1.15rem;
   transition: box-shadow 0.15s, border-color 0.15s;
 }
+
+@media (max-width: 600px) {
+  .adminSection {
+    padding: 20px 3vw 18px 3vw;
+  }
+  .groupName {
+    font-size: 1.23rem;
+    margin-right: 6px;
+  }
+  .groupDesc {
+    font-size: 0.96em;
+    margin-top: 2px;
+  }
+  .alarmRow {
+    font-size: 0.98em;
+    margin-top: 6px;
+  }
+  .divider {
+    margin: 16px 0 8px 0;
+  }
+  .sectionRow {
+    gap: 8px;
+    padding: 10px 8px;
+    margin-bottom: 9px;
+    font-size: 0.98em;
+    min-height: 28px;
+  }
+  .sectionEmoji {
+    font-size: 1em;
+    margin-right: 2px;
+  }
+  .sectionTitle {
+    font-size: 1em;
+    font-weight: 600;
+  }
+  .inviteCopyBtn {
+    font-size: 0.98em;
+    padding: 7px 10px;
+    min-width: 80px;
+    border-radius: 7px;
+  }
+  .leaveBtn,
+  .dangerBtn {
+    font-size: 0.94em;
+    padding: 7px 10px;
+    border-radius: 5px;
+  }
+  .rowWide {
+    gap: 9px;
+    min-height: 38px;
+    font-size: 0.97em;
+  }
+  .miniBtn,
+  .addBtn {
+    font-size: 0.93em;
+    padding: 5px 8px;
+    border-radius: 6px;
+  }
+  .accordionHeader,
+  .accordionBody {
+    padding: 8px 10px;
+    font-size: 0.98em;
+    border-radius: 8px;
+  }
+  .arrowIcon {
+    font-size: 0.98em;
+    min-width: 20px;
+  }
+  .fullWidthList {
+    gap: 0;
+  }
+  .roleTag {
+    min-width: 46px;
+    font-size: 0.95em;
+  }
+  .questionEditBtns {
+    gap: 6px;
+    margin-top: 5px;
+  }
+  .inputBase,
+  .textareaBase,
+  .selectBase {
+    font-size: 0.97rem;
+    padding: 0.5em 0.8em;
+    border-radius: 6px;
+  }
+}
+
+@media (max-width: 400px) {
+  .adminSection {
+    padding: 10px 1vw 10px 1vw;
+  }
+  .groupName {
+    font-size: 1.02rem;
+  }
+  .inviteCopyBtn,
+  .leaveBtn,
+  .dangerBtn {
+    font-size: 0.9em;
+    padding: 4px 5px;
+    min-width: 56px;
+    border-radius: 5px;
+  }
+  .miniBtn,
+  .addBtn {
+    font-size: 0.91em;
+    padding: 4px 6px;
+    border-radius: 5px;
+  }
+  .accordionHeader,
+  .accordionBody {
+    padding: 5px 6px;
+    font-size: 0.92em;
+    border-radius: 5px;
+  }
+}
