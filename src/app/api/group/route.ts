@@ -27,6 +27,7 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
+    await dbConnect();
     const userId = await getUserIdOr401(req);
 
     const groups = await getUserGroups(userId);
