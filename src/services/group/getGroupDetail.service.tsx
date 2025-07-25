@@ -1,7 +1,7 @@
 import { GroupDetailResponseDTO } from "./dto/group.dto";
 import { Group, Scrum, Question } from "@/models";
 import { IScrum, IQuestion } from "@/models/types";
-import { DailyScrumDTO, UserAnswerDTO } from "../scrum/dto/DailyScrun";
+import { DailyScrumDTO, UserAnswerDTO } from "../scrum/dto/DailyScrum";
 import { checkIsScrumToday, getKstDateStr } from "./groupUtils";
 import { getGroupMembersWithNameMap } from "@/services/groupMember";
 

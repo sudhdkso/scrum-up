@@ -1,11 +1,15 @@
 "use client";
 import { useRef, useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { getGroupDetail } from "@/lib/group";
+import { getScrumFormPage } from "@/lib/group";
 import styles from "./scrumForm.module.css";
 import { UserQnABlock } from "../../accordion/UserQnABlock";
 import SingleLineInput from "@/components/SingleLineInput";
 import GroupHeaderWithDate from "../../GroupHeaderWithDate";
+import { ScrumFormPageDTO } from "@/services/group/dto/group.dto";
+import { DailyScrumUpdateDTO } from "@/services/scrum/dto/DailyScrum";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 async function submitScrumAnswer({
   groupId,
@@ -33,59 +37,54 @@ export default function GroupScrumWritePage() {
   const router = useRouter();
   const groupId = params!.id as string;
 
-  const [group, setGroup] = useState<any>(null);
+  const [group, setGroup] = useState<ScrumFormPageDTO | null>(null);
   const [answers, setAnswers] = useState<string[][]>([]);
   const [loading, setLoading] = useState(true);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [scrumId, setScrumId] = useState<string | null>(null);
-  const [error, setError] = useState<any>(null);
+  const [error, setError] = useState<Error | null>(null);
   const [yesterdayOpen, setYesterdayOpen] = useState(false);
   const [inputErrors, setInputErrors] = useState<Record<string, boolean>>({});
   const [inputMsgs, setInputMsgs] = useState<Record<string, string>>({});
   const inputRefs = useRef<(HTMLInputElement | null)[][]>([]);
-
-  const yesterdayMock = {
-    questions: ["오늘 한 일은?", "막힌 점은?", "내일 할 일은?"],
-    answers: [
-      "API 버그 수정\n코드 리팩토링",
-      "",
-      "스터디 발표 준비\n테스트 코드 작성",
-    ],
-  };
+  const [yesterdayScrum, setYesterdayScrum] =
+    useState<DailyScrumUpdateDTO | null>(null);
 
   useEffect(() => {
     (async () => {
       setError(null);
       setLoading(true);
       try {
-        const groupRes = await getGroupDetail(groupId);
-        setGroup(groupRes.group);
-
-        let initAnswers: string[][] = groupRes.group.questions.map(() => [""]);
-        let gotScrum = null;
-
-        if (groupRes.group.isScrumToday) {
-          const res = await fetch(`/api/scrum/today?groupId=${groupId}`, {
-            credentials: "include",
-          });
-          if (res.ok) {
-            gotScrum = (await res.json()).todayScrum;
-            setScrumId(gotScrum._id);
-          }
+        const formRes = await getScrumFormPage(groupId);
+        if (!formRes) {
+          setError(new Error("그룹 정보를 불러올 수 없습니다."));
+          setLoading(false);
+          return;
         }
-        if (gotScrum && gotScrum.answers) {
-          initAnswers = gotScrum.answers.map((a: string = "") =>
+
+        const form = formRes.form;
+        setGroup(form);
+        let initAnswers: string[][] = [];
+        if (form.todayScrum?.answers) {
+          initAnswers = form.todayScrum.answers.map((a: string) =>
             a ? a.split("\n") : [""]
           );
+          setScrumId(form.todayScrum._id);
+        } else {
+          initAnswers = form.questions.map(() => [""]);
+          setScrumId(null);
         }
         setAnswers(initAnswers);
+
+        setYesterdayScrum(form.yesterdayScrum ?? null);
       } catch (e) {
-        setError(e);
+        setError(e as Error);
       } finally {
         setLoading(false);
       }
     })();
-  }, [groupId, scrumId]);
+    // groupId 바뀔 때마다만 실행
+  }, [groupId]);
 
   useEffect(() => {
     if (answers.length !== inputRefs.current.length)
@@ -130,6 +129,7 @@ export default function GroupScrumWritePage() {
       if (ref) ref.focus();
     }, 0);
   };
+
   const handleRemoveLine = (qIdx: number, lIdx: number) => {
     setAnswers((prev) =>
       prev.map((arr, i) =>
@@ -140,6 +140,7 @@ export default function GroupScrumWritePage() {
           : arr
       )
     );
+
     setInputErrors((prev) => {
       const next = { ...prev };
       delete next[`${qIdx}_${lIdx}`];
@@ -151,6 +152,7 @@ export default function GroupScrumWritePage() {
       return next;
     });
   };
+
   const handleInputKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
     qIdx: number,
@@ -189,13 +191,61 @@ export default function GroupScrumWritePage() {
       await submitScrumAnswer({ groupId, answers: processed, scrumId });
       router.push(`/group/${groupId}`);
     } catch (e) {
-      setError(e);
+      setError(e as Error);
     } finally {
       setSubmitLoading(false);
     }
   };
 
-  if (loading) return <div>로딩 중...</div>;
+  // **동적 Skeleton!! 질문 개수가 오면 맞춤, 아니면 3개 default**
+  if (loading) {
+    const questionCount = group?.questions?.length || 3;
+    return (
+      <form className={styles.formRoot}>
+        <div className={styles.headSection} style={{ marginBottom: 20 }}>
+          <Skeleton width={180} height={30} style={{ marginBottom: 10 }} />
+          <Skeleton width={150} height={17} style={{ marginBottom: 4 }} />
+        </div>
+        <div className={styles.yesterdaySection}>
+          <Skeleton width={176} height={22} style={{ marginBottom: 7 }} />
+          <div className={styles.yesterdayBox}>
+            <Skeleton width="65%" height={15} style={{ margin: "3px 0" }} />
+            <Skeleton
+              width="82%"
+              height={14}
+              style={{ margin: "2px 0" }}
+              count={2}
+            />
+          </div>
+        </div>
+        {Array(questionCount)
+          .fill(0)
+          .map((_, i) => (
+            <div
+              key={i}
+              className={styles.questionBoxOuter}
+              style={{ marginBottom: 15 }}
+            >
+              <div className={styles.questionHeaderRow}>
+                <Skeleton width={115} height={17} style={{ marginBottom: 5 }} />
+              </div>
+              <Skeleton
+                width="100%"
+                height={35}
+                borderRadius={7}
+                style={{ marginBottom: 7 }}
+              />
+            </div>
+          ))}
+        <Skeleton
+          width="100%"
+          height={37}
+          style={{ marginTop: 22, borderRadius: 6 }}
+        />
+      </form>
+    );
+  }
+
   if (error)
     return <div className={styles.error}>{error.message || String(error)}</div>;
   if (!group || !group.questions)
@@ -221,8 +271,8 @@ export default function GroupScrumWritePage() {
         {yesterdayOpen && (
           <div className={styles.yesterdayBox}>
             <UserQnABlock
-              questions={yesterdayMock.questions}
-              answers={yesterdayMock.answers}
+              questions={yesterdayScrum?.questions ?? []}
+              answers={yesterdayScrum?.answers ?? []}
             />
           </div>
         )}
@@ -261,9 +311,7 @@ export default function GroupScrumWritePage() {
       >
         {submitLoading ? "제출 중..." : "제출하기"}
       </button>
-      {error && (
-        <div className={styles.errorMsg}>{error.message || String(error)}</div>
-      )}
+      {error && <div className={styles.errorMsg}>{String(error)}</div>}
     </form>
   );
 }

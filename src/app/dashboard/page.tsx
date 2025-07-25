@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { GroupSummaryDTO } from "@/services/group/dto/group.dto";
 import { getUserGroups } from "@/lib/group";
 import styles from "./dashboard.module.css";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -28,7 +30,88 @@ export default function Dashboard() {
   const todayScrumNotWritten = groups.length - todayScrumWritten;
   const showGroups = groups.length > 0;
 
-  if (loading) return <div>로딩 중...</div>;
+  // 🟡 1. 스켈레톤 자리 표시 (로딩 중)
+  if (loading) {
+    // 예시: 그룹 3개 가정, 필요시 더/덜
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <div style={{ padding: "32px 0", flex: 1 }}>
+          {/* 오늘의 스크럼 요약 */}
+          <section
+            className={styles.dashboardSummaryCard}
+            style={{ marginBottom: 28 }}
+          >
+            <Skeleton width={160} height={28} style={{ marginBottom: 8 }} />
+            <div className={styles.summaryStatus}>
+              <div className={styles.summaryStatItem}>
+                <Skeleton width={102} height={18} style={{ marginBottom: 4 }} />
+                <Skeleton width={36} height={21} style={{}} />
+              </div>
+              <div className={styles.summaryStatItem}>
+                <Skeleton width={82} height={18} style={{ marginBottom: 4 }} />
+                <Skeleton width={36} height={21} style={{}} />
+              </div>
+            </div>
+          </section>
+          {/* 소속 그룹 리스트 - 헤더 버튼, 그룹목록 */}
+          <div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: 16,
+              }}
+            >
+              <Skeleton width={74} height={15} style={{ margin: 0 }} />
+              <div style={{ display: "flex", gap: 8 }}>
+                <Skeleton width={88} height={32} borderRadius={6} />
+                <Skeleton width={94} height={32} borderRadius={6} />
+              </div>
+            </div>
+            <ul className={styles.dashboardList} style={{ padding: 0 }}>
+              {[1, 2, 3].map((_, idx) => (
+                <li
+                  key={idx}
+                  className={styles.dashboardGroupItem}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: 13,
+                  }}
+                >
+                  <Skeleton
+                    width={120}
+                    height={19}
+                    style={{ marginRight: 18 }}
+                  />
+                  <span
+                    style={{
+                      marginLeft: "auto",
+                      display: "flex",
+                      gap: 8,
+                      alignItems: "center",
+                    }}
+                  >
+                    <Skeleton width={21} height={23} />
+                    <Skeleton width={53} height={30} borderRadius={6} />
+                    <Skeleton width={50} height={30} borderRadius={6} />
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (error) return <div>에러 발생: {error.message}</div>;
 
   return (
