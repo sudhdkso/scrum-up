@@ -59,14 +59,14 @@
   }
   .accordionHeader {
     font-size: 1.01rem;
-    padding: 13px 13px;
+    padding: 15px 5vw;
     line-height: 1.36;
-    gap: 8px;
+    gap: 12px;
     border-top-left-radius: 7px;
     border-top-right-radius: 7px;
   }
   .accordionBody {
-    padding: 0 3vw 10px 3vw;
+    padding: 0 4vw 15px 4vw;
   }
   .accordionIcon {
     font-size: 15px;
@@ -85,11 +85,12 @@
   }
   .accordionHeader {
     font-size: 0.93rem;
-    padding: 10px 5vw;
+    gap: 10px;
+    padding: 11px 6vw;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
   }
   .accordionBody {
-    padding: 0 1vw 7px 1vw;
+    padding: 0 2vw 10px 2vw;
   }
 }
