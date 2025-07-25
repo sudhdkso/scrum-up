@@ -39,12 +39,15 @@
   outline: none;
 }
 .yesterdayBox {
-  background: #f8fbff;
+  background: none;
   margin-top: 6px;
   font-size: 0.97em;
-  padding: 12px 1px 9px 14px;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 12px 9px 12px;
   border-radius: 8px;
   border: 1.1px solid #e8f0ff;
+  min-height: 1px;
 }
 .questionBoxOuter {
   background: #f7fafd;

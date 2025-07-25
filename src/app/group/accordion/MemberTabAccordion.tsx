@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { UserQnABlock } from "./UserQnABlock";
 import { GroupMemberResponseDTO } from "@/services/groupMember/dto/groupMemberResponse.dto";
-import { DailyScrumDTO } from "@/services/scrum/dto/DailyScrun";
+import { DailyScrumDTO } from "@/services/scrum/dto/DailyScrum";
 import styles from "./accordionCard.module.css"; // 추가!
 
 type MemberTabAccordionProps = {

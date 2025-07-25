@@ -2,7 +2,8 @@ export async function getUserGroups() {
   const response = await fetch("/api/group", { credentials: "include" });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch data");
+    const data = await response.json().catch(() => ({}));
+    throw new Error(data?.message || "그룹 조회 실패");
   }
 
   return response.json();
@@ -14,7 +15,8 @@ export async function getGroupDetail(groupId: string) {
   });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch data");
+    const data = await response.json().catch(() => ({}));
+    throw new Error(data?.message || "그룹 조회 실패");
   }
   return response.json();
 }
@@ -25,7 +27,8 @@ export async function getInviteCode(groupId: string) {
   });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch data");
+    const data = await response.json().catch(() => ({}));
+    throw new Error(data?.message || "초대코드 조회 실패");
   }
   return response.json();
 }
@@ -41,7 +44,8 @@ export async function updateGroupQuestion(
   });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch data");
+    const data = await response.json().catch(() => ({}));
+    throw new Error(data?.message || "그룹 업데이트 실패");
   }
   return response.json();
 }
@@ -52,7 +56,8 @@ export async function joinGroup(code: string) {
   });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch data");
+    const data = await response.json().catch(() => ({}));
+    throw new Error(data?.message || "그룹 가입 실패");
   }
   return response.json();
 }
@@ -63,7 +68,7 @@ export async function getGroupEditData(groupId: string) {
   });
   if (!response.ok) {
     const data = await response.json().catch(() => ({}));
-    throw new Error(data?.message);
+    throw new Error(data?.message || "그룹 수정 실패");
   }
   return response.json();
 }
@@ -91,4 +96,18 @@ export async function updateGroupData(
   }
 
   return await response.json();
+}
+
+export async function getScrumFormPage(groupId: string) {
+  const response = await fetch(`/api/group/${groupId}/scrum/formpage`, {
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({}));
+    throw new Error(data?.message || "스크럼 조회 실패");
+  }
+
+  const body = await response.json();
+  return body;
 }
