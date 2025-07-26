@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
+import styles from "./Drawer.module.css";
+
 export default function Drawer({
   open,
   onClose,
@@ -8,51 +10,22 @@ export default function Drawer({
   onClose: () => void;
   children: React.ReactNode;
 }) {
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
   if (!open) return null;
   return (
-    <div
-      style={{
-        position: "fixed",
-        left: 0,
-        top: 0,
-        width: "100vw",
-        height: "100vh",
-        background: "rgba(0,0,0,0.34)",
-        zIndex: 1000,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-      onClick={onClose}
-    >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        style={{
-          width: 440,
-          maxWidth: "97vw",
-          maxHeight: "92vh",
-          background: "#fff",
-          borderRadius: 17,
-          boxShadow: "0 10px 50px #2222",
-          position: "relative",
-          padding: "36px 24px 26px 24px",
-          overflow: "auto",
-        }}
-      >
-        <button
-          onClick={onClose}
-          style={{
-            position: "absolute",
-            right: 16,
-            top: 10,
-            fontSize: 22,
-            background: "none",
-            border: "none",
-            color: "#888",
-            cursor: "pointer",
-          }}
-          aria-label="닫기"
-        >
+    <div className={styles.overlay} onClick={onClose}>
+      <div className={styles.wrapper} onClick={(e) => e.stopPropagation()}>
+        <button onClick={onClose} className={styles.closeBtn} aria-label="닫기">
           ×
         </button>
         {children}

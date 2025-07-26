@@ -8,36 +8,30 @@ interface SectionProps {
 
 export function UserQnABlock({ questions, answers }: SectionProps) {
   return (
-    <div className={styles.qnaWrap}>
-      {questions.map((q, idx) => (
-        <React.Fragment key={idx}>
-          <div className={styles.qBlock}>
-            <span className={styles.qLabel}>Q.</span>
-            <span className={styles.qaContent}>{q}</span>
-          </div>
-          <div className={styles.aBlock}>
-            <span className={styles.aLabel}>A.</span>
-            <span className={styles.aContentLines}>
-              {answers[idx] && answers[idx].trim() !== "" ? (
-                answers[idx].split("\n").map((line, i) =>
-                  line.trim() === "" ? (
-                    <div key={i} className={styles.aLineEmpty}>
-                      {/* 빈 줄 spacer */}
-                    </div>
-                  ) : (
-                    <div key={i} className={styles.aLine}>
-                      <span className={styles.aLineBullet} />
-                      <span className={styles.aLineText}>{line}</span>
-                    </div>
-                  )
-                )
+    <section className={styles.qnaWrap}>
+      {questions.map((q, idx) => {
+        const answer = answers[idx]?.trim();
+        return (
+          <div className={styles.qnaGroup} key={idx}>
+            <div className={styles.qCard}>
+              <span className={styles.number}>{idx + 1}.</span>
+              <span className={styles.qText}>{q}</span>
+            </div>
+            <div className={styles.aArea}>
+              {answer ? (
+                answer.split("\n").map((line, i) => (
+                  <div className={styles.aLine} key={i}>
+                    <span className={styles.aLineBullet}>-</span>
+                    <span className={styles.aLineText}>{line}</span>
+                  </div>
+                ))
               ) : (
-                <span className={styles.aMissing}>미작성</span>
+                <div className={styles.aMissing}>아직 작성하지 않았어요.</div>
               )}
-            </span>
+            </div>
           </div>
-        </React.Fragment>
-      ))}
-    </div>
+        );
+      })}
+    </section>
   );
 }
