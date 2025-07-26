@@ -1,6 +1,6 @@
-import styles from "./tabBar.module.css";
+import styles from "./ScrumTypeTab.module.css";
 
-export function TabBar({
+export function ScrumTypeTab({
   tab,
   setTab,
 }: {

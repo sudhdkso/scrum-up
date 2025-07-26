@@ -1,31 +1,32 @@
 "use client";
 import { useEffect, useState } from "react";
-import { GroupHeader } from "../GroupHeader";
-import { TodayScrumStatus } from "../TodayScrumStatus";
-import { TabBar } from "../TabBar";
-import { DateAccordion } from "../accordion/DateAccordion";
-import { MemberTabAccordion } from "../accordion/MemberTabAccordion";
 import { useParams } from "next/navigation";
 import { getGroupDetail } from "@/lib/group";
-import { DailyScrumDTO } from "@/services/scrum/dto/DailyScrum";
-import { GroupDetailResponseDTO } from "@/services/group/dto/group.dto";
+import { GroupHeader } from "../GroupHeader";
+import { TodayScrumStatus } from "../TodayScrumStatus";
+import { ScrumTypeTab } from "../ScrumTypeTab";
 import ScrumQuestionDropdown from "../ScrumQuestionDropdown";
-
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { GroupDetailResponseDTO } from "@/services/group/dto/group.dto";
+import { DailyScrumDTO } from "@/services/scrum/dto/DailyScrum";
+import Drawer from "@/components/Drawer/Drawer";
+import ScrumDrawerDetail from "@/components/ScrumDrawerDetail/ScrumDrawerDetail";
+import { DateCardList, MemberCardList } from "../CardList";
 
 export default function GroupScrumDetailPage() {
   const params = useParams();
   const groupId = params!.id as string;
 
   const [tab, setTab] = useState<"date" | "member">("date");
-  const [openDates, setOpenDates] = useState<string[]>([]);
-  const [openMembers, setOpenMembers] = useState<string[]>([]);
-
   const [group, setGroup] = useState<GroupDetailResponseDTO | null>(null);
   const [dailyScrums, setDailyScrums] = useState<DailyScrumDTO[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [drawerTarget, setDrawerTarget] = useState<{
+    type: "date" | "member";
+    key: string;
+  } | null>(null);
 
   useEffect(() => {
     if (!groupId) return;
@@ -68,29 +69,24 @@ export default function GroupScrumDetailPage() {
           height={26}
           style={{ margin: "0 auto 15px auto" }}
         />
-        <div
-          style={{ display: "flex", gap: 16, marginBottom: 13, marginLeft: 19 }}
-        >
-          <Skeleton width={65} height={22} />
-          <Skeleton width={65} height={22} />
-        </div>
-        <main style={{ flex: 1, padding: "0 18px" }}>
-          {/* Date or Member 스켈레톤 - 간단하게 박스 2~3개 */}
-          {[0, 1].map((_, i) => (
-            <div key={i} style={{ marginBottom: 19 }}>
-              <Skeleton width={110} height={15} style={{ marginBottom: 7 }} />
-              <Skeleton width="100%" height={42} borderRadius={8} />
-            </div>
+        <div style={{ flex: 1, padding: "0 20px" }}>
+          {[0, 1, 2].map((i) => (
+            <Skeleton
+              key={i}
+              width="100%"
+              height={64}
+              style={{ marginBottom: 14, borderRadius: 11 }}
+            />
           ))}
-        </main>
-        <div style={{ height: 16 }} />
+        </div>
       </div>
     );
   }
-
   if (error) return <div>에러: {error.message}</div>;
   if (!group) return <div>그룹을 찾을 수 없습니다.</div>;
+
   const scrums = dailyScrums;
+  const members = group.members;
 
   return (
     <div
@@ -105,22 +101,34 @@ export default function GroupScrumDetailPage() {
       <GroupHeader group={group} />
       <TodayScrumStatus isSrumToday={group.isScrumToday} groupId={groupId} />
       <ScrumQuestionDropdown questions={group.questions} />
-      <TabBar tab={tab} setTab={setTab} />
+      <ScrumTypeTab tab={tab} setTab={setTab} />
       <main style={{ flex: 1, padding: "0 2px" }}>
         {tab === "date" ? (
-          <DateAccordion
+          <DateCardList
+            dates={scrums.map((s) => s.date)}
             scrums={scrums}
-            openDates={openDates}
-            setOpenDates={setOpenDates}
+            selected={drawerTarget?.type === "date" ? drawerTarget.key : null}
+            onSelect={(date) => setDrawerTarget({ type: "date", key: date })}
           />
         ) : (
-          <MemberTabAccordion
-            members={group.members}
+          <MemberCardList
+            members={members}
             scrums={scrums}
-            openMembers={openMembers}
-            setOpenMembers={setOpenMembers}
+            selected={drawerTarget?.type === "member" ? drawerTarget.key : null}
+            onSelect={(id) => setDrawerTarget({ type: "member", key: id })}
           />
         )}
+        <Drawer open={!!drawerTarget} onClose={() => setDrawerTarget(null)}>
+          {drawerTarget && (
+            <ScrumDrawerDetail
+              mode={drawerTarget.type}
+              target={drawerTarget.key}
+              scrums={scrums}
+              members={members}
+              onClose={() => setDrawerTarget(null)}
+            />
+          )}
+        </Drawer>
       </main>
       <div style={{ height: 16 }} />
     </div>

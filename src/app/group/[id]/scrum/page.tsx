@@ -3,7 +3,7 @@ import { useRef, useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { getScrumFormPage } from "@/lib/group";
 import styles from "./scrumForm.module.css";
-import { UserQnABlock } from "../../accordion/UserQnABlock";
+import { UserQnABlock } from "../../../../components/UserQnABlock";
 import SingleLineInput from "@/components/SingleLineInput";
 import GroupHeaderWithDate from "../../GroupHeaderWithDate";
 import { ScrumFormPageDTO } from "@/services/group/dto/group.dto";
