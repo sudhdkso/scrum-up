@@ -10,6 +10,7 @@ import { ScrumFormPageDTO } from "@/services/group/dto/group.dto";
 import { DailyScrumUpdateDTO } from "@/services/scrum/dto/DailyScrum";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import Button from "@/components/Button";
 
 async function submitScrumAnswer({
   groupId,
@@ -302,13 +303,15 @@ export default function GroupScrumWritePage() {
           ))}
         </div>
       ))}
-      <button
-        type="submit"
-        disabled={submitLoading}
+      <Button
         className={styles.submitBtn}
+        variant="primary"
+        onClick={handleSubmit}
+        disabled={submitLoading}
       >
         {submitLoading ? "제출 중..." : "제출하기"}
-      </button>
+      </Button>
+
       {error && <div className={styles.errorMsg}>{String(error)}</div>}
     </form>
   );

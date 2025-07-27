@@ -32,11 +32,18 @@
   border: none;
   color: #888;
   cursor: pointer;
+  min-width: 36px;
+  min-height: 36px;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 @media (max-width: 600px) {
   .wrapper {
     border-radius: 11;
-    max-width: calc(100vw - 30px);
+    width: 100vh;
     max-height: calc(100vh - 10px);
     min-height: unset;
     padding: 22px 9px 12px 9px;
@@ -44,13 +51,16 @@
   .closeBtn {
     right: 9px;
     top: 9px;
+    font-size: 28px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
   }
 }
 
 @media (max-width: 400px) {
   .wrapper {
-    max-width: calc(100vw - 12px);
-    width: calc(100vw - 12px);
+    width: 100vw;
     min-width: 0;
     border-radius: 9px;
     min-height: unset;
@@ -60,6 +70,9 @@
   }
   .closeBtn {
     right: 6px;
-    top: 6.5px;
+    top: 7px;
+    font-size: 30px;
+    min-width: 46px;
+    min-height: 46px;
   }
 }

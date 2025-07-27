@@ -106,8 +106,7 @@
   font-weight: 700;
   border-radius: 7.5px;
   border: none;
-  background: linear-gradient(90deg, #b8e9ff 0%, #8dc6ff 100%);
-  color: #1e2127;
+  color: #fff;
   margin-top: 25px;
   cursor: pointer;
   transition: background 0.13s, color 0.13s;
