@@ -24,3 +24,26 @@
   font-size: 1rem;
   color: #333;
 }
+
+.user:hover {
+  color: #28457d;
+}
+
+.skeletonName {
+  display: inline-block;
+  height: 1.42em;
+  width: 75px;
+  background: linear-gradient(90deg, #e9effa 35%, #d5e2fb 50%, #e9effa 65%);
+  border-radius: 6px;
+  animation: skeleton-loading 1.1s infinite linear;
+  margin-left: 10px;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: -80px 0;
+  }
+  100% {
+    background-position: 140px 0;
+  }
+}

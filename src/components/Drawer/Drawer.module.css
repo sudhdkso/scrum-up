@@ -40,6 +40,14 @@
   justify-content: center;
 }
 
+.closeBtn:hover,
+.closeBtn:focus {
+  background: #ecf2ff;
+  color: #2563eb;
+  box-shadow: 0 2px 10px #2563eb22;
+  outline: none;
+}
+
 @media (max-width: 600px) {
   .wrapper {
     border-radius: 11;
