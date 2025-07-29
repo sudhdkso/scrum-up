@@ -1,6 +1,7 @@
 import dbConnect from "@/lib/mongodb";
-import { NextRequest } from "next/server";
-import { getUserBySession } from "@/services/user/userService";
+import { NextRequest, NextResponse } from "next/server";
+import { getUserBySession, getUserInfo } from "@/services/user/userService";
+import { getUserIdOr401 } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
   await dbConnect();
@@ -17,4 +18,19 @@ export async function POST(req: NextRequest) {
     name: user.name,
     email: user.email,
   });
+}
+
+export async function GET(req: NextRequest) {
+  try {
+    await dbConnect();
+    const userId = await getUserIdOr401(req);
+    const user = await getUserInfo(userId);
+    console.log("user", user);
+    return NextResponse.json({ user }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : String(error) },
+      { status: 500 }
+    );
+  }
 }
