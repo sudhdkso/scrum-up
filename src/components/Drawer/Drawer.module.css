@@ -10,6 +10,7 @@
   align-items: center;
   justify-content: center;
 }
+
 .wrapper {
   width: 95vw;
   max-width: 440px;
@@ -38,6 +39,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 9999 !important;
 }
 
 .closeBtn:hover,
@@ -51,10 +53,12 @@
 @media (max-width: 600px) {
   .wrapper {
     border-radius: 11;
-    width: 100vh;
-    max-height: calc(100vh - 10px);
+    width: 100vw;
+    max-height: calc(100dvh - env(safe-area-inset-bottom, 0px) - 10px);
     min-height: unset;
     padding: 22px 9px 12px 9px;
+    margin-left: 3vw;
+    margin-right: 3vw;
   }
   .closeBtn {
     right: 9px;
@@ -72,8 +76,10 @@
     min-width: 0;
     border-radius: 9px;
     min-height: unset;
-    max-height: calc(100vh - 60px);
+    max-height: calc(100dvh - env(safe-area-inset-bottom, 0px) - 10px);
     padding: 11px 5.5px 9px 5.5px;
+    margin-left: 3vw;
+    margin-right: 3vw;
     box-sizing: border-box;
   }
   .closeBtn {

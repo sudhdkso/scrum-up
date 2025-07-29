@@ -25,7 +25,6 @@ export async function GET(req: NextRequest) {
     await dbConnect();
     const userId = await getUserIdOr401(req);
     const user = await getUserInfo(userId);
-    console.log("user", user);
     return NextResponse.json({ user }, { status: 200 });
   } catch (error) {
     return NextResponse.json(

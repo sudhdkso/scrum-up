@@ -1,4 +1,3 @@
-/* 모달 오버레이 (바깥 배경) */
 .modalOverlay {
   position: fixed;
   inset: 0;
@@ -7,7 +6,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 2vw; /* 모바일에서 좌우 여백 확보 */
+  padding: 0 2vw;
 }
 
 .modalContainer {
@@ -82,9 +81,11 @@
     border-radius: 13px;
   }
   .modalCloseBtn {
-    top: 10px;
+    top: 5px;
     right: 10px;
-    font-size: 20px;
+    font-size: 22px;
+    min-width: 40px;
+    min-height: 40px;
   }
   .modalButton {
     font-size: 0.98rem;
@@ -106,9 +107,11 @@
     border-radius: 11px;
   }
   .modalCloseBtn {
-    top: 7px;
+    top: 3px;
     right: 7px;
-    font-size: 18px;
+    font-size: 20px;
+    min-width: 38px;
+    min-height: 38px;
   }
   .modalButton {
     font-size: 0.93rem;

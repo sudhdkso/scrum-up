@@ -19,7 +19,7 @@ export default function QuestionList({
 }: QuestionListProps) {
   const [addMode, setAddMode] = useState(false);
   const [newQ, setNewQ] = useState("");
-  const [error, setError] = useState(""); // 에러 메시지 상태
+  const [error, setError] = useState("");
 
   const updateQuestion = (idx: number, value: string) => {
     setQuestions(questions.map((q, i) => (i === idx ? value : q)));
