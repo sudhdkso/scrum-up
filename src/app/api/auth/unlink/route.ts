@@ -1,12 +1,11 @@
 import dbConnect from "@/lib/mongodb";
 import { NextRequest, NextResponse } from "next/server";
-import { logout } from "@/services/auth/authService";
+import { unlink } from "@/services/auth/authService";
 import { deleteSession } from "@/lib/session";
 import { getUserIdOr401 } from "@/lib/auth";
 
-export async function POST(req: NextRequest) {
+export async function DELETE(req: NextRequest) {
   try {
-    await dbConnect();
     const userId = await getUserIdOr401(req);
     const sessionId = req.cookies.get("sessionId")?.value;
 
@@ -15,7 +14,7 @@ export async function POST(req: NextRequest) {
       throw new Error("401");
     }
     await deleteSession(sessionId);
-    const id = await logout(userId);
+    const id = await unlink(userId);
     const response = NextResponse.json({ ok: true });
 
     response.cookies.set("sessionId", "", {

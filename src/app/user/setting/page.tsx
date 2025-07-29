@@ -71,6 +71,7 @@ export default function UserSettingPage() {
       });
       if (!r.ok) throw new Error();
       alert("연동 해제되었습니다.");
+      window.location.href = "/login";
     } catch (e) {
       alert("로그아웃 실패");
     }
@@ -83,17 +84,12 @@ export default function UserSettingPage() {
   async function handleWithdraw() {
     setWithdrawing(true);
     try {
-      const r = await fetch("/api/user/withdraw", {
+      const res = await fetch("/api/auth/unlink", {
         method: "DELETE",
         credentials: "include",
       });
-      const contentType = r.headers.get("content-type") ?? "";
-      if (!r.ok) {
-        if (contentType.includes("html")) {
-          const text = await r.text();
-          throw new Error("탈퇴 응답이 HTML입니다:" + text.slice(0, 80));
-        }
-        throw new Error("계정 탈퇴 실패(" + r.status + ")");
+      if (!res.ok) {
+        throw new Error("계정 탈퇴 실패(" + res.status + ")");
       }
       alert("계정이 탈퇴되었습니다.");
       window.location.href = "/";
