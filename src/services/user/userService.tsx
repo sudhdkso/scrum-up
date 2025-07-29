@@ -1,5 +1,5 @@
 import dbConnect from "@/lib/mongodb";
-import User from "@/models/user";
+import User, { IUser } from "@/models/user";
 import { getUserIdBySessionId } from "@/lib/session";
 
 export async function getUserBySession(sessionId: string) {
@@ -18,4 +18,23 @@ export async function getUserBySession(sessionId: string) {
 
 export async function getUserIdBySession(sessionId: string) {
   return getUserIdBySessionId(sessionId);
+}
+
+export async function getUserInfo(userId: string) {
+  const user = await User.findById(userId);
+  const data = {
+    id: user._id,
+    name: user.name,
+    email: user.email,
+    isNotificationOn: user.isNotificationOn,
+  };
+  return data;
+}
+
+export async function changeNotificationOn(userId: string, status: boolean) {
+  return await User.findByIdAndUpdate(
+    userId,
+    { isNotificationOn: status },
+    { new: true }
+  );
 }
