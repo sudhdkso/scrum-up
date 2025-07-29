@@ -14,6 +14,7 @@ const KAKAO_REDIRECT_URI = process.env.REDIRECT_URI!;
 const PROFILE_REQUEST_URI = "https://kapi.kakao.com/v2/user/me";
 const TOKEN_REQUEST_URI = "https://kauth.kakao.com/oauth/token";
 const LOGOUT_REQUEST_URI = "https://kapi.kakao.com/v1/user/logout";
+const UNLINK_REQUEST_URI = "https://kapi.kakao.com/v1/user/unlink";
 
 export async function login(
   code: string,
@@ -97,7 +98,27 @@ export async function logout(userId: string) {
 }
 
 async function kakaoLogout(kakaoId: string) {
-  return await fetch(TOKEN_REQUEST_URI, {
+  return await fetch(LOGOUT_REQUEST_URI, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+      Authorization: `KakaoAK ${APP_ADMIN_KEY}`,
+    },
+    body: new URLSearchParams({
+      target_id_type: "user_id",
+      target_id: kakaoId,
+    }).toString(),
+  });
+}
+
+export async function unlink(userId: string) {
+  const user = await User.findById(userId);
+  const result = await kakaoUnlink(user.kakaoId);
+  return result;
+}
+
+async function kakaoUnlink(kakaoId: string) {
+  return await fetch(UNLINK_REQUEST_URI, {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
