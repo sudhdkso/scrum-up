@@ -1,19 +1,28 @@
 .container {
   max-width: 520px;
-  width: 95vw;
+  width: 100%;
+  box-sizing: border-box;
   margin: 16px auto;
   padding: 28px 22px 18px 22px;
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 3px 24px #0b347808;
   font-family: "Pretendard", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
 }
 
-.header {
+.header,
+.inviteSection,
+.ctaSection,
+.footer {
+  width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: 32px;
+  box-sizing: border-box;
 }
 
 .logo {
@@ -41,14 +50,20 @@
   color: #234;
   margin-bottom: 5px;
   line-height: 1.6;
+  width: 100%;
+  max-width: 370px;
+  text-align: center;
+  box-sizing: border-box;
+  word-break: break-word;
 }
 
 .ctaSection {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
   gap: 9px;
   margin-bottom: 18px;
+  width: 100%;
 }
 
 .acceptBtn {
@@ -61,6 +76,11 @@
   padding: 15px;
   cursor: pointer;
   transition: background 0.15s;
+  width: 100%;
+  max-width: 310px;
+  margin: 0 auto;
+  display: block;
+  box-sizing: border-box;
 }
 
 .acceptBtn:hover {
@@ -75,17 +95,56 @@
   margin-top: 0.5em;
   padding: 7px;
   cursor: pointer;
+  width: 100%;
+  max-width: 120px;
+  text-align: center;
 }
 
 .footer {
   margin-top: 27px;
-  text-align: left;
+  text-align: center;
   color: #555;
   font-size: 0.98em;
+  width: 100%;
 }
 
-.divider {
-  border: none;
-  border-bottom: 1px solid #ececec;
-  margin: 18px 0 10px 0;
+/* 반응형 */
+@media (max-width: 600px) {
+  .container {
+    max-width: 98vw;
+    padding: 16px 4vw 12px 4vw;
+    border-radius: 11px;
+  }
+  .infoCard {
+    padding: 10px 4vw;
+    font-size: 0.99em;
+    max-width: 99vw;
+  }
+  .acceptBtn {
+    font-size: 1em;
+    padding: 12px;
+    max-width: 97vw;
+  }
+}
+@media (max-width: 400px) {
+  .container {
+    padding: 6px 2vw;
+    border-radius: 7px;
+  }
+  .header {
+    margin-bottom: 12px;
+  }
+  .inviteSection {
+    margin-bottom: 13px;
+  }
+  .infoCard {
+    font-size: 0.95em;
+    padding: 7px 2vw;
+  }
+  .ctaSection {
+    margin-bottom: 5px;
+  }
+  .footer {
+    margin-top: 10px;
+  }
 }
