@@ -109,6 +109,7 @@ export default function GroupScrumDetailPage() {
             scrums={scrums}
             selected={drawerTarget?.type === "date" ? drawerTarget.key : null}
             onSelect={(date) => setDrawerTarget({ type: "date", key: date })}
+            membersCount={members.length}
           />
         ) : (
           <MemberCardList

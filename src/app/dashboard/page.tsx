@@ -158,10 +158,13 @@ export default function Dashboard() {
                 소속 그룹
               </h2>
               <div style={{ display: "flex", gap: 8 }}>
-                <Button variant="primary" onClick={() => router.push("/group")}>
+                <Button
+                  variant="secondary"
+                  onClick={() => router.push("/group")}
+                >
                   + 그룹 생성
                 </Button>
-                <Button variant="secondary">🔍 그룹 참가</Button>
+                {/* <Button variant="secondary">🔍 그룹 참가</Button> */}
               </div>
             </div>
             <ul className={styles.dashboardList}>

@@ -6,17 +6,19 @@ export function DateCardList({
   scrums,
   selected,
   onSelect,
+  membersCount,
 }: {
   dates: string[];
   scrums: DailyScrumDTO[];
   selected: string | null;
   onSelect: (date: string) => void;
+  membersCount: number;
 }) {
   return (
     <div className={styles.cardList}>
       {dates.map((date) => {
         const scrum = scrums.find((s) => s.date === date);
-        const total = scrum?.answersByUser.length || 0;
+        const total = membersCount || 0;
         const write =
           scrum?.answersByUser.filter((r) =>
             r.answers.some((a) => a && a.trim())
