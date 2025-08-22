@@ -1,0 +1,347 @@
+.adminSection {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 38px 2vw 32px 2vw; /* 전체 가로영역 여백만 약간 */
+  background: #fff;
+}
+
+.headerSection {
+  margin-bottom: 16px;
+}
+
+.groupInfo {
+  width: 100%;
+}
+
+.groupName {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #225;
+  margin-right: 12px;
+  display: inline-block;
+}
+
+.iconBtn {
+  background: none;
+  border: none;
+  color: #267fff;
+  font-size: 1.15em;
+  margin-left: 6px;
+  cursor: pointer;
+}
+
+.groupDesc {
+  color: #466;
+  font-size: 1em;
+  margin: 6px 0 0 0;
+}
+
+.alarmRow {
+  margin-top: 8px;
+  font-size: 1.05em;
+  color: #2979ff;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 500;
+}
+
+.divider {
+  border: none;
+  border-top: 1.5px solid #eaf2fd;
+  margin: 23px 0 15px 0;
+}
+
+.sectionRow {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 13px;
+  background: #f9fcff;
+  width: 100%;
+}
+
+.sectionEmoji {
+  font-size: 1.2em;
+  margin-right: 3px;
+}
+
+.sectionTitle {
+  font-size: 1.15em;
+  font-weight: 700;
+  color: #234;
+}
+
+.inviteCopyBtn {
+  background: linear-gradient(90deg, #339dff 98%, #a7dbfa 100%);
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  padding: 9px 20px;
+  cursor: pointer;
+  min-width: 114px;
+  margin-left: auto;
+}
+
+.inviteCopyBtn:active {
+  background: linear-gradient(90deg, #25a9fc 98%, #a7dbfa 100%);
+}
+
+.leaveBtn {
+  background: #fff;
+  color: #2490ff;
+  font-weight: 700;
+  border: 1.6px solid #a6d0fa;
+  border-radius: 0;
+  font-size: 1.01em;
+  padding: 9px 27px;
+  cursor: pointer;
+  box-shadow: 0 1.5px 8px #e1e7fa36;
+  transition: background 0.12s, border-color 0.12s;
+}
+
+.leaveBtn:hover {
+  background: #f2f8ff;
+  border-color: #339dff;
+  color: #186fc3;
+}
+
+.fullWidthList {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.rowWide {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #fff;
+  border-bottom: 1px solid #e8f3ff;
+  min-height: 50px;
+  padding: 0;
+}
+
+.roleTag {
+  min-width: 64px;
+  color: #5589aa;
+  text-align: center;
+}
+
+.miniBtn {
+  background: #f2f8ff;
+  color: #267fff;
+  border: 1.1px solid #e0eaff;
+  border-radius: 6px;
+  font-size: 0.97em;
+  padding: 6px 18px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.miniBtn:hover {
+  background: #e9f4ff;
+}
+
+.addBtn {
+  background: none;
+  color: #267fff;
+  border: 1.1px dashed #9ad3fb;
+  border-radius: 12px;
+  font-size: 1em;
+  font-weight: 500;
+  padding: 7px 22px;
+  margin-top: 11px;
+  cursor: pointer;
+}
+
+.dangerBtn {
+  background: #fff0f0; /* 연한 red background */
+  color: #e33636; /* 강한 빨강 */
+  border: 1px solid #f5cccc;
+  font-size: 0.98rem; /* 기존보다 소폭 작게 */
+  padding: 7px 20px; /* 적당한 패딩 */
+  border-radius: 6px;
+  margin-left: 8px;
+  font-weight: 600;
+  min-width: unset; /* 필요하면 명시적으로 */
+  height: unset;
+  box-shadow: none;
+  transition: background 0.15s;
+}
+.dangerBtn:hover {
+  background: #ffeaea;
+}
+
+.accordionSection {
+  width: 100%;
+}
+
+.questionEditBtns {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.accordionHeader {
+  display: flex;
+  align-items: center;
+  background: #f9fcff;
+  border-radius: 13px;
+  padding: 13px 18px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  box-shadow: 0 1px 5px #cbe2ff13;
+}
+
+.arrowIcon {
+  margin-left: auto;
+  font-size: 1.14em;
+  color: #267fff;
+  min-width: 28px;
+  text-align: right;
+}
+
+.accordionBody {
+  background: #fafdff;
+  padding: 13px 18px 10px 18px;
+  border-radius: 9px;
+  margin-top: 0;
+}
+
+.inputBase,
+.textareaBase,
+.selectBase {
+  width: 100%;
+  background: #f5f6fa;
+  border: 1.5px solid #d1d5db;
+  border-radius: 12px;
+  font-size: 1rem;
+  padding: 0.75rem 1.15rem;
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+
+@media (max-width: 600px) {
+  .adminSection {
+    padding: 20px 3vw 18px 3vw;
+  }
+  .groupName {
+    font-size: 1.23rem;
+    margin-right: 6px;
+  }
+  .groupDesc {
+    font-size: 0.96em;
+    margin-top: 2px;
+  }
+  .alarmRow {
+    font-size: 0.98em;
+    margin-top: 6px;
+  }
+  .divider {
+    margin: 16px 0 8px 0;
+  }
+  .sectionRow {
+    gap: 8px;
+    padding: 10px 8px;
+    margin-bottom: 9px;
+    font-size: 0.98em;
+    min-height: 28px;
+  }
+  .sectionEmoji {
+    font-size: 1em;
+    margin-right: 2px;
+  }
+  .sectionTitle {
+    font-size: 1em;
+    font-weight: 600;
+  }
+  .inviteCopyBtn {
+    font-size: 0.98em;
+    padding: 7px 10px;
+    min-width: 80px;
+    border-radius: 7px;
+  }
+  .leaveBtn,
+  .dangerBtn {
+    font-size: 0.94em;
+    padding: 7px 10px;
+    border-radius: 5px;
+  }
+  .rowWide {
+    gap: 9px;
+    min-height: 38px;
+    font-size: 0.97em;
+  }
+  .miniBtn,
+  .addBtn {
+    font-size: 0.93em;
+    padding: 5px 8px;
+    border-radius: 6px;
+  }
+  .accordionHeader,
+  .accordionBody {
+    padding: 8px 10px;
+    font-size: 0.98em;
+    border-radius: 8px;
+  }
+  .arrowIcon {
+    font-size: 0.98em;
+    min-width: 20px;
+  }
+  .fullWidthList {
+    gap: 0;
+  }
+  .roleTag {
+    min-width: 46px;
+    font-size: 0.95em;
+  }
+  .questionEditBtns {
+    gap: 6px;
+    margin-top: 5px;
+  }
+  .inputBase,
+  .textareaBase,
+  .selectBase {
+    font-size: 0.97rem;
+    padding: 0.5em 0.8em;
+    border-radius: 6px;
+  }
+}
+
+@media (max-width: 400px) {
+  .adminSection {
+    padding: 10px 1vw 10px 1vw;
+  }
+  .groupName {
+    font-size: 1.02rem;
+  }
+  .inviteCopyBtn,
+  .leaveBtn,
+  .dangerBtn {
+    font-size: 0.9em;
+    padding: 4px 5px;
+    min-width: 56px;
+    border-radius: 5px;
+  }
+  .miniBtn,
+  .addBtn {
+    font-size: 0.91em;
+    padding: 4px 6px;
+    border-radius: 5px;
+  }
+  .accordionHeader,
+  .accordionBody {
+    padding: 5px 6px;
+    font-size: 0.92em;
+    border-radius: 5px;
+  }
+}

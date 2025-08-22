@@ -1,0 +1,113 @@
+.qCardsWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.qCard,
+.qCardNew {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 13px 16px;
+  box-shadow: 0 1px 6px #e5eaff4d;
+  font-size: 1.05rem;
+}
+
+.qCardInput {
+  flex: 1;
+  background: #f5f6fa;
+  border: 1.5px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 1rem;
+  padding: 8px 14px;
+  margin-right: 4px;
+  transition: box-shadow 0.15s, border-color 0.15s;
+  outline: none;
+}
+.qCardInput:focus {
+  border-color: #5b8dea;
+  box-shadow: 0 0 0 2px #8bb6f9;
+  background: #f8fbff;
+}
+
+.iconBtn {
+  background: none;
+  border: none;
+  padding: 5px;
+  margin-left: 2px;
+  color: #8ba6db;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.12s;
+  display: flex;
+  align-items: center;
+}
+.iconBtn:hover {
+  background: #eaf1fd;
+}
+
+.qCardAddBtn {
+  background: #f2f4fa;
+  border: 1.5px solid #dbe6fb;
+  border-radius: 10px;
+  padding: 13px 0 13px 7px;
+  color: #7296e8;
+  font-size: 1.01rem;
+  margin-top: 7px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  transition: background 0.15s, border 0.15s;
+  min-height: 44px;
+}
+.qCardAddBtn:hover {
+  background: #eaf1fd;
+  border-color: #b9cdfd;
+}
+
+.inputError {
+  border: 1.7px solid #e95d5d !important;
+  background: #fff4f4 !important;
+}
+
+.qCardNew {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+}
+.qCardNewRow {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+
+.errorMessage {
+  color: #e95d5d;
+  font-size: 0.85rem;
+  margin-top: 5px;
+  margin-left: 2px;
+  font-weight: 500;
+  user-select: none;
+  min-height: 18px;
+}
+
+@media (max-width: 600px) {
+  .qCard,
+  .qCardNew,
+  .qCardAddBtn {
+    padding: 10px 6px;
+    font-size: 0.97rem;
+  }
+  .qCardInput {
+    font-size: 0.96rem;
+    padding: 7px 9px;
+  }
+  .qCardNewRow {
+    gap: 7px;
+  }
+}

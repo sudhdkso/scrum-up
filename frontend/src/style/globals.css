@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary-blue: #267fff;
+  --primary-blue-dark: #2274e7;
+  --secondary-blue: #57b7fa;
+  --border-blue: #8ec7fa;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #f5f5f5; /* 더 분명한 회색 */
+}
+
+.layout-container {
+  max-width: 600px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  padding: 10px 30px; /* 좌우 여백 */
+  position: relative; /* 필요 시 */
+}
